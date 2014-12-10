@@ -1,0 +1,473 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+  <model name="human">
+    <static>true</static>
+    
+    <link name='left_foot'>
+      <pose>0.041 -0.0855 0 0 1.570796327 0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->
+      
+      <inertial>
+        <mass>1.0817</mass>
+        <pose>0 0 0</pose><!-- Link mass is centered -->
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.082</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.082</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+       <!-- TODO: Add surface -->
+    </link>
+    
+    <link name='right_foot'>
+      <pose>0.041 0.0855 0 0 1.570796327 0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->
+      
+      <inertial>
+        <mass>1.0817</mass>
+        <pose>0 0 0</pose><!-- Link mass is centered -->
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.082</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.082</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+       <!-- TODO: Add surface -->
+    </link>
+    
+    <link name='left_leg'>
+      <pose>0 -0.0855 0.2045 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height. -->
+      
+      <inertial>
+        <mass>3.4689</mass>
+        <pose>0 0 0.027403</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.409</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.409</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='right_leg'>
+      <pose>0 0.0855 0.2045 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height -->
+      
+      <inertial>
+        <mass>3.4689</mass>
+        <pose>0 0 0.027403</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.409</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.409</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='left_thigh'>
+      <pose>0 -0.0855 0.626 0 0 0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+      
+      <inertial>
+        <mass>7.46</mass>
+        <pose>0 0 0.029078</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.434</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.434</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='right_thigh'>
+      <pose>0 0.0855 0.626 0 0 0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+      
+      <inertial>
+        <mass>7.46</mass>
+        <pose>0 0 0.029078</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.434</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.434</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+
+    <link name='transpelvic_link'>
+      <pose>0 0 0.843 0 1.570796327 1.570796327</pose><!-- Height of leg + thigh, rotated to ground plane and rotated about the trunk -->
+      
+      <! -- No inertial properties. Visualization only -->
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.171</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.171</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='trunk'>
+      <pose>0 0 1.031 0 0 0</pose><!-- Height of leg + thigh + 0.5 * trunk-->
+      
+      <inertial>
+        <mass>37.0762</mass>
+        <pose>0 0 0</pose><!-- Link mass is centered -->
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.376</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.376</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='clavicular_link'>
+      <pose>0 0 1.219 0 1.570796327 1.570796327</pose><!-- Height of leg + thigh + trunk, rotated to ground plane and rotated about the trunk -->
+      
+      <! -- No inertial properties. Visualization only -->
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.163</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.163</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='head_neck'>
+      <pose>0 0 1.3815 0 0 0</pose><!-- Height of leg + thigh + trunk + 0.5 * head-neck -->
+      
+      <inertial>
+        <mass>6.0426</mass>
+        <pose>0 0 0.1625</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.325</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.325</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='left_upper_arm'>
+      <pose>0 -0.0855 1.37 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+      
+      <inertial>
+        <mass>2.0888</mass>
+        <pose>0 0 -0.019328</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.302</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.302</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='right_upper_arm'>
+      <pose>0 0.0855 1.37 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+      
+      <inertial>
+        <mass>2.0888</mass>
+        <pose>0 0 -0.019328</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.302</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.302</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='left_forearm_arm'>
+      <pose>0 -0.0855 1.657 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+      
+      <inertial>
+        <mass>1.1936</mass>
+        <pose>0 0 -0.01904</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.272</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.272</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='right_forearm_arm'>
+      <pose>0 0.0855 1.657 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+      
+      <inertial>
+        <mass>1.1936</mass>
+        <pose>0 0 -0.01904</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.272</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.272</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='left_hand'>
+      <pose>0 -0.0855 1.828 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+      
+      <inertial>
+        <mass>0.4476</mass>
+        <pose>0 0 0.00042</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.07</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.07</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <link name='right_hand'>
+      <pose>0 0.0855 1.828 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+      
+      <inertial>
+        <mass>0.4476</mass>
+        <pose>0 0 0.00042</pose>
+        <inertia><!-- TODO -->
+          <ixx>1</ixx>
+          <iyy>1</iyy>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.07</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.07</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+  </model>
+</sdf>
