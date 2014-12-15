@@ -239,9 +239,9 @@
         <mass>37.0762</mass>
         <pose>0 0 0</pose><!-- Link mass is centered -->
         <inertia>
-          <ixx>1.310421213</ixx>
+          <ixx>1.674614776</ixx>
           <iyy>0.01679029</iyy>
-          <izz>1.310421213</izz>
+          <izz>1.674614776</izz>
         </inertia>
       </inertial>
       <collision name='collision'>
