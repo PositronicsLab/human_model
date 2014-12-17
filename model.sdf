@@ -49,7 +49,7 @@
     <joint name='left_ankle' type='revolute'>
       <parent>left_leg</parent>
       <child>left_foot</child>
-      <pose>-0.041 -0.0855 0 0 1.570796327 0</pose>
+      <pose>0 -0.0855 0 0 1.570796327 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
@@ -102,7 +102,7 @@
     <joint name='right_ankle' type='revolute'>
       <parent>right_leg</parent>
       <child>right_foot</child>
-      <pose>-0.041 0 0 0 1.570796327 0</pose>
+      <pose>-0 0.0855 0 0 1.570796327 0</pose>
        <axis>
         <xyz>0 1 0</xyz>
       </axis>
@@ -141,7 +141,7 @@
     <joint name='left_knee' type='revolute'>
       <parent>left_thigh</parent>
       <child>left_leg</child>
-      <pose>0 0 0.2045 0 0 0</pose>
+      <pose>0 -0.0855 0.2045 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
@@ -180,7 +180,7 @@
     <joint name='right_knee' type='revolute'>
       <parent>right_thigh</parent>
       <child>right_leg</child>
-      <pose>0 0 0.2045 0 0 0</pose>
+      <pose>0 0.0855 0.2045 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
@@ -219,7 +219,7 @@
     <joint name='left_hip' type='revolute'>
       <parent>transpelvic_link</parent>
       <child>left_thigh</child>
-      <pose>0 0 0.217 0 0 0</pose> <!-- Half thigh height -->
+      <pose>0 -0.0855 0.217 0 0 0</pose> <!-- Half thigh height -->
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
@@ -258,7 +258,7 @@
     <joint name='right_hip' type='revolute'>
       <parent>transpelvic_link</parent>
       <child>right_thigh</child>
-      <pose>0 0 0.217 0 0 0</pose> <!-- Half thigh height -->
+      <pose>0 0.0855 0.217 0 0 0</pose> <!-- Half thigh height -->
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
@@ -289,7 +289,7 @@
     <joint name='lower_spine' type='revolute'>
       <parent>trunk</parent>
       <child>transpelvic_link</child>
-      <pose>0 0 0 0 0 0</pose>
+      <pose>0 0 0.843 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
@@ -328,7 +328,7 @@
     <joint name='upper_spine' type='revolute'>
       <parent>trunk</parent>
       <child>clavicular_link</child>
-      <pose>0 0 0 0 0 0</pose>
+      <pose>0 0 1.219 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
@@ -359,7 +359,7 @@
     <joint name='neck' type='revolute'>
       <parent>clavicular_link</parent>
       <child>head_neck</child>
-      <pose>0 0 0 0 0 0</pose>
+      <pose>0 0 1.219 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
@@ -396,7 +396,7 @@
     </link>
     
     <link name='left_upper_arm'>
-      <pose>0 -0.0855 1.37 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+      <pose>0 -0.0815 1.37 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
       
       <inertial>
         <mass>2.0888</mass>
@@ -428,14 +428,14 @@
     <joint name='left_shoulder' type='revolute'>
       <parent>clavicular_link</parent>
       <child>left_upper_arm</child>
-      <pose>0.151 0 0 0 0 0</pose>
+      <pose>0 -0.0815 1.219 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
     </joint>
     
     <link name='right_upper_arm'>
-      <pose>0 0.0855 1.37 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+      <pose>0 0.0815 1.37 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
       
       <inertial>
         <mass>2.0888</mass>
@@ -467,14 +467,14 @@
     <joint name='right_shoulder' type='revolute'>
       <parent>clavicular_link</parent>
       <child>right_upper_arm</child>
-      <pose>0.151 0 0 0 0 0</pose>
+      <pose>0 0.0815 1.219 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
     </joint>
     
     <link name='left_forearm'>
-      <pose>0 -0.0855 1.657 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+      <pose>0 -0.0815 1.657 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
       
       <inertial>
         <mass>1.1936</mass>
@@ -506,14 +506,14 @@
     <joint name='left_elbow' type='revolute'>
       <parent>left_upper_arm</parent>
       <child>left_forearm</child>
-      <pose>0.136 0 0 0 0 0</pose>
+      <pose>0 -0.0815 1.521 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
     </joint>
     
     <link name='right_forearm'>
-      <pose>0 0.0855 1.657 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+      <pose>0 0.0815 1.657 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
       
       <inertial>
         <mass>1.1936</mass>
@@ -545,14 +545,14 @@
     <joint name='right_elbow' type='revolute'>
       <parent>right_upper_arm</parent>
       <child>right_forearm</child>
-      <pose>0.136 0 0 0 0 0</pose>
+      <pose>0 0.0815 1.521 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
     </joint>
     
     <link name='left_hand'>
-      <pose>0 -0.0855 1.828 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+      <pose>0 -0.0815 1.828 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
       
       <inertial>
         <mass>0.4476</mass>
@@ -584,14 +584,14 @@
     <joint name='left_wrist' type='revolute'>
       <parent>left_forearm</parent>
       <child>left_hand</child>
-      <pose>0.035 0 0 0 0 0</pose>
+      <pose>0 -0.0815 1.793 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
     </joint>
     
     <link name='right_hand'>
-      <pose>0 0.0855 1.828 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+      <pose>0 0.0815 1.828 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
       
       <inertial>
         <mass>0.4476</mass>
@@ -623,7 +623,7 @@
     <joint name='right_wrist' type='revolute'>
       <parent>right_forearm</parent>
       <child>right_hand</child>
-      <pose>0.035 0 0 0 0 0</pose>
+      <pose>0 0.0815 1.793 0 0 0</pose>
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
