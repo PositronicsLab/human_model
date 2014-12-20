@@ -219,7 +219,7 @@
     <joint name='left_hip' type='revolute'>
       <parent>transpelvic_link</parent>
       <child>left_thigh</child>
-      <pose>0 -0.0855 0.217 0 0 0</pose> <!-- Half thigh height -->
+      <pose>0 -0.0855 0.843 0 0 0</pose> <!--Height leg + thigh -->
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
@@ -258,7 +258,7 @@
     <joint name='right_hip' type='revolute'>
       <parent>transpelvic_link</parent>
       <child>right_thigh</child>
-      <pose>0 0.0855 0.217 0 0 0</pose> <!-- Half thigh height -->
+      <pose>0 0.0855 0.843 0 0 0</pose> <!-- leg + thigh height -->
       <axis>
         <xyz>0 1 0</xyz>
       </axis>
