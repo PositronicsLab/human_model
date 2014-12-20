@@ -267,7 +267,7 @@
     <link name='transpelvic_link'>
       <pose>0 0 0.843 0 1.570796327 1.570796327</pose><!-- Height of leg + thigh, rotated to ground plane and rotated about the trunk -->
       
-      <! -- No inertial properties. Visualization only -->
+      <!-- No inertial properties. Visualization only -->
       <collision name='collision'>
         <geometry>
           <cylinder>
@@ -337,7 +337,7 @@
     <link name='clavicular_link'>
       <pose>0 0 1.219 0 1.570796327 1.570796327</pose><!-- Height of leg + thigh + trunk, rotated to ground plane and rotated about the trunk -->
       
-      <! -- No inertial properties. Visualization only -->
+      <!-- No inertial properties. Visualization only -->
       <collision name='collision'>
         <geometry>
           <cylinder>
