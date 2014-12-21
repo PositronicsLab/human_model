@@ -3,6 +3,39 @@
   <model name="human">
     <static>false</static>
     
+    <link name='trunk'>
+      <pose>0 0 1.031 0 0 0</pose><!-- Height of leg + thigh + 0.5 * trunk-->
+      
+      <inertial>
+        <mass>37.0762</mass>
+        <pose>0 0 0 0 0 0</pose><!-- Link mass is centered -->
+        <inertia>
+          <ixx>1.674614776</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+          <iyy>0.01679029</iyy>
+          <izz>1.674614776</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.376</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.376</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
     <link name='left_foot'>
       <pose>0.041 -0.0855 0 0 1.570796327 0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->  
       <inertial>
@@ -312,39 +345,6 @@
         <xyz>0 1 0</xyz>
       </axis>
     </joint>
-    
-    <link name='trunk'>
-      <pose>0 0 1.031 0 0 0</pose><!-- Height of leg + thigh + 0.5 * trunk-->
-      
-      <inertial>
-        <mass>37.0762</mass>
-        <pose>0 0 0 0 0 0</pose><!-- Link mass is centered -->
-        <inertia>
-          <ixx>1.674614776</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
-          <iyy>0.01679029</iyy>
-          <izz>1.674614776</izz>
-        </inertia>
-      </inertial>
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.376</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.376</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-    </link>
     
     <joint name='upper_spine' type='revolute'>
       <parent>trunk</parent>
