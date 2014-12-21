@@ -7,7 +7,7 @@
       <pose>0.041 -0.0855 0 0 1.570796327 0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->  
       <inertial>
         <mass>1.0817</mass>
-        <pose>0 0 0</pose><!-- Link mass is centered -->
+        <pose>0 0 0 0 0 0</pose><!-- Link mass is centered -->
         <inertia>
           <ixx>0.00164105</ixx>
           <iyy>0.000227357</iyy>
@@ -63,7 +63,7 @@
       
       <inertial>
         <mass>1.0817</mass>
-        <pose>0 0 0</pose><!-- Link mass is centered -->
+        <pose>0 0 0 0 0 0</pose><!-- Link mass is centered -->
         <inertia>
           <ixx>0.00164105</ixx>
           <iyy>0.000227357</iyy>
@@ -119,7 +119,7 @@
       
       <inertial>
         <mass>3.4689</mass>
-        <pose>0 0 0.027403</pose>
+        <pose>0 0 0.027403 0 0 0</pose>
         <inertia>
           <ixx>0.052923954</ixx>
           <iyy>0.000276446</iyy>
@@ -161,7 +161,7 @@
       
       <inertial>
         <mass>3.4689</mass>
-        <pose>0 0 0.027403</pose>
+        <pose>0 0 0.027403 0 0 0</pose>
         <inertia>
           <ixx>0.052923954</ixx>
           <iyy>0.000276446</iyy>
@@ -203,7 +203,7 @@
       
       <inertial>
         <mass>7.46</mass>
-        <pose>0 0 0.029078</pose>
+        <pose>0 0 0.029078 0 0 0</pose>
         <inertia>
           <ixx>0.146596409</ixx>
           <iyy>0.001321394</iyy>
@@ -245,7 +245,7 @@
       
       <inertial>
         <mass>7.46</mass>
-        <pose>0 0 0.029078</pose>
+        <pose>0 0 0.029078 0 0 0</pose>
         <inertia>
           <ixx>0.146596409</ixx>
           <iyy>0.001321394</iyy>
