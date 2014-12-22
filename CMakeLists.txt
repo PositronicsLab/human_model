@@ -16,7 +16,6 @@ link_directories(${Boost_LIBRARY_DIRS})
 # look for Pacer
 find_library(PACER_FOUND Pacer REQUIRED /usr/local/lib /usr/lib)
 add_definitions (-DUSE_INV_DYN)
-
 # fix the C++ linking error on 64-bit Linux
 set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
 
@@ -45,9 +44,8 @@ link_directories(
 set(VISUALIZE_LIBS glut osg osgDB GLU ${GLUT_LIBRARIES} ${GLU_LIBRARIES} ${OPENGL_LIBRARIES})
 FIND_PACKAGE( GLUT REQUIRED )
 FIND_PACKAGE( OpenGL REQUIRED )
-add_definitions( -DVISUALIZE_MOBY )
 
-add_executable(human-pacer main.cpp)
+add_executable(human-pacer human_pacer.cpp)
 target_link_libraries(human-pacer Pacer Ravelin)
 install(TARGETS human-pacer DESTINATION ${CMAKE_SOURCE_DIR}/human-pacer)
 

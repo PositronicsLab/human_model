@@ -9,8 +9,8 @@
 
     <joint>
       <id type="string">left_ankle right_ankle left_knee right_knee left_hip right_hip transpelvic_link lower_spine upper_spine clavicular_link neck left_shoulder right_shoulder left_elbow right_elbow left_wrist right_wrist</id>
-      <q type="double">1.57 1.57 0 0 0 0 1.57 0 0 1.57 0 0 0 0 0 0 0</q>
-      <active type="bool">true true true true true true false false false false true true true true true true true</active>
+      <q type="double">1.57 1.57 0 0 0 0 1.57 0 0 0 1.57 0 0 0 0 0 0</q>
+      <active type="bool">true true true true true true true true true true true true true true true true true</active>
       <max-torque type="double">10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10</max-torque>
     </joint>
 
