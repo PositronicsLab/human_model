@@ -14,7 +14,7 @@
       <q type="double">1.57 1.57 0 0 0 0 1.57 0 0 0 1.57 0 0 0 0 0 0</q>
       <!-- TODO: Figure out what should be active -->
       <active type="bool">true true true true true true true true true true true true true true true true true</active>
-      <!- TODO: Add more max-torque here -->
+      <!-- TODO: Add more max-torque here -->
       <max-torque type="double">10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10</max-torque>
     </joint>
 
