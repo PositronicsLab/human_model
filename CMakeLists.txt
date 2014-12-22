@@ -46,6 +46,8 @@ FIND_PACKAGE( GLUT REQUIRED )
 FIND_PACKAGE( OpenGL REQUIRED )
 
 add_executable(human-pacer human_pacer.cpp)
+add_executable(combined-human-pr2-pacer combined_human_pr2_pacer.cpp)
 target_link_libraries(human-pacer Pacer Ravelin)
+target_link_libraries(combined-human-pr2-pacer Pacer Ravelin)
 install(TARGETS human-pacer DESTINATION ${CMAKE_SOURCE_DIR}/human-pacer)
 
