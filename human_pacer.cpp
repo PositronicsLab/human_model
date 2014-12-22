@@ -59,7 +59,7 @@ int main(){
                     );
 
   // Init a robot from the model we want
-  std::string sdf_file("model.sdf");
+  std::string sdf_file("human-model.sdf");
   std::string init_file("human.pacer");
   boost::shared_ptr<Robot> robot
       = boost::shared_ptr<Robot>(new Robot(sdf_file, init_file));
