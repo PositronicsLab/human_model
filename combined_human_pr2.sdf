@@ -1,9 +1,9 @@
-<sdf version='1.5'>
-  <model name='combined_human_pr2'>
-    <link name='base_footprint'>
-      <pose>0 0 0 0 -0 0</pose>
+<sdf version="1.5">
+  <model name="combined_human_pr2">
+    <link name="base_footprint">
+      <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>-0.0624209 0 0.201365 0 -0 0</pose>
+        <pose>-0.0624209 0.0 0.201365 0.0 -0.0 0.0</pose>
         <mass>118.001</mass>
         <inertia>
           <ixx>6.13665</ixx>
@@ -14,16 +14,16 @@
           <izz>3.75933</izz>
         </inertia>
       </inertial>
-      <collision name='base_footprint_collision'>
-        <pose>0 0 0.071 0 -0 0</pose>
+      <collision name="base_footprint_collision">
+        <pose>0.0 0.0 0.071 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.001 0.001 0.001</size>
           </box>
         </geometry>
       </collision>
-      <collision name='base_footprint_collision_base_bellow_link'>
-        <pose>-0.29 0 0.851 0 -0 0</pose>
+      <collision name="base_footprint_collision_base_bellow_link">
+        <pose>-0.29 0.0 0.851 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.05 0.37 0.3</size>
@@ -40,8 +40,8 @@
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='base_footprint_collision_base_link'>
-        <pose>0 0 0.051 0 -0 0</pose>
+      <collision name="base_footprint_collision_base_link">
+        <pose>0.0 0.0 0.051 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -58,16 +58,16 @@
         </surface>
       </collision>
       -->
-      <visual name='base_footprint_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="base_footprint_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
           </box>
         </geometry>
       </visual>
-      <visual name='base_footprint_visual_base_bellow_link'>
-        <pose>-0.29 0 0.851 0 -0 0</pose>
+      <visual name="base_footprint_visual_base_bellow_link">
+        <pose>-0.29 0.0 0.851 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.05 0.37 0.3</size>
@@ -82,8 +82,8 @@
       </visual>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='base_footprint_visual_base_link'>
-        <pose>0 0 0.051 0 -0 0</pose>
+      <visual name="base_footprint_visual_base_link">
+        <pose>0.0 0.0 0.051 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -93,42 +93,42 @@
       </visual>
       -->
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <sensor name='base_contact_sensor' type='contact'>
+      <sensor name="base_contact_sensor" type="contact">
         <always_on>1</always_on>
-        <update_rate>100</update_rate>
+        <update_rate>100.0</update_rate>
         <contact>
           <collision>base_link_geom</collision>
           <topic>__default_topic__</topic>
         </contact>
-        <!-- <plugin name='base_gazebo_ros_bumper_controller' filename='libgazebo_ros_bumper.so'>
+        <!-- <plugin name="base_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
           <alwaysOn>true</alwaysOn>
-          <updateRate>100.0</updateRate>
+          <updateRate>100.0.0</updateRate>
           <bumperTopicName>base_bumper</bumperTopicName>
           <frameName>world</frameName>
         </plugin> -->
-        <pose>0 0 0.051 0 -0 0</pose>
+        <pose>0.0 0.0 0.051 0.0 -0.0 0.0</pose>
       </sensor>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
-      <sensor name='base_laser' type='ray'>
+      <self_collide>0.0</self_collide>
+      <sensor name="base_laser" type="ray">
         <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <visualize>0</visualize>
+        <update_rate>20.0</update_rate>
+        <visualize>0.0</visualize>
         <ray>
           <scan>
             <horizontal>
-              <samples>640</samples>
+              <samples>640.0</samples>
               <resolution>1</resolution>
               <min_angle>-2.2689</min_angle>
               <max_angle>2.2689</max_angle>
@@ -136,25 +136,25 @@
           </scan>
           <range>
             <min>0.08</min>
-            <max>10</max>
+            <max>10.0</max>
             <resolution>0.01</resolution>
           </range>
         </ray>
-        <!-- <plugin name='gazebo_ros_base_laser_controller' filename='libgazebo_ros_laser.so'>
+        <!-- <plugin name="gazebo_ros_base_laser_controller" filename="libgazebo_ros_laser.so">
           <gaussianNoise>0.005</gaussianNoise>
           <alwaysOn>true</alwaysOn>
-          <updateRate>20</updateRate>
+          <updateRate>20.0</updateRate>
           <topicName>base_scan</topicName>
           <frameName>base_laser_link</frameName>
           <hokuyoMinIntensity>101</hokuyoMinIntensity>
         </plugin> -->
-        <pose>0.275 0 0.303 0 -0 0</pose>
+        <pose>0.275 0.0 0.303 0.0 -0.0 0.0</pose>
       </sensor>
     </link>
-    <link name='bl_caster_rotation_link'>
-      <pose>-0.2246 0.2246 0.0792 0 -0 0</pose>
+    <link name="bl_caster_rotation_link">
+      <pose>-0.2246 0.2246 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0.07 0 -0 0</pose>
+        <pose>0.0 0.0 0.07 0.0 -0.0 0.0</pose>
         <mass>3.47308</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -167,8 +167,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='bl_caster_rotation_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="bl_caster_rotation_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -187,8 +187,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='bl_caster_rotation_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="bl_caster_rotation_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -205,32 +205,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='bl_caster_rotation_joint' type='revolute'>
+    <joint name="bl_caster_rotation_joint" type="revolute">
       <child>bl_caster_rotation_link</child>
       <parent>base_footprint</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='bl_caster_l_wheel_link'>
-      <pose>-0.2246 0.2736 0.0792 0 -0 0</pose>
+    <link name="bl_caster_l_wheel_link">
+      <pose>-0.2246 0.2736 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.44036</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -241,8 +241,8 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <collision name='bl_caster_l_wheel_link_collision'>
-        <pose>0 0 0 1.5708 -0 0</pose>
+      <collision name="bl_caster_l_wheel_link_collision">
+        <pose>0.0 0.0 0.0 1.5708 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <length>0.034</length>
@@ -254,22 +254,22 @@
             <ode>
               <kp>1e+06</kp>
               <kd>1</kd>
-              <max_vel>100</max_vel>
-              <min_depth>0</min_depth>
+              <max_vel>100.0</max_vel>
+              <min_depth>0.0</min_depth>
             </ode>
           </contact>
           <friction>
             <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='bl_caster_l_wheel_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="bl_caster_l_wheel_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -280,32 +280,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='bl_caster_l_wheel_joint' type='revolute'>
+    <joint name="bl_caster_l_wheel_joint" type="revolute">
       <child>bl_caster_l_wheel_link</child>
       <parent>bl_caster_rotation_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='bl_caster_r_wheel_link'>
-      <pose>-0.2246 0.1756 0.0792 0 -0 0</pose>
+    <link name="bl_caster_r_wheel_link">
+      <pose>-0.2246 0.1756 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.44036</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -316,8 +316,8 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <collision name='bl_caster_r_wheel_link_collision'>
-        <pose>0 0 0 1.5708 -0 0</pose>
+      <collision name="bl_caster_r_wheel_link_collision">
+        <pose>0.0 0.0 0.0 1.5708 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <length>0.034</length>
@@ -329,22 +329,22 @@
             <ode>
               <kp>1e+06</kp>
               <kd>1</kd>
-              <max_vel>100</max_vel>
-              <min_depth>0</min_depth>
+              <max_vel>100.0</max_vel>
+              <min_depth>0.0</min_depth>
             </ode>
           </contact>
           <friction>
             <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='bl_caster_r_wheel_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="bl_caster_r_wheel_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -355,32 +355,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='bl_caster_r_wheel_joint' type='revolute'>
+    <joint name="bl_caster_r_wheel_joint" type="revolute">
       <child>bl_caster_r_wheel_link</child>
       <parent>bl_caster_rotation_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='br_caster_rotation_link'>
-      <pose>-0.2246 -0.2246 0.0792 0 -0 0</pose>
+    <link name="br_caster_rotation_link">
+      <pose>-0.2246 -0.2246 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0.07 0 -0 0</pose>
+        <pose>0.0 0.0 0.07 0.0 -0.0 0.0</pose>
         <mass>3.47308</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -393,8 +393,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='br_caster_rotation_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="br_caster_rotation_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -413,8 +413,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='br_caster_rotation_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="br_caster_rotation_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -431,32 +431,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='br_caster_rotation_joint' type='revolute'>
+    <joint name="br_caster_rotation_joint" type="revolute">
       <child>br_caster_rotation_link</child>
       <parent>base_footprint</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='br_caster_l_wheel_link'>
-      <pose>-0.2246 -0.1756 0.0792 0 -0 0</pose>
+    <link name="br_caster_l_wheel_link">
+      <pose>-0.2246 -0.1756 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.44036</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -467,8 +467,8 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <collision name='br_caster_l_wheel_link_collision'>
-        <pose>0 0 0 1.5708 -0 0</pose>
+      <collision name="br_caster_l_wheel_link_collision">
+        <pose>0.0 0.0 0.0 1.5708 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <length>0.034</length>
@@ -480,22 +480,22 @@
             <ode>
               <kp>1e+06</kp>
               <kd>1</kd>
-              <max_vel>100</max_vel>
-              <min_depth>0</min_depth>
+              <max_vel>100.0</max_vel>
+              <min_depth>0.0</min_depth>
             </ode>
           </contact>
           <friction>
             <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='br_caster_l_wheel_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="br_caster_l_wheel_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -506,32 +506,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='br_caster_l_wheel_joint' type='revolute'>
+    <joint name="br_caster_l_wheel_joint" type="revolute">
       <child>br_caster_l_wheel_link</child>
       <parent>br_caster_rotation_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='br_caster_r_wheel_link'>
-      <pose>-0.2246 -0.2736 0.0792 0 -0 0</pose>
+    <link name="br_caster_r_wheel_link">
+      <pose>-0.2246 -0.2736 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.44036</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -542,8 +542,8 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <collision name='br_caster_r_wheel_link_collision'>
-        <pose>0 0 0 1.5708 -0 0</pose>
+      <collision name="br_caster_r_wheel_link_collision">
+        <pose>0.0 0.0 0.0 1.5708 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <length>0.034</length>
@@ -555,22 +555,22 @@
             <ode>
               <kp>1e+06</kp>
               <kd>1</kd>
-              <max_vel>100</max_vel>
-              <min_depth>0</min_depth>
+              <max_vel>100.0</max_vel>
+              <min_depth>0.0</min_depth>
             </ode>
           </contact>
           <friction>
             <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='br_caster_r_wheel_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="br_caster_r_wheel_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -581,32 +581,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='br_caster_r_wheel_joint' type='revolute'>
+    <joint name="br_caster_r_wheel_joint" type="revolute">
       <child>br_caster_r_wheel_link</child>
       <parent>br_caster_rotation_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='fl_caster_rotation_link'>
-      <pose>0.2246 0.2246 0.0792 0 -0 0</pose>
+    <link name="fl_caster_rotation_link">
+      <pose>0.2246 0.2246 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0.07 0 -0 0</pose>
+        <pose>0.0 0.0 0.07 0.0 -0.0 0.0</pose>
         <mass>3.47308</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -619,8 +619,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='fl_caster_rotation_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="fl_caster_rotation_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -639,8 +639,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='fl_caster_rotation_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="fl_caster_rotation_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -657,32 +657,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='fl_caster_rotation_joint' type='revolute'>
+    <joint name="fl_caster_rotation_joint" type="revolute">
       <child>fl_caster_rotation_link</child>
       <parent>base_footprint</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='fl_caster_l_wheel_link'>
-      <pose>0.2246 0.2736 0.0792 0 -0 0</pose>
+    <link name="fl_caster_l_wheel_link">
+      <pose>0.2246 0.2736 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.44036</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -693,8 +693,8 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <collision name='fl_caster_l_wheel_link_collision'>
-        <pose>0 0 0 1.5708 -0 0</pose>
+      <collision name="fl_caster_l_wheel_link_collision">
+        <pose>0.0 0.0 0.0 1.5708 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <length>0.034</length>
@@ -706,22 +706,22 @@
             <ode>
               <kp>1e+06</kp>
               <kd>1</kd>
-              <max_vel>100</max_vel>
-              <min_depth>0</min_depth>
+              <max_vel>100.0</max_vel>
+              <min_depth>0.0</min_depth>
             </ode>
           </contact>
           <friction>
             <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='fl_caster_l_wheel_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="fl_caster_l_wheel_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -732,32 +732,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='fl_caster_l_wheel_joint' type='revolute'>
+    <joint name="fl_caster_l_wheel_joint" type="revolute">
       <child>fl_caster_l_wheel_link</child>
       <parent>fl_caster_rotation_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='fl_caster_r_wheel_link'>
-      <pose>0.2246 0.1756 0.0792 0 -0 0</pose>
+    <link name="fl_caster_r_wheel_link">
+      <pose>0.2246 0.1756 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.44036</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -768,8 +768,8 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <collision name='fl_caster_r_wheel_link_collision'>
-        <pose>0 0 0 1.5708 -0 0</pose>
+      <collision name="fl_caster_r_wheel_link_collision">
+        <pose>0.0 0.0 0.0 1.5708 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <length>0.034</length>
@@ -781,22 +781,22 @@
             <ode>
               <kp>1e+06</kp>
               <kd>1</kd>
-              <max_vel>100</max_vel>
-              <min_depth>0</min_depth>
+              <max_vel>100.0</max_vel>
+              <min_depth>0.0</min_depth>
             </ode>
           </contact>
           <friction>
             <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='fl_caster_r_wheel_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="fl_caster_r_wheel_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -807,32 +807,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='fl_caster_r_wheel_joint' type='revolute'>
+    <joint name="fl_caster_r_wheel_joint" type="revolute">
       <child>fl_caster_r_wheel_link</child>
       <parent>fl_caster_rotation_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='fr_caster_rotation_link'>
-      <pose>0.2246 -0.2246 0.0792 0 -0 0</pose>
+    <link name="fr_caster_rotation_link">
+      <pose>0.2246 -0.2246 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0.07 0 -0 0</pose>
+        <pose>0.0 0.0 0.07 0.0 -0.0 0.0</pose>
         <mass>3.47308</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -845,8 +845,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='fr_caster_rotation_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="fr_caster_rotation_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -865,8 +865,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='fr_caster_rotation_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="fr_caster_rotation_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -883,32 +883,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='fr_caster_rotation_joint' type='revolute'>
+    <joint name="fr_caster_rotation_joint" type="revolute">
       <child>fr_caster_rotation_link</child>
       <parent>base_footprint</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='fr_caster_l_wheel_link'>
-      <pose>0.2246 -0.1756 0.0792 0 -0 0</pose>
+    <link name="fr_caster_l_wheel_link">
+      <pose>0.2246 -0.1756 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.44036</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -919,8 +919,8 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <collision name='fr_caster_l_wheel_link_collision'>
-        <pose>0 0 0 1.5708 -0 0</pose>
+      <collision name="fr_caster_l_wheel_link_collision">
+        <pose>0.0 0.0 0.0 1.5708 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <length>0.034</length>
@@ -932,22 +932,22 @@
             <ode>
               <kp>1e+06</kp>
               <kd>1</kd>
-              <max_vel>100</max_vel>
-              <min_depth>0</min_depth>
+              <max_vel>100.0</max_vel>
+              <min_depth>0.0</min_depth>
             </ode>
           </contact>
           <friction>
             <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='fr_caster_l_wheel_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="fr_caster_l_wheel_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -958,32 +958,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='fr_caster_l_wheel_joint' type='revolute'>
+    <joint name="fr_caster_l_wheel_joint" type="revolute">
       <child>fr_caster_l_wheel_link</child>
       <parent>fr_caster_rotation_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='fr_caster_r_wheel_link'>
-      <pose>0.2246 -0.2736 0.0792 0 -0 0</pose>
+    <link name="fr_caster_r_wheel_link">
+      <pose>0.2246 -0.2736 0.0792 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.44036</mass>
         <inertia>
           <ixx>0.0124118</ixx>
@@ -994,8 +994,8 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <collision name='fr_caster_r_wheel_link_collision'>
-        <pose>0 0 0 1.5708 -0 0</pose>
+      <collision name="fr_caster_r_wheel_link_collision">
+        <pose>0.0 0.0 0.0 1.5708 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <length>0.034</length>
@@ -1007,22 +1007,22 @@
             <ode>
               <kp>1e+06</kp>
               <kd>1</kd>
-              <max_vel>100</max_vel>
-              <min_depth>0</min_depth>
+              <max_vel>100.0</max_vel>
+              <min_depth>0.0</min_depth>
             </ode>
           </contact>
           <friction>
             <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='fr_caster_r_wheel_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="fr_caster_r_wheel_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1033,32 +1033,32 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='fr_caster_r_wheel_joint' type='revolute'>
+    <joint name="fr_caster_r_wheel_joint" type="revolute">
       <child>fr_caster_r_wheel_link</child>
       <parent>fr_caster_rotation_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='torso_lift_link'>
-      <pose>-0.05 0 0.790675 0 -0 0</pose>
+    <link name="torso_lift_link">
+      <pose>-0.05 0.0 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>-0.0994987 -4.1071e-06 -0.0867639 0 -0 0</pose>
+        <pose>-0.0994987 -4.1071e-06 -0.0867639 0.0 -0.0 0.0</pose>
         <mass>36.449</mass>
         <inertia>
           <ixx>2.80235</ixx>
@@ -1071,8 +1071,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='torso_lift_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="torso_lift_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1091,8 +1091,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='torso_lift_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="torso_lift_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1103,47 +1103,47 @@
       -->
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
-      <sensor name='torso_lift_contact_sensor' type='contact'>
+      <self_collide>0.0</self_collide>
+      <sensor name="torso_lift_contact_sensor" type="contact">
         <contact>
           <collision>torso_lift_link_geom</collision>
           <topic>__default_topic__</topic>
         </contact>
-        <update_rate>100</update_rate>
-        <!--<plugin name='torso_lift_gazebo_ros_bumper_controller' filename='libgazebo_ros_bumper.so'>
+        <update_rate>100.0</update_rate>
+        <!--<plugin name="torso_lift_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
           <alwaysOn>true</alwaysOn>
-          <updateRate>100.0</updateRate>
+          <updateRate>100.0.0</updateRate>
           <bumperTopicName>torso_lift_bumper</bumperTopicName>
           <frameName>world</frameName>
         </plugin> -->
       </sensor>
     </link>
-    <joint name='torso_lift_joint' type='prismatic'>
+    <joint name="torso_lift_joint" type="prismatic">
       <child>torso_lift_link</child>
       <parent>base_footprint</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
-          <lower>0</lower>
+          <lower>0.0</lower>
           <upper>0.33</upper>
-          <effort>10000</effort>
+          <effort>10000.0</effort>
           <velocity>0.013</velocity>
         </limit>
         <dynamics>
-          <damping>20000</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <damping>20000.0</damping>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='head_pan_link'>
-      <pose>-0.06707 0 1.17213 0 -0 0</pose>
+    <link name="head_pan_link">
+      <pose>-0.06707 0.0 1.17213 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.010907 0.031693 0.090507 0 -0 0</pose>
+        <pose>0.010907 0.031693 0.090507 0.0 -0.0 0.0</pose>
         <mass>6.339</mass>
         <inertia>
           <ixx>0.0324976</ixx>
@@ -1156,8 +1156,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='head_pan_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="head_pan_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1165,8 +1165,8 @@
           </mesh>
         </geometry>
       </collision>
-      <visual name='head_pan_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="head_pan_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1176,15 +1176,15 @@
       </visual>
       -->
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
     </link>
-    <joint name='head_pan_joint' type='revolute'>
+    <joint name="head_pan_joint" type="revolute">
       <child>head_pan_link</child>
       <parent>torso_lift_link</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
           <lower>-3.007</lower>
           <upper>3.007</upper>
@@ -1193,16 +1193,16 @@
         </limit>
         <dynamics>
           <damping>0.5</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='head_tilt_link'>
-      <pose>0.00093 0 1.17213 0 -0 0</pose>
+    <link name="head_tilt_link">
+      <pose>0.00093 0.0 1.17213 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.00621107 -0.0159771 0.05874 0 -0 0</pose>
+        <pose>0.00621107 -0.0159771 0.05874 0.0 -0.0 0.0</pose>
         <mass>4.919</mass>
         <inertia>
           <ixx>0.057667</ixx>
@@ -1215,8 +1215,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='head_tilt_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="head_tilt_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1225,8 +1225,8 @@
         </geometry>
       </collision>
       -->
-      <collision name='head_tilt_link_collision_head_plate_frame'>
-        <pose>0.0232 0 0.0645 0 -0 0</pose>
+      <collision name="head_tilt_link_collision_head_plate_frame">
+        <pose>0.0232 0.0 0.0645 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -1243,8 +1243,8 @@
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='head_tilt_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="head_tilt_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1253,16 +1253,16 @@
         </geometry>
       </visual>
       -->
-      <visual name='head_tilt_link_visual_double_stereo_link'>
-        <pose>0.0132 0 0.0895 0 -0 0</pose>
+      <visual name="head_tilt_link_visual_double_stereo_link">
+        <pose>0.0132 0.0 0.0895 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.02 0.12 0.05</size>
           </box>
         </geometry>
       </visual>
-      <visual name='head_tilt_link_visual_head_plate_frame'>
-        <pose>0.0232 0 0.0645 0 -0 0</pose>
+      <visual name="head_tilt_link_visual_head_plate_frame">
+        <pose>0.0232 0.0 0.0645 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -1275,8 +1275,8 @@
           </script>
         </material>
       </visual>
-      <visual name='head_tilt_link_visual_sensor_mount_link'>
-        <pose>0.0232 0 0.0645 0 -0 0</pose>
+      <visual name="head_tilt_link_visual_sensor_mount_link">
+        <pose>0.0232 0.0 0.0645 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -1284,85 +1284,85 @@
         </geometry>
       </visual>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <projector name='projector_wg6802418_projector_wg6802418'>
+      <projector name="projector_wg6802418_projector_wg6802418">
         <texture>stereo_projection_pattern_high_res_red.png</texture>
         <fov>0.959931</fov>
         <near_clip>0.1</near_clip>
-        <far_clip>10</far_clip>
+        <far_clip>10.0</far_clip>
         <pose>0.069657 0.11 0.1191 3.14159 -1.57079 3.14159</pose>
       </projector>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <sensor name='narrow_stereo_l_stereo_camera_sensor' type='camera'>
+      <sensor name="narrow_stereo_l_stereo_camera_sensor" type="camera">
         <always_on>1</always_on>
         <update_rate>25</update_rate>
-        <camera name='__default__'>
+        <camera name="__default__">
           <horizontal_fov>0.785398</horizontal_fov>
           <image>
             <format>L8</format>
-            <width>640</width>
-            <height>480</height>
+            <width>640.0</width>
+            <height>480.0</height>
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>100.0</far>
           </clip>
         </camera>
-        <!-- <plugin name='narrow_stereo_l_stereo_camera_controller' filename='libgazebo_ros_camera.so'>
+        <!-- <plugin name="narrow_stereo_l_stereo_camera_controller" filename="libgazebo_ros_camera.so">
           <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
+          <updateRate>25.0.0</updateRate>
           <cameraName>narrow_stereo/left</cameraName>
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
           <frameName>narrow_stereo_optical_frame</frameName>
-          <hackBaseline>0</hackBaseline>
+          <hackBaseline>0.0</hackBaseline>
           <CxPrime>320.5</CxPrime>
           <Cx>320.5</Cx>
           <Cy>240.5</Cy>
           <focalLength>772.548518</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
+          <distortionK1>0.0.0</distortionK1>
+          <distortionK2>0.0.0</distortionK2>
+          <distortionK3>0.0.0</distortionK3>
+          <distortionT1>0.0.0</distortionT1>
+          <distortionT2>0.0.0</distortionT2>
         </plugin> -->
-        <pose>0.0682 0.06 0.1146 0 -0 0</pose>
+        <pose>0.0682 0.06 0.1146 0.0 -0.0 0.0</pose>
       </sensor>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <sensor name='narrow_stereo_r_stereo_camera_sensor' type='camera'>
+      <sensor name="narrow_stereo_r_stereo_camera_sensor" type="camera">
         <always_on>1</always_on>
         <update_rate>25</update_rate>
-        <camera name='__default__'>
+        <camera name="__default__">
           <horizontal_fov>0.785398</horizontal_fov>
           <image>
             <format>L8</format>
-            <width>640</width>
-            <height>480</height>
+            <width>640.0</width>
+            <height>480.0</height>
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>100.0</far>
           </clip>
         </camera>
-        <!-- <plugin name='narrow_stereo_r_stereo_camera_controller' filename='libgazebo_ros_camera.so'>
+        <!-- <plugin name="narrow_stereo_r_stereo_camera_controller" filename="libgazebo_ros_camera.so">
           <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
+          <updateRate>25.0.0</updateRate>
           <cameraName>narrow_stereo/right</cameraName>
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
@@ -1372,83 +1372,83 @@
           <Cx>320.5</Cx>
           <Cy>240.5</Cy>
           <focalLength>772.548518</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
+          <distortionK1>0.0.0</distortionK1>
+          <distortionK2>0.0.0</distortionK2>
+          <distortionK3>0.0.0</distortionK3>
+          <distortionT1>0.0.0</distortionT1>
+          <distortionT2>0.0.0</distortionT2>
         </plugin> -->
-        <pose>0.0682 -0.03 0.1146 0 -0 0</pose>
+        <pose>0.0682 -0.03 0.1146 0.0 -0.0 0.0</pose>
       </sensor>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <sensor name='wide_stereo_l_stereo_camera_sensor' type='camera'>
+      <sensor name="wide_stereo_l_stereo_camera_sensor" type="camera">
         <always_on>1</always_on>
         <update_rate>25</update_rate>
-        <camera name='__default__'>
+        <camera name="__default__">
           <horizontal_fov>1.5708</horizontal_fov>
           <image>
             <format>BAYER_BGGR8</format>
-            <width>640</width>
-            <height>480</height>
+            <width>640.0</width>
+            <height>480.0</height>
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>100.0</far>
           </clip>
         </camera>
-        <!-- <plugin name='wide_stereo_l_stereo_camera_controller' filename='libgazebo_ros_camera.so'>
+        <!-- <plugin name="wide_stereo_l_stereo_camera_controller" filename="libgazebo_ros_camera.so">
           <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
+          <updateRate>25.0.0</updateRate>
           <cameraName>wide_stereo/left</cameraName>
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
           <frameName>wide_stereo_optical_frame</frameName>
-          <hackBaseline>0</hackBaseline>
+          <hackBaseline>0.0</hackBaseline>
           <CxPrime>320.5</CxPrime>
           <Cx>320.5</Cx>
           <Cy>240.5</Cy>
           <focalLength>320.000105</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
+          <distortionK1>0.0.0</distortionK1>
+          <distortionK2>0.0.0</distortionK2>
+          <distortionK3>0.0.0</distortionK3>
+          <distortionT1>0.0.0</distortionT1>
+          <distortionT2>0.0.0</distortionT2>
         </plugin> -->
-        <pose>0.0682 0.03 0.1146 0 -0 0</pose>
+        <pose>0.0682 0.03 0.1146 0.0 -0.0 0.0</pose>
       </sensor>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <sensor name='wide_stereo_r_stereo_camera_sensor' type='camera'>
+      <sensor name="wide_stereo_r_stereo_camera_sensor" type="camera">
         <always_on>1</always_on>
         <update_rate>25</update_rate>
-        <camera name='__default__'>
+        <camera name="__default__">
           <horizontal_fov>1.5708</horizontal_fov>
           <image>
             <format>BAYER_BGGR8</format>
-            <width>640</width>
-            <height>480</height>
+            <width>640.0</width>
+            <height>480.0</height>
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>100.0</far>
           </clip>
         </camera>
-        <!-- <plugin name='wide_stereo_r_stereo_camera_controller' filename='libgazebo_ros_camera.so'>
+        <!-- <plugin name="wide_stereo_r_stereo_camera_controller" filename="libgazebo_ros_camera.so">
           <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
+          <updateRate>25.0.0</updateRate>
           <cameraName>wide_stereo/right</cameraName>
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
@@ -1458,41 +1458,41 @@
           <Cx>320.5</Cx>
           <Cy>240.5</Cy>
           <focalLength>320.000105</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
+          <distortionK1>0.0.0</distortionK1>
+          <distortionK2>0.0.0</distortionK2>
+          <distortionK3>0.0.0</distortionK3>
+          <distortionT1>0.0.0</distortionT1>
+          <distortionT2>0.0.0</distortionT2>
         </plugin> -->
-        <pose>0.0682 -0.06 0.1146 0 -0 0</pose>
+        <pose>0.0682 -0.06 0.1146 0.0 -0.0 0.0</pose>
       </sensor>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
-      <sensor name='high_def_sensor' type='camera'>
+      <self_collide>0.0</self_collide>
+      <sensor name="high_def_sensor" type="camera">
         <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <camera name='__default__'>
+        <update_rate>20.0</update_rate>
+        <camera name="__default__">
           <horizontal_fov>0.785398</horizontal_fov>
           <image>
             <format>R8G8B8</format>
             <width>2448</width>
-            <height>2050</height>
+            <height>2050.0</height>
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>100.0</far>
           </clip>
         </camera>
-        <!-- <plugin name='high_def_controller' filename='libgazebo_ros_prosilica.so'>
-          <updateRate>20.0</updateRate>
+        <!-- <plugin name="high_def_controller" filename="libgazebo_ros_prosilica.so">
+          <updateRate>20.0.0</updateRate>
           <cameraName>prosilica</cameraName>
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
@@ -1502,20 +1502,20 @@
           <Cx>1224.5</Cx>
           <Cy>1025.5</Cy>
           <focalLength>2954.998083</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
+          <distortionK1>0.0.0</distortionK1>
+          <distortionK2>0.0.0</distortionK2>
+          <distortionK3>0.0.0</distortionK3>
+          <distortionT1>0.0.0</distortionT1>
+          <distortionT2>0.0.0</distortionT2>
         </plugin> -->
-        <pose>0.069657 -0.11 0.1191 0 -0 0</pose>
+        <pose>0.069657 -0.11 0.1191 0.0 -0.0 0.0</pose>
       </sensor>
     </link>
-    <joint name='head_tilt_joint' type='revolute'>
+    <joint name="head_tilt_joint" type="revolute">
       <child>head_tilt_link</child>
       <parent>head_pan_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-0.471238</lower>
           <upper>1.39626</upper>
@@ -1523,17 +1523,17 @@
           <velocity>5</velocity>
         </limit>
         <dynamics>
-          <damping>10</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <damping>10.0</damping>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='l_shoulder_pan_link'>
-      <pose>-0.05 0.188 0.790675 0 -0 0</pose>
+    <link name="l_shoulder_pan_link">
+      <pose>-0.05 0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>-0.001201 0.024513 -0.098231 0 -0 0</pose>
+        <pose>-0.001201 0.024513 -0.098231 0.0 -0.0 0.0</pose>
         <mass>25.7993</mass>
         <inertia>
           <ixx>0.866179</ixx>
@@ -1546,8 +1546,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_shoulder_pan_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_shoulder_pan_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1566,8 +1566,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_shoulder_pan_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_shoulder_pan_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1576,44 +1576,44 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_shoulder_pan_joint' type='revolute'>
+    <joint name="l_shoulder_pan_joint" type="revolute">
       <child>l_shoulder_pan_link</child>
       <parent>torso_lift_link</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
           <lower>-0.714602</lower>
           <upper>2.2854</upper>
-          <effort>30</effort>
+          <effort>30.0</effort>
           <velocity>2.088</velocity>
         </limit>
         <dynamics>
-          <damping>10</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <damping>10.0</damping>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='l_shoulder_lift_link'>
-      <pose>0.05 0.188 0.790675 0 -0 0</pose>
+    <link name="l_shoulder_lift_link">
+      <pose>0.05 0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.02195 -0.02664 -0.03127 0 -0 0</pose>
+        <pose>0.02195 -0.02664 -0.03127 0.0 -0.0 0.0</pose>
         <mass>2.74988</mass>
         <inertia>
           <ixx>0.0210558</ixx>
@@ -1626,8 +1626,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_shoulder_lift_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_shoulder_lift_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1646,8 +1646,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_shoulder_lift_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_shoulder_lift_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1656,44 +1656,44 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_shoulder_lift_joint' type='revolute'>
+    <joint name="l_shoulder_lift_joint" type="revolute">
       <child>l_shoulder_lift_link</child>
       <parent>l_shoulder_pan_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-0.5236</lower>
           <upper>1.3963</upper>
-          <effort>30</effort>
+          <effort>30.0</effort>
           <velocity>2.082</velocity>
         </limit>
         <dynamics>
-          <damping>10</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <damping>10.0</damping>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='l_upper_arm_roll_link'>
-      <pose>0.05 0.188 0.790675 0 -0 0</pose>
+    <link name="l_upper_arm_roll_link">
+      <pose>0.05 0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.210551 0.016309 -0.000560683 0 -0 0</pose>
+        <pose>0.210551 0.016309 -0.000560683 0.0 -0.0 0.0</pose>
         <mass>6.11769</mass>
         <inertia>
           <ixx>0.0253331</ixx>
@@ -1706,8 +1706,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_upper_arm_roll_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_upper_arm_roll_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1726,8 +1726,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_upper_arm_roll_link_collision_l_upper_arm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_upper_arm_roll_link_collision_l_upper_arm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1754,8 +1754,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_upper_arm_roll_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_upper_arm_roll_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1769,8 +1769,8 @@
           </script>
         </material>
       </visual>
-      <visual name='l_upper_arm_roll_link_visual_l_upper_arm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_upper_arm_roll_link_visual_l_upper_arm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1780,31 +1780,31 @@
       </visual>
       -->
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_upper_arm_roll_joint' type='revolute'>
+    <joint name="l_upper_arm_roll_joint" type="revolute">
       <child>l_upper_arm_roll_link</child>
       <parent>l_shoulder_lift_link</parent>
       <axis>
-        <xyz>1 0 0</xyz>
+        <xyz>1 0.0 0.0</xyz>
         <limit>
           <lower>-0.8</lower>
           <upper>3.9</upper>
-          <effort>30</effort>
+          <effort>30.0</effort>
           <velocity>3.27</velocity>
         </limit>
         <dynamics>
           <damping>0.1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -1812,16 +1812,16 @@
         <ode>
           <fudge_factor>0.5</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='l_elbow_flex_link'>
-      <pose>0.45 0.188 0.790675 0 -0 0</pose>
+    <link name="l_elbow_flex_link">
+      <pose>0.45 0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.01014 0.00032 -0.01211 0 -0 0</pose>
+        <pose>0.01014 0.00032 -0.01211 0.0 -0.0 0.0</pose>
         <mass>1.90327</mass>
         <inertia>
           <ixx>0.00346542</ixx>
@@ -1834,8 +1834,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_elbow_flex_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_elbow_flex_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1854,8 +1854,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_elbow_flex_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_elbow_flex_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1864,44 +1864,44 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_elbow_flex_joint' type='revolute'>
+    <joint name="l_elbow_flex_joint" type="revolute">
       <child>l_elbow_flex_link</child>
       <parent>l_upper_arm_roll_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-2.3213</lower>
-          <upper>0</upper>
-          <effort>30</effort>
+          <upper>0.0</upper>
+          <effort>30.0</effort>
           <velocity>3.3</velocity>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='l_forearm_roll_link'>
-      <pose>0.45 0.188 0.790675 0 -0 0</pose>
+    <link name="l_forearm_roll_link">
+      <pose>0.45 0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.180727 -0.000163048 -0.00858343 0 -0 0</pose>
+        <pose>0.180727 -0.000163048 -0.00858343 0.0 -0.0 0.0</pose>
         <mass>2.68968</mass>
         <inertia>
           <ixx>0.0146843</ixx>
@@ -1914,8 +1914,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_forearm_roll_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_forearm_roll_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1934,8 +1934,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_forearm_roll_link_collision_l_forearm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_forearm_roll_link_collision_l_forearm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1962,8 +1962,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_forearm_roll_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_forearm_roll_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1980,8 +1980,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_forearm_roll_link_visual_l_forearm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_forearm_roll_link_visual_l_forearm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -1991,68 +1991,68 @@
       </visual>
       -->
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <sensor name='l_forearm_cam_sensor' type='camera'>
+      <sensor name="l_forearm_cam_sensor" type="camera">
         <always_on>1</always_on>
         <update_rate>25</update_rate>
-        <camera name='__default__'>
+        <camera name="__default__">
           <horizontal_fov>1.5708</horizontal_fov>
           <image>
             <format>R8G8B8</format>
-            <width>640</width>
-            <height>480</height>
+            <width>640.0</width>
+            <height>480.0</height>
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>100.0</far>
           </clip>
         </camera>
-        <!-- <plugin name='l_forearm_cam_controller' filename='libgazebo_ros_camera.so'>
+        <!-- <plugin name="l_forearm_cam_controller" filename="libgazebo_ros_camera.so">
           <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
+          <updateRate>25.0.0</updateRate>
           <cameraName>l_forearm_cam</cameraName>
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
           <frameName>l_forearm_cam_optical_frame</frameName>
-          <hackBaseline>0</hackBaseline>
+          <hackBaseline>0.0</hackBaseline>
           <CxPrime>320.5</CxPrime>
           <Cx>320.5</Cx>
           <Cy>240.5</Cy>
-          <focalLength>320</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
+          <focalLength>320.0</focalLength>
+          <distortionK1>0.0.0</distortionK1>
+          <distortionK2>0.0.0</distortionK2>
+          <distortionK3>0.0.0</distortionK3>
+          <distortionT1>0.0.0</distortionT1>
+          <distortionT2>0.0.0</distortionT2>
         </plugin> -->
-        <pose>0.135 0 0.044 -1.5708 -0.562869 0</pose>
+        <pose>0.135 0.0 0.044 -1.5708 -0.562869 0.0</pose>
       </sensor>
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_forearm_roll_joint' type='revolute'>
+    <joint name="l_forearm_roll_joint" type="revolute">
       <child>l_forearm_roll_link</child>
       <parent>l_elbow_flex_link</parent>
       <axis>
-        <xyz>1 0 0</xyz>
+        <xyz>1 0.0 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>0.1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2060,16 +2060,16 @@
         <ode>
           <fudge_factor>0.5</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='l_wrist_flex_link'>
-      <pose>0.771 0.188 0.790675 0 -0 0</pose>
+    <link name="l_wrist_flex_link">
+      <pose>0.771 0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>-0.00157 0 -0.00075 0 -0 0</pose>
+        <pose>-0.00157 0.0 -0.00075 0.0 -0.0 0.0</pose>
         <mass>0.61402</mass>
         <inertia>
           <ixx>0.000651657</ixx>
@@ -2082,8 +2082,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_wrist_flex_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_wrist_flex_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2102,8 +2102,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_wrist_flex_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_wrist_flex_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2112,44 +2112,44 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_wrist_flex_joint' type='revolute'>
+    <joint name="l_wrist_flex_joint" type="revolute">
       <child>l_wrist_flex_link</child>
       <parent>l_forearm_roll_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-2.18</lower>
-          <upper>0</upper>
-          <effort>10</effort>
+          <upper>0.0</upper>
+          <effort>10.0</effort>
           <velocity>3.078</velocity>
         </limit>
         <dynamics>
           <damping>0.1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='l_wrist_roll_link'>
-      <pose>0.771 0.188 0.790675 0 -0 0</pose>
+    <link name="l_wrist_roll_link">
+      <pose>0.771 0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.0564084 0.000451403 -0.00101353 0 -0 0</pose>
+        <pose>0.0564084 0.000451403 -0.00101353 0.0 -0.0 0.0</pose>
         <mass>0.68107</mass>
         <inertia>
           <ixx>0.0113524</ixx>
@@ -2162,8 +2162,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_wrist_roll_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_wrist_roll_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2180,8 +2180,8 @@
         </surface>
       </collision>
       -->
-      <collision name='l_wrist_roll_link_collision_l_gripper_motor_accelerometer_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_wrist_roll_link_collision_l_gripper_motor_accelerometer_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.001 0.001 0.001</size>
@@ -2198,8 +2198,8 @@
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_wrist_roll_link_collision_l_gripper_palm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_wrist_roll_link_collision_l_gripper_palm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2226,8 +2226,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_wrist_roll_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_wrist_roll_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2242,8 +2242,8 @@
         </material>
       </visual>
       -->
-      <visual name='l_wrist_roll_link_visual_l_gripper_motor_accelerometer_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_wrist_roll_link_visual_l_gripper_motor_accelerometer_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.001 0.001 0.001</size>
@@ -2252,8 +2252,8 @@
       </visual>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_wrist_roll_link_visual_l_gripper_palm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_wrist_roll_link_visual_l_gripper_palm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2263,29 +2263,29 @@
       </visual>
       -->
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_wrist_roll_joint' type='revolute'>
+    <joint name="l_wrist_roll_joint" type="revolute">
       <child>l_wrist_roll_link</child>
       <parent>l_wrist_flex_link</parent>
       <axis>
-        <xyz>1 0 0</xyz>
+        <xyz>1 0.0 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>0.1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2293,16 +2293,16 @@
         <ode>
           <fudge_factor>0.5</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='l_gripper_l_finger_link'>
-      <pose>0.84791 0.198 0.790675 0 -0 0</pose>
+    <link name="l_gripper_l_finger_link">
+      <pose>0.84791 0.198 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.03598 0.0173 -0.00164 0 -0 0</pose>
+        <pose>0.03598 0.0173 -0.00164 0.0 -0.0 0.0</pose>
         <mass>0.17126</mass>
         <inertia>
           <ixx>7.7562e-05</ixx>
@@ -2315,8 +2315,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_gripper_l_finger_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_gripper_l_finger_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2332,8 +2332,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>500</mu>
-              <mu2>500</mu2>
+              <mu>500.0</mu>
+              <mu2>500.0</mu2>
             </ode>
           </friction>
         </surface>
@@ -2341,8 +2341,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_gripper_l_finger_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_gripper_l_finger_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2351,28 +2351,28 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_gripper_l_finger_joint' type='revolute'>
+    <joint name="l_gripper_l_finger_joint" type="revolute">
       <child>l_gripper_l_finger_link</child>
       <parent>l_wrist_roll_link</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
-          <lower>0</lower>
+          <lower>0.0</lower>
           <upper>0.548</upper>
-          <effort>1000</effort>
+          <effort>1000.0</effort>
           <velocity>0.5</velocity>
         </limit>
         <dynamics>
           <damping>0.02</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2382,30 +2382,30 @@
           <provide_feedback>1</provide_feedback>
           <fudge_factor>1</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='l_gripper_l_finger_tip_link'>
-      <pose>0.93928 0.20295 0.790675 0 -0 0</pose>
+    <link name="l_gripper_l_finger_tip_link">
+      <pose>0.93928 0.20295 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.00423 0.00284 0 0 -0 0</pose>
+        <pose>0.00423 0.00284 0.0 0.0 -0.0 0.0</pose>
         <mass>0.04419</mass>
         <inertia>
           <ixx>8.37047e-06</ixx>
           <ixy>5.83632e-06</ixy>
-          <ixz>0</ixz>
+          <ixz>0.0</ixz>
           <iyy>9.87067e-06</iyy>
-          <iyz>0</iyz>
+          <iyz>0.0</iyz>
           <izz>1.54177e-05</izz>
         </inertia>
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_gripper_l_finger_tip_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="l_gripper_l_finger_tip_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2421,8 +2421,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>500</mu>
-              <mu2>500</mu2>
+              <mu>500.0</mu>
+              <mu2>500.0</mu2>
             </ode>
           </friction>
         </surface>
@@ -2430,8 +2430,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_gripper_l_finger_tip_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="l_gripper_l_finger_tip_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2440,41 +2440,41 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
-      <sensor name='l_gripper_l_finger_tip_contact_sensor' type='contact'>
-        <update_rate>100</update_rate>
+      <self_collide>0.0</self_collide>
+      <sensor name="l_gripper_l_finger_tip_contact_sensor" type="contact">
+        <update_rate>100.0</update_rate>
         <contact>
           <collision>l_gripper_l_finger_tip_link_geom</collision>
           <topic>__default_topic__</topic>
         </contact>
-        <!-- <plugin name='l_gripper_l_finger_tip_gazebo_ros_bumper_controller' filename='libgazebo_ros_bumper.so'>
+        <!-- <plugin name="l_gripper_l_finger_tip_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
           <alwaysOn>true</alwaysOn>
           <frameName>l_gripper_l_finger_tip_link</frameName>
-          <updateRate>100.0</updateRate>
+          <updateRate>100.0.0</updateRate>
           <bumperTopicName>l_gripper_l_finger_tip_bumper</bumperTopicName>
         </plugin> -->
       </sensor>
     </link>
-    <joint name='l_gripper_l_finger_tip_joint' type='revolute'>
+    <joint name="l_gripper_l_finger_tip_joint" type="revolute">
       <child>l_gripper_l_finger_tip_link</child>
       <parent>l_gripper_l_finger_link</parent>
       <axis>
-        <xyz>0 0 -1</xyz>
+        <xyz>0.0 0.0 -1</xyz>
         <limit>
-          <lower>0</lower>
+          <lower>0.0</lower>
           <upper>0.548</upper>
-          <effort>1000</effort>
+          <effort>1000.0</effort>
           <velocity>0.5</velocity>
         </limit>
         <dynamics>
           <damping>0.001</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2484,93 +2484,93 @@
           <provide_feedback>1</provide_feedback>
           <fudge_factor>1</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='l_gripper_motor_slider_link'>
-      <pose>0.93928 0.188 0.790675 0 -0 0</pose>
+    <link name="l_gripper_motor_slider_link">
+      <pose>0.93928 0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.01</mass>
         <inertia>
           <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
           <iyy>0.001</iyy>
-          <iyz>0</iyz>
+          <iyz>0.0</iyz>
           <izz>0.001</izz>
         </inertia>
       </inertial>
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_gripper_motor_slider_joint' type='prismatic'>
+    <joint name="l_gripper_motor_slider_joint" type="prismatic">
       <child>l_gripper_motor_slider_link</child>
       <parent>l_wrist_roll_link</parent>
       <axis>
-        <xyz>1 0 0</xyz>
+        <xyz>1 0.0 0.0</xyz>
         <limit>
           <lower>-0.1</lower>
           <upper>0.1</upper>
-          <effort>1000</effort>
+          <effort>1000.0</effort>
           <velocity>0.2</velocity>
         </limit>
         <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='l_gripper_motor_screw_link'>
-      <pose>0.93928 0.188 0.790675 0 -0 0</pose>
+    <link name="l_gripper_motor_screw_link">
+      <pose>0.93928 0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.01</mass>
         <inertia>
           <ixx>0.0001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
           <iyy>0.0001</iyy>
-          <iyz>0</iyz>
+          <iyz>0.0</iyz>
           <izz>0.0001</izz>
         </inertia>
       </inertial>
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_gripper_motor_screw_joint' type='revolute'>
+    <joint name="l_gripper_motor_screw_joint" type="revolute">
       <child>l_gripper_motor_screw_link</child>
       <parent>l_gripper_motor_slider_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>0.0001</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='l_gripper_r_finger_link'>
-      <pose>0.84791 0.178 0.790675 0 -0 0</pose>
+    <link name="l_gripper_r_finger_link">
+      <pose>0.84791 0.178 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.03576 -0.01736 -0.00095 0 -0 0</pose>
+        <pose>0.03576 -0.01736 -0.00095 0.0 -0.0 0.0</pose>
         <mass>0.17389</mass>
         <inertia>
           <ixx>7.73841e-05</ixx>
@@ -2583,8 +2583,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_gripper_r_finger_link_collision'>
-        <pose>0 0 0 -3.14159 -0 0</pose>
+      <collision name="l_gripper_r_finger_link_collision">
+        <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2600,8 +2600,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>500</mu>
-              <mu2>500</mu2>
+              <mu>500.0</mu>
+              <mu2>500.0</mu2>
             </ode>
           </friction>
         </surface>
@@ -2609,8 +2609,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_gripper_r_finger_link_visual'>
-        <pose>0 0 0 -3.14159 -0 0</pose>
+      <visual name="l_gripper_r_finger_link_visual">
+        <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2619,28 +2619,28 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='l_gripper_r_finger_joint' type='revolute'>
+    <joint name="l_gripper_r_finger_joint" type="revolute">
       <child>l_gripper_r_finger_link</child>
       <parent>l_wrist_roll_link</parent>
       <axis>
-        <xyz>0 0 -1</xyz>
+        <xyz>0.0 0.0 -1</xyz>
         <limit>
-          <lower>0</lower>
+          <lower>0.0</lower>
           <upper>0.548</upper>
-          <effort>1000</effort>
+          <effort>1000.0</effort>
           <velocity>0.5</velocity>
         </limit>
         <dynamics>
           <damping>0.02</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2650,30 +2650,30 @@
           <provide_feedback>1</provide_feedback>
           <fudge_factor>1</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='l_gripper_r_finger_tip_link'>
-      <pose>0.93928 0.17305 0.790675 0 -0 0</pose>
+    <link name="l_gripper_r_finger_tip_link">
+      <pose>0.93928 0.17305 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.00423 -0.00284 0 0 -0 0</pose>
+        <pose>0.00423 -0.00284 0.0 0.0 -0.0 0.0</pose>
         <mass>0.04419</mass>
         <inertia>
           <ixx>8.37047e-06</ixx>
           <ixy>-5.83632e-06</ixy>
-          <ixz>0</ixz>
+          <ixz>0.0</ixz>
           <iyy>9.87067e-06</iyy>
-          <iyz>0</iyz>
+          <iyz>0.0</iyz>
           <izz>1.54177e-05</izz>
         </inertia>
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='l_gripper_r_finger_tip_link_collision'>
-        <pose>0 0 0 -3.14159 -0 0</pose>
+      <collision name="l_gripper_r_finger_tip_link_collision">
+        <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2689,8 +2689,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>500</mu>
-              <mu2>500</mu2>
+              <mu>500.0</mu>
+              <mu2>500.0</mu2>
             </ode>
           </friction>
         </surface>
@@ -2698,8 +2698,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='l_gripper_r_finger_tip_link_visual'>
-        <pose>0 0 0 -3.14159 -0 0</pose>
+      <visual name="l_gripper_r_finger_tip_link_visual">
+        <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2708,41 +2708,41 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
-      <sensor name='l_gripper_r_finger_tip_contact_sensor' type='contact'>
-        <update_rate>100</update_rate>
+      <self_collide>0.0</self_collide>
+      <sensor name="l_gripper_r_finger_tip_contact_sensor" type="contact">
+        <update_rate>100.0</update_rate>
         <contact>
           <collision>l_gripper_r_finger_tip_link_geom</collision>
           <topic>__default_topic__</topic>
         </contact>
-        <!-- <plugin name='l_gripper_r_finger_tip_gazebo_ros_bumper_controller' filename='libgazebo_ros_bumper.so'>
+        <!-- <plugin name="l_gripper_r_finger_tip_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
           <alwaysOn>true</alwaysOn>
           <frameName>l_gripper_r_finger_tip_link</frameName>
-          <updateRate>100.0</updateRate>
+          <updateRate>100.0.0</updateRate>
           <bumperTopicName>l_gripper_r_finger_tip_bumper</bumperTopicName>
         </plugin> -->
       </sensor>
     </link>
-    <joint name='l_gripper_r_finger_tip_joint' type='revolute'>
+    <joint name="l_gripper_r_finger_tip_joint" type="revolute">
       <child>l_gripper_r_finger_tip_link</child>
       <parent>l_gripper_r_finger_link</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
-          <lower>0</lower>
+          <lower>0.0</lower>
           <upper>0.548</upper>
-          <effort>1000</effort>
+          <effort>1000.0</effort>
           <velocity>0.5</velocity>
         </limit>
         <dynamics>
           <damping>0.001</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2752,16 +2752,16 @@
           <provide_feedback>1</provide_feedback>
           <fudge_factor>1</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='laser_tilt_mount_link'>
-      <pose>0.04893 0 1.01768 0 -0 0</pose>
+    <link name="laser_tilt_mount_link">
+      <pose>0.04893 0.0 1.01768 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>-0.00113408 0.00166718 -0.00706728 0 -0 0</pose>
+        <pose>-0.00113408 0.00166718 -0.00706728 0.0 -0.0 0.0</pose>
         <mass>0.592</mass>
         <inertia>
           <ixx>0.00129665</ixx>
@@ -2774,8 +2774,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='laser_tilt_mount_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="laser_tilt_mount_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2786,8 +2786,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='laser_tilt_mount_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="laser_tilt_mount_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2797,23 +2797,23 @@
       </visual>
       -->
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
       <gravity>1</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
-      <sensor name='laser_tilt' type='ray'>
+      <self_collide>0.0</self_collide>
+      <sensor name="laser_tilt" type="ray">
         <always_on>1</always_on>
-        <update_rate>40</update_rate>
-        <visualize>0</visualize>
+        <update_rate>40.0</update_rate>
+        <visualize>0.0</visualize>
         <ray>
           <scan>
             <horizontal>
-              <samples>640</samples>
+              <samples>640.0</samples>
               <resolution>1</resolution>
               <min_angle>-1.39626</min_angle>
               <max_angle>1.39626</max_angle>
@@ -2821,44 +2821,44 @@
           </scan>
           <range>
             <min>0.08</min>
-            <max>10</max>
+            <max>10.0</max>
             <resolution>0.01</resolution>
           </range>
         </ray>
-        <!-- <plugin name='gazebo_ros_laser_tilt_controller' filename='libgazebo_ros_laser.so'>
+        <!-- <plugin name="gazebo_ros_laser_tilt_controller" filename="libgazebo_ros_laser.so">
           <gaussianNoise>0.005</gaussianNoise>
           <alwaysOn>true</alwaysOn>
-          <updateRate>40</updateRate>
+          <updateRate>40.0</updateRate>
           <topicName>tilt_scan</topicName>
           <frameName>laser_tilt_link</frameName>
           <hokuyoMinIntensity>101</hokuyoMinIntensity>
         </plugin> -->
-        <pose>0 0 0.03 0 -0 0</pose>
+        <pose>0.0 0.0 0.03 0.0 -0.0 0.0</pose>
       </sensor>
     </link>
-    <joint name='laser_tilt_mount_joint' type='revolute'>
+    <joint name="laser_tilt_mount_joint" type="revolute">
       <child>laser_tilt_mount_link</child>
       <parent>torso_lift_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-0.7854</lower>
           <upper>1.48353</upper>
           <effort>0.65</effort>
-          <velocity>10</velocity>
+          <velocity>10.0</velocity>
         </limit>
         <dynamics>
           <damping>0.008</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='r_shoulder_pan_link'>
-      <pose>-0.05 -0.188 0.790675 0 -0 0</pose>
+    <link name="r_shoulder_pan_link">
+      <pose>-0.05 -0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>-0.001201 0.024513 -0.098231 0 -0 0</pose>
+        <pose>-0.001201 0.024513 -0.098231 0.0 -0.0 0.0</pose>
         <mass>25.7993</mass>
         <inertia>
           <ixx>0.866179</ixx>
@@ -2871,8 +2871,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_shoulder_pan_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_shoulder_pan_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2891,8 +2891,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_shoulder_pan_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_shoulder_pan_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2901,44 +2901,44 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_shoulder_pan_joint' type='revolute'>
+    <joint name="r_shoulder_pan_joint" type="revolute">
       <child>r_shoulder_pan_link</child>
       <parent>torso_lift_link</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
           <lower>-2.2854</lower>
           <upper>0.714602</upper>
-          <effort>30</effort>
+          <effort>30.0</effort>
           <velocity>2.088</velocity>
         </limit>
         <dynamics>
-          <damping>10</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <damping>10.0</damping>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='r_shoulder_lift_link'>
-      <pose>0.05 -0.188 0.790675 0 -0 0</pose>
+    <link name="r_shoulder_lift_link">
+      <pose>0.05 -0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.02195 -0.02664 -0.03127 0 -0 0</pose>
+        <pose>0.02195 -0.02664 -0.03127 0.0 -0.0 0.0</pose>
         <mass>2.74988</mass>
         <inertia>
           <ixx>0.0210558</ixx>
@@ -2951,8 +2951,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_shoulder_lift_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_shoulder_lift_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2971,8 +2971,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_shoulder_lift_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_shoulder_lift_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -2981,44 +2981,44 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_shoulder_lift_joint' type='revolute'>
+    <joint name="r_shoulder_lift_joint" type="revolute">
       <child>r_shoulder_lift_link</child>
       <parent>r_shoulder_pan_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-0.5236</lower>
           <upper>1.3963</upper>
-          <effort>30</effort>
+          <effort>30.0</effort>
           <velocity>2.082</velocity>
         </limit>
         <dynamics>
-          <damping>10</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <damping>10.0</damping>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='r_upper_arm_roll_link'>
-      <pose>0.05 -0.188 0.790675 0 -0 0</pose>
+    <link name="r_upper_arm_roll_link">
+      <pose>0.05 -0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.210482 -0.015945 -0.000196731 0 -0 0</pose>
+        <pose>0.210482 -0.015945 -0.000196731 0.0 -0.0 0.0</pose>
         <mass>6.11769</mass>
         <inertia>
           <ixx>0.0254033</ixx>
@@ -3031,8 +3031,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_upper_arm_roll_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_upper_arm_roll_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3051,8 +3051,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_upper_arm_roll_link_collision_r_upper_arm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_upper_arm_roll_link_collision_r_upper_arm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3079,8 +3079,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_upper_arm_roll_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_upper_arm_roll_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3097,8 +3097,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_upper_arm_roll_link_visual_r_upper_arm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_upper_arm_roll_link_visual_r_upper_arm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3108,31 +3108,31 @@
       </visual>
       -->
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_upper_arm_roll_joint' type='revolute'>
+    <joint name="r_upper_arm_roll_joint" type="revolute">
       <child>r_upper_arm_roll_link</child>
       <parent>r_shoulder_lift_link</parent>
       <axis>
-        <xyz>1 0 0</xyz>
+        <xyz>1 0.0 0.0</xyz>
         <limit>
           <lower>-3.9</lower>
           <upper>0.8</upper>
-          <effort>30</effort>
+          <effort>30.0</effort>
           <velocity>3.27</velocity>
         </limit>
         <dynamics>
           <damping>0.1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -3140,16 +3140,16 @@
         <ode>
           <fudge_factor>0.5</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='r_elbow_flex_link'>
-      <pose>0.45 -0.188 0.790675 0 -0 0</pose>
+    <link name="r_elbow_flex_link">
+      <pose>0.45 -0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.01014 0.00032 -0.01211 0 -0 0</pose>
+        <pose>0.01014 0.00032 -0.01211 0.0 -0.0 0.0</pose>
         <mass>1.90327</mass>
         <inertia>
           <ixx>0.00346542</ixx>
@@ -3162,8 +3162,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_elbow_flex_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_elbow_flex_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3182,8 +3182,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_elbow_flex_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_elbow_flex_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3192,44 +3192,44 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_elbow_flex_joint' type='revolute'>
+    <joint name="r_elbow_flex_joint" type="revolute">
       <child>r_elbow_flex_link</child>
       <parent>r_upper_arm_roll_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-2.3213</lower>
-          <upper>0</upper>
-          <effort>30</effort>
+          <upper>0.0</upper>
+          <effort>30.0</effort>
           <velocity>3.3</velocity>
         </limit>
         <dynamics>
           <damping>1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='r_forearm_roll_link'>
-      <pose>0.45 -0.188 0.790675 0 -0 0</pose>
+    <link name="r_forearm_roll_link">
+      <pose>0.45 -0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.180727 -0.000163048 -0.00858343 0 -0 0</pose>
+        <pose>0.180727 -0.000163048 -0.00858343 0.0 -0.0 0.0</pose>
         <mass>2.68968</mass>
         <inertia>
           <ixx>0.0146843</ixx>
@@ -3242,8 +3242,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_forearm_roll_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_forearm_roll_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3262,8 +3262,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_forearm_roll_link_collision_r_forearm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_forearm_roll_link_collision_r_forearm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3290,8 +3290,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_forearm_roll_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_forearm_roll_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3308,8 +3308,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_forearm_roll_link_visual_r_forearm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_forearm_roll_link_visual_r_forearm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3319,68 +3319,68 @@
       </visual>
       -->
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <sensor name='r_forearm_cam_sensor' type='camera'>
+      <sensor name="r_forearm_cam_sensor" type="camera">
         <always_on>1</always_on>
         <update_rate>25</update_rate>
-        <camera name='__default__'>
+        <camera name="__default__">
           <horizontal_fov>1.5708</horizontal_fov>
           <image>
             <format>R8G8B8</format>
-            <width>640</width>
-            <height>480</height>
+            <width>640.0</width>
+            <height>480.0</height>
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>100.0</far>
           </clip>
         </camera>
-        <!-- <plugin name='r_forearm_cam_controller' filename='libgazebo_ros_camera.so'>
+        <!-- <plugin name="r_forearm_cam_controller" filename="libgazebo_ros_camera.so">
           <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
+          <updateRate>25.0.0</updateRate>
           <cameraName>r_forearm_cam</cameraName>
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
           <frameName>r_forearm_cam_optical_frame</frameName>
-          <hackBaseline>0</hackBaseline>
+          <hackBaseline>0.0</hackBaseline>
           <CxPrime>320.5</CxPrime>
           <Cx>320.5</Cx>
           <Cy>240.5</Cy>
-          <focalLength>320</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
+          <focalLength>320.0</focalLength>
+          <distortionK1>0.0.0</distortionK1>
+          <distortionK2>0.0.0</distortionK2>
+          <distortionK3>0.0.0</distortionK3>
+          <distortionT1>0.0.0</distortionT1>
+          <distortionT2>0.0.0</distortionT2>
         </plugin> -->
-        <pose>0.135 0 0.044 1.5708 -0.562869 0</pose>
+        <pose>0.135 0.0 0.044 1.5708 -0.562869 0.0</pose>
       </sensor>
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_forearm_roll_joint' type='revolute'>
+    <joint name="r_forearm_roll_joint" type="revolute">
       <child>r_forearm_roll_link</child>
       <parent>r_elbow_flex_link</parent>
       <axis>
-        <xyz>1 0 0</xyz>
+        <xyz>1 0.0 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>0.1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -3388,16 +3388,16 @@
         <ode>
           <fudge_factor>0.5</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='r_wrist_flex_link'>
-      <pose>0.771 -0.188 0.790675 0 -0 0</pose>
+    <link name="r_wrist_flex_link">
+      <pose>0.771 -0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>-0.00157 0 -0.00075 0 -0 0</pose>
+        <pose>-0.00157 0.0 -0.00075 0.0 -0.0 0.0</pose>
         <mass>0.61402</mass>
         <inertia>
           <ixx>0.000651657</ixx>
@@ -3410,8 +3410,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_wrist_flex_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_wrist_flex_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3430,8 +3430,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_wrist_flex_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_wrist_flex_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3440,44 +3440,44 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_wrist_flex_joint' type='revolute'>
+    <joint name="r_wrist_flex_joint" type="revolute">
       <child>r_wrist_flex_link</child>
       <parent>r_forearm_roll_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-2.18</lower>
-          <upper>0</upper>
-          <effort>10</effort>
+          <upper>0.0</upper>
+          <effort>10.0</effort>
           <velocity>3.078</velocity>
         </limit>
         <dynamics>
           <damping>0.1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='r_wrist_roll_link'>
-      <pose>0.771 -0.188 0.790675 0 -0 0</pose>
+    <link name="r_wrist_roll_link">
+      <pose>0.771 -0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.0564084 0.000451403 -0.00101353 0 -0 0</pose>
+        <pose>0.0564084 0.000451403 -0.00101353 0.0 -0.0 0.0</pose>
         <mass>0.68107</mass>
         <inertia>
           <ixx>0.0113524</ixx>
@@ -3490,8 +3490,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_wrist_roll_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_wrist_roll_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3508,8 +3508,8 @@
         </surface>
       </collision>
       -->
-      <collision name='r_wrist_roll_link_collision_r_gripper_motor_accelerometer_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_wrist_roll_link_collision_r_gripper_motor_accelerometer_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.001 0.001 0.001</size>
@@ -3526,8 +3526,8 @@
       </collision>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_wrist_roll_link_collision_r_gripper_palm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_wrist_roll_link_collision_r_gripper_palm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3554,8 +3554,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_wrist_roll_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_wrist_roll_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3570,8 +3570,8 @@
         </material>
       </visual>
       -->
-      <visual name='r_wrist_roll_link_visual_r_gripper_motor_accelerometer_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_wrist_roll_link_visual_r_gripper_motor_accelerometer_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.001 0.001 0.001</size>
@@ -3580,8 +3580,8 @@
       </visual>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_wrist_roll_link_visual_r_gripper_palm_link'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_wrist_roll_link_visual_r_gripper_palm_link">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3591,29 +3591,29 @@
       </visual>
       -->
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_wrist_roll_joint' type='revolute'>
+    <joint name="r_wrist_roll_joint" type="revolute">
       <child>r_wrist_roll_link</child>
       <parent>r_wrist_flex_link</parent>
       <axis>
-        <xyz>1 0 0</xyz>
+        <xyz>1 0.0 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>0.1</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -3621,16 +3621,16 @@
         <ode>
           <fudge_factor>0.5</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='r_gripper_l_finger_link'>
-      <pose>0.84791 -0.178 0.790675 0 -0 0</pose>
+    <link name="r_gripper_l_finger_link">
+      <pose>0.84791 -0.178 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.03598 0.0173 -0.00164 0 -0 0</pose>
+        <pose>0.03598 0.0173 -0.00164 0.0 -0.0 0.0</pose>
         <mass>0.17126</mass>
         <inertia>
           <ixx>7.7562e-05</ixx>
@@ -3643,8 +3643,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_gripper_l_finger_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_gripper_l_finger_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3660,8 +3660,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>500</mu>
-              <mu2>500</mu2>
+              <mu>500.0</mu>
+              <mu2>500.0</mu2>
             </ode>
           </friction>
         </surface>
@@ -3669,8 +3669,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_gripper_l_finger_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_gripper_l_finger_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3679,28 +3679,28 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_gripper_l_finger_joint' type='revolute'>
+    <joint name="r_gripper_l_finger_joint" type="revolute">
       <child>r_gripper_l_finger_link</child>
       <parent>r_wrist_roll_link</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
-          <lower>0</lower>
+          <lower>0.0</lower>
           <upper>0.548</upper>
-          <effort>1000</effort>
+          <effort>1000.0</effort>
           <velocity>0.5</velocity>
         </limit>
         <dynamics>
           <damping>0.02</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -3710,30 +3710,30 @@
           <provide_feedback>1</provide_feedback>
           <fudge_factor>1</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='r_gripper_l_finger_tip_link'>
-      <pose>0.93928 -0.17305 0.790675 0 -0 0</pose>
+    <link name="r_gripper_l_finger_tip_link">
+      <pose>0.93928 -0.17305 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.00423 0.00284 0 0 -0 0</pose>
+        <pose>0.00423 0.00284 0.0 0.0 -0.0 0.0</pose>
         <mass>0.04419</mass>
         <inertia>
           <ixx>8.37047e-06</ixx>
           <ixy>5.83632e-06</ixy>
-          <ixz>0</ixz>
+          <ixz>0.0</ixz>
           <iyy>9.87067e-06</iyy>
-          <iyz>0</iyz>
+          <iyz>0.0</iyz>
           <izz>1.54177e-05</izz>
         </inertia>
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_gripper_l_finger_tip_link_collision'>
-        <pose>0 0 0 0 -0 0</pose>
+      <collision name="r_gripper_l_finger_tip_link_collision">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3749,8 +3749,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>500</mu>
-              <mu2>500</mu2>
+              <mu>500.0</mu>
+              <mu2>500.0</mu2>
             </ode>
           </friction>
         </surface>
@@ -3758,8 +3758,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_gripper_l_finger_tip_link_visual'>
-        <pose>0 0 0 0 -0 0</pose>
+      <visual name="r_gripper_l_finger_tip_link_visual">
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3768,41 +3768,41 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
-      <sensor name='r_gripper_l_finger_tip_contact_sensor' type='contact'>
-        <update_rate>100</update_rate>
+      <self_collide>0.0</self_collide>
+      <sensor name="r_gripper_l_finger_tip_contact_sensor" type="contact">
+        <update_rate>100.0</update_rate>
         <contact>
           <collision>r_gripper_l_finger_tip_link_geom</collision>
           <topic>__default_topic__</topic>
         </contact>
-        <!-- <plugin name='r_gripper_l_finger_tip_gazebo_ros_bumper_controller' filename='libgazebo_ros_bumper.so'>
+        <!-- <plugin name="r_gripper_l_finger_tip_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
           <alwaysOn>true</alwaysOn>
           <frameName>r_gripper_l_finger_tip_link</frameName>
-          <updateRate>100.0</updateRate>
+          <updateRate>100.0.0</updateRate>
           <bumperTopicName>r_gripper_l_finger_tip_bumper</bumperTopicName>
         </plugin> -->
       </sensor>
     </link>
-    <joint name='r_gripper_l_finger_tip_joint' type='revolute'>
+    <joint name="r_gripper_l_finger_tip_joint" type="revolute">
       <child>r_gripper_l_finger_tip_link</child>
       <parent>r_gripper_l_finger_link</parent>
       <axis>
-        <xyz>0 0 -1</xyz>
+        <xyz>0.0 0.0 -1</xyz>
         <limit>
-          <lower>0</lower>
+          <lower>0.0</lower>
           <upper>0.548</upper>
-          <effort>1000</effort>
+          <effort>1000.0</effort>
           <velocity>0.5</velocity>
         </limit>
         <dynamics>
           <damping>0.001</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -3812,93 +3812,93 @@
           <provide_feedback>1</provide_feedback>
           <fudge_factor>1</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='r_gripper_motor_slider_link'>
-      <pose>0.93928 -0.188 0.790675 0 -0 0</pose>
+    <link name="r_gripper_motor_slider_link">
+      <pose>0.93928 -0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.01</mass>
         <inertia>
           <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
           <iyy>0.001</iyy>
-          <iyz>0</iyz>
+          <iyz>0.0</iyz>
           <izz>0.001</izz>
         </inertia>
       </inertial>
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_gripper_motor_slider_joint' type='prismatic'>
+    <joint name="r_gripper_motor_slider_joint" type="prismatic">
       <child>r_gripper_motor_slider_link</child>
       <parent>r_wrist_roll_link</parent>
       <axis>
-        <xyz>1 0 0</xyz>
+        <xyz>1 0.0 0.0</xyz>
         <limit>
           <lower>-0.1</lower>
           <upper>0.1</upper>
-          <effort>1000</effort>
+          <effort>1000.0</effort>
           <velocity>0.2</velocity>
         </limit>
         <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='r_gripper_motor_screw_link'>
-      <pose>0.93928 -0.188 0.790675 0 -0 0</pose>
+    <link name="r_gripper_motor_screw_link">
+      <pose>0.93928 -0.188 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>0.01</mass>
         <inertia>
           <ixx>0.0001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
           <iyy>0.0001</iyy>
-          <iyz>0</iyz>
+          <iyz>0.0</iyz>
           <izz>0.0001</izz>
         </inertia>
       </inertial>
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_gripper_motor_screw_joint' type='revolute'>
+    <joint name="r_gripper_motor_screw_joint" type="revolute">
       <child>r_gripper_motor_screw_link</child>
       <parent>r_gripper_motor_slider_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>0.0001</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <link name='r_gripper_r_finger_link'>
-      <pose>0.84791 -0.198 0.790675 0 -0 0</pose>
+    <link name="r_gripper_r_finger_link">
+      <pose>0.84791 -0.198 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.03576 -0.01736 -0.00095 0 -0 0</pose>
+        <pose>0.03576 -0.01736 -0.00095 0.0 -0.0 0.0</pose>
         <mass>0.17389</mass>
         <inertia>
           <ixx>7.73841e-05</ixx>
@@ -3911,8 +3911,8 @@
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_gripper_r_finger_link_collision'>
-        <pose>0 0 0 -3.14159 -0 0</pose>
+      <collision name="r_gripper_r_finger_link_collision">
+        <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3928,8 +3928,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>500</mu>
-              <mu2>500</mu2>
+              <mu>500.0</mu>
+              <mu2>500.0</mu2>
             </ode>
           </friction>
         </surface>
@@ -3937,8 +3937,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_gripper_r_finger_link_visual'>
-        <pose>0 0 0 -3.14159 -0 0</pose>
+      <visual name="r_gripper_r_finger_link_visual">
+        <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -3947,28 +3947,28 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>0.0</self_collide>
     </link>
-    <joint name='r_gripper_r_finger_joint' type='revolute'>
+    <joint name="r_gripper_r_finger_joint" type="revolute">
       <child>r_gripper_r_finger_link</child>
       <parent>r_wrist_roll_link</parent>
       <axis>
-        <xyz>0 0 -1</xyz>
+        <xyz>0.0 0.0 -1</xyz>
         <limit>
-          <lower>0</lower>
+          <lower>0.0</lower>
           <upper>0.548</upper>
-          <effort>1000</effort>
+          <effort>1000.0</effort>
           <velocity>0.5</velocity>
         </limit>
         <dynamics>
           <damping>0.02</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -3978,30 +3978,30 @@
           <provide_feedback>1</provide_feedback>
           <fudge_factor>1</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='r_gripper_r_finger_tip_link'>
-      <pose>0.93928 -0.20295 0.790675 0 -0 0</pose>
+    <link name="r_gripper_r_finger_tip_link">
+      <pose>0.93928 -0.20295 0.790675 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0.00423 -0.00284 0 0 -0 0</pose>
+        <pose>0.00423 -0.00284 0.0 0.0 -0.0 0.0</pose>
         <mass>0.04419</mass>
         <inertia>
           <ixx>8.37047e-06</ixx>
           <ixy>-5.83632e-06</ixy>
-          <ixz>0</ixz>
+          <ixz>0.0</ixz>
           <iyy>9.87067e-06</iyy>
-          <iyz>0</iyz>
+          <iyz>0.0</iyz>
           <izz>1.54177e-05</izz>
         </inertia>
       </inertial>
       <!-- Moby lacks mesh support -->
       <!-- 
-      <collision name='r_gripper_r_finger_tip_link_collision'>
-        <pose>0 0 0 -3.14159 -0 0</pose>
+      <collision name="r_gripper_r_finger_tip_link_collision">
+        <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -4017,8 +4017,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>500</mu>
-              <mu2>500</mu2>
+              <mu>500.0</mu>
+              <mu2>500.0</mu2>
             </ode>
           </friction>
         </surface>
@@ -4026,8 +4026,8 @@
       -->
       <!-- Moby lacks mesh support -->
       <!-- 
-      <visual name='r_gripper_r_finger_tip_link_visual'>
-        <pose>0 0 0 -3.14159 -0 0</pose>
+      <visual name="r_gripper_r_finger_tip_link_visual">
+        <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -4036,41 +4036,41 @@
         </geometry>
       </visual>
       -->
-      <gravity>0</gravity>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
-      <sensor name='r_gripper_r_finger_tip_contact_sensor' type='contact'>
-        <update_rate>100</update_rate>
+      <self_collide>0.0</self_collide>
+      <sensor name="r_gripper_r_finger_tip_contact_sensor" type="contact">
+        <update_rate>100.0</update_rate>
         <contact>
           <collision>r_gripper_r_finger_tip_link_geom</collision>
           <topic>__default_topic__</topic>
         </contact>
-        <!-- <plugin name='r_gripper_r_finger_tip_gazebo_ros_bumper_controller' filename='libgazebo_ros_bumper.so'>
+        <!-- <plugin name="r_gripper_r_finger_tip_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
           <alwaysOn>true</alwaysOn>
           <frameName>r_gripper_r_finger_tip_link</frameName>
-          <updateRate>100.0</updateRate>
+          <updateRate>100.0.0</updateRate>
           <bumperTopicName>r_gripper_r_finger_tip_bumper</bumperTopicName>
         </plugin> -->
       </sensor>
     </link>
-    <joint name='r_gripper_r_finger_tip_joint' type='revolute'>
+    <joint name="r_gripper_r_finger_tip_joint" type="revolute">
       <child>r_gripper_r_finger_tip_link</child>
       <parent>r_gripper_r_finger_link</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
-          <lower>0</lower>
+          <lower>0.0</lower>
           <upper>0.548</upper>
-          <effort>1000</effort>
+          <effort>1000.0</effort>
           <velocity>0.5</velocity>
         </limit>
         <dynamics>
           <damping>0.001</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -4080,82 +4080,82 @@
           <provide_feedback>1</provide_feedback>
           <fudge_factor>1</fudge_factor>
           <limit>
-            <cfm>0</cfm>
+            <cfm>0.0</cfm>
             <erp>0.2</erp>
           </limit>
         </ode>
       </physics>
     </joint>
-    <link name='torso_lift_motor_screw_link'>
-      <pose>-0.15 0 0.751 0 -0 0</pose>
+    <link name="torso_lift_motor_screw_link">
+      <pose>-0.15 0.0 0.751 0.0 -0.0 0.0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <mass>1</mass>
         <inertia>
           <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
           <iyy>0.001</iyy>
-          <iyz>0</iyz>
+          <iyz>0.0</iyz>
           <izz>0.001</izz>
         </inertia>
       </inertial>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
     </link>
-    <joint name='torso_lift_motor_screw_joint' type='revolute'>
+    <joint name="torso_lift_motor_screw_joint" type="revolute">
       <child>torso_lift_motor_screw_link</child>
       <parent>base_footprint</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
         <dynamics>
           <damping>0.0001</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <!-- <plugin name='gazebo_ros_controller_manager' filename='libgazebo_ros_controller_manager.so'>
+    <!-- <plugin name="gazebo_ros_controller_manager" filename="libgazebo_ros_controller_manager.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>1000.0</updateRate>
+      <updateRate>1000.0.0</updateRate>
     </plugin> -->
-    <!-- <plugin name='gazebo_ros_power_monitor_controller' filename='libgazebo_ros_power_monitor.so'>
+    <!-- <plugin name="gazebo_ros_power_monitor_controller" filename="libgazebo_ros_power_monitor.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>1.0</updateRate>
+      <updateRate>1.0.0</updateRate>
       <timeout>5</timeout>
       <powerStateTopic>power_state</powerStateTopic>
-      <powerStateRate>10.0</powerStateRate>
+      <powerStateRate>10.0.0</powerStateRate>
       <fullChargeCapacity>87.78</fullChargeCapacity>
       <dischargeRate>-474</dischargeRate>
       <chargeRate>525</chargeRate>
       <dischargeVoltage>15.52</dischargeVoltage>
       <chargeVoltage>16.41</chargeVoltage>
     </plugin> -->
-    <!-- <plugin name='p3d_base_controller' filename='libgazebo_ros_p3d.so'>
+    <!-- <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>100.0</updateRate>
+      <updateRate>100.0.0</updateRate>
       <topicName>base_pose_ground_truth</topicName>
       <gaussianNoise>0.01</gaussianNoise>
       <frameName>map</frameName>
-      <xyzOffsets>0 0 0</xyzOffsets>
-      <rpyOffsets>0 0 0</rpyOffsets>
+      <xyzOffsets>0.0 0.0 0.0</xyzOffsets>
+      <rpyOffsets>0.0 0.0 0.0</rpyOffsets>
       <bodyName>base_footprint</bodyName>
-      <xyzOffset>0 0 -0.051</xyzOffset>
-      <rpyOffset>0 -0 0</rpyOffset>
+      <xyzOffset>0.0 0.0 -0.051</xyzOffset>
+      <rpyOffset>0.0 -0.0 0.0</rpyOffset>
     </plugin> -->
     <!-- Switched to prismatic joint for Moby -->
-    <joint name='torso_lift_screw_torso_lift_joint' type='prismatic'>
+    <joint name="torso_lift_screw_torso_lift_joint" type="prismatic">
       <parent>torso_lift_link</parent>
       <child>torso_lift_motor_screw_link</child>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <!--<limit>
           <lower>-1e+16</lower>
@@ -4164,42 +4164,42 @@
       </axis>
       <!--<thread_pitch>3141.6</thread_pitch>-->
     </joint>
-    <!-- <plugin name='imu_controller' filename='libgazebo_ros_imu.so'>
+    <!-- <plugin name="imu_controller" filename="libgazebo_ros_imu.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>100.0</updateRate>
+      <updateRate>100.0.0</updateRate>
       <topicName>torso_lift_imu/data</topicName>
       <gaussianNoise>2.89e-08</gaussianNoise>
       <serviceName>/default_imu</serviceName>
       <bodyName>torso_lift_link</bodyName>
       <xyzOffset>0.02977 0.1497 -0.164</xyzOffset>
-      <rpyOffset>0 -2.06701e-13 0</rpyOffset>
+      <rpyOffset>0.0 -2.06701e-13 0.0</rpyOffset>
     </plugin> -->
-    <!-- <plugin name='projector_wg6802418_controller' filename='libgazebo_ros_projector.so'>
+    <!-- <plugin name="projector_wg6802418_controller" filename="libgazebo_ros_projector.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>15.0</updateRate>
+      <updateRate>15.0.0</updateRate>
       <textureName>stereo_projection_pattern_high_res_red.png</textureName>
       <filterTextureName>stereo_projection_pattern_filter.png</filterTextureName>
       <textureTopicName>projector_wg6802418_controller/image</textureTopicName>
       <projectorTopicName>projector_wg6802418_controller/projector</projectorTopicName>
       <projector>head_tilt_link/projector_wg6802418_projector_wg6802418</projector>
     </plugin>-->
-    <!-- <plugin name='p3d_r_gripper_l_finger_controller' filename='libgazebo_ros_p3d.so'>
+    <!-- <plugin name="p3d_r_gripper_l_finger_controller" filename="libgazebo_ros_p3d.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>100.0</updateRate>
+      <updateRate>100.0.0</updateRate>
       <bodyName>r_gripper_l_finger_link</bodyName>
       <topicName>r_gripper_l_finger_pose_ground_truth</topicName>
-      <gaussianNoise>0.0</gaussianNoise>
+      <gaussianNoise>0.0.0</gaussianNoise>
       <frameName>base_footprint</frameName>
-      <xyzOffset>0 0 -0.051</xyzOffset>
-      <rpyOffset>0 -0 0</rpyOffset>
+      <xyzOffset>0.0 0.0 -0.051</xyzOffset>
+      <rpyOffset>0.0 -0.0 0.0</rpyOffset>
     </plugin> -->
-    <!-- <plugin name='f3d_r_gripper_l_finger_controller' filename='libgazebo_ros_f3d.so'>
+    <!-- <plugin name="f3d_r_gripper_l_finger_controller" filename="libgazebo_ros_f3d.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>100.0</updateRate>
+      <updateRate>100.0.0</updateRate>
       <bodyName>r_gripper_l_finger_link</bodyName>
       <topicName>r_gripper_l_finger_force_ground_truth</topicName>
     </plugin> -->
-    <link name='r_gripper_l_parallel_link'>
+    <link name="r_gripper_l_parallel_link">
       <inertial>
         <mass>0.17126</mass>
         <inertia>
@@ -4210,16 +4210,16 @@
           <iyz>-3.06125e-06</iyz>
           <izz>0.000181054</izz>
         </inertia>
-        <pose>0.03598 0.0173 -0.00164 0 -0 0</pose>
+        <pose>0.03598 0.0173 -0.00164 0.0 -0.0 0.0</pose>
       </inertial>
-      <pose>0.82991 -0.157 0.790675 0 -0 0</pose>
-      <gravity>0</gravity>
+      <pose>0.82991 -0.157 0.790675 0.0 -0.0 0.0</pose>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
     </link>
-    <link name='r_gripper_r_parallel_link'>
+    <link name="r_gripper_r_parallel_link">
       <inertial>
         <mass>0.17389</mass>
         <inertia>
@@ -4230,21 +4230,21 @@
           <iyz>2.4611e-06</iyz>
           <izz>0.00018107</izz>
         </inertia>
-        <pose>0.03576 -0.01736 -0.00095 0 -0 0</pose>
+        <pose>0.03576 -0.01736 -0.00095 0.0 -0.0 0.0</pose>
       </inertial>
-      <pose>0.82991 -0.219 0.790675 0 -0 0</pose>
-      <gravity>0</gravity>
+      <pose>0.82991 -0.219 0.790675 0.0 -0.0 0.0</pose>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
     </link>
-    <joint name='r_gripper_r_screw_screw_joint' type='screw'>
+    <joint name="r_gripper_r_screw_screw_joint" type="screw">
       <child>r_gripper_motor_screw_link</child>
       <parent>r_gripper_r_finger_tip_link</parent>
       <thread_pitch>-3141.6</thread_pitch>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
@@ -4252,12 +4252,12 @@
         </limit>
       </axis>
     </joint>
-    <joint name='r_gripper_l_screw_screw_joint' type='screw'>
+    <joint name="r_gripper_l_screw_screw_joint" type="screw">
       <parent>r_gripper_l_finger_tip_link</parent>
       <child>r_gripper_motor_screw_link</child>
       <thread_pitch>3141.6</thread_pitch>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
@@ -4265,14 +4265,14 @@
         </limit>
       </axis>
     </joint>
-    <joint name='r_gripper_r_parallel_root_joint' type='revolute'>
+    <joint name="r_gripper_r_parallel_root_joint" type="revolute">
       <parent>r_gripper_r_parallel_link</parent>
       <axis>
-        <xyz>0 0 -1</xyz>
+        <xyz>0.0 0.0 -1</xyz>
         <dynamics>
           <damping>0.2</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
@@ -4280,17 +4280,17 @@
           <upper>1e+16</upper>
         </limit>
       </axis>
-      <pose>0.05891 -0.031 0 0 -0 0</pose>
+      <pose>0.05891 -0.031 0.0 0.0 -0.0 0.0</pose>
       <child>r_wrist_roll_link</child>
     </joint>
-    <joint name='r_gripper_l_parallel_root_joint' type='revolute'>
+    <joint name="r_gripper_l_parallel_root_joint" type="revolute">
       <parent>r_gripper_l_parallel_link</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <dynamics>
           <damping>0.2</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
@@ -4298,40 +4298,40 @@
           <upper>1e+16</upper>
         </limit>
       </axis>
-      <pose>0.05891 0.031 0 0 -0 0</pose>
+      <pose>0.05891 0.031 0.0 0.0 -0.0 0.0</pose>
       <child>r_wrist_roll_link</child>
     </joint>
-    <joint name='r_gripper_r_parallel_tip_joint' type='revolute'>
+    <joint name="r_gripper_r_parallel_tip_joint" type="revolute">
       <parent>r_gripper_r_parallel_link</parent>
       <child>r_gripper_r_finger_tip_link</child>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
       </axis>
-      <pose>-0.018 -0.021 0 0 -0 0</pose>
+      <pose>-0.018 -0.021 0.0 0.0 -0.0 0.0</pose>
     </joint>
-    <joint name='r_gripper_l_parallel_tip_joint' type='revolute'>
+    <joint name="r_gripper_l_parallel_tip_joint" type="revolute">
       <parent>r_gripper_l_parallel_link</parent>
       <child>r_gripper_l_finger_tip_link</child>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
       </axis>
-      <pose>-0.018 0.021 0 0 -0 0</pose>
+      <pose>-0.018 0.021 0.0 0.0 -0.0 0.0</pose>
     </joint>
-    <joint name='r_gripper_joint' type='prismatic'>
+    <joint name="r_gripper_joint" type="prismatic">
       <parent>r_gripper_r_finger_tip_link</parent>
       <child>r_gripper_l_finger_tip_link</child>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
@@ -4339,45 +4339,45 @@
         </limit>
       </axis>
     </joint>
-    <!-- <plugin name='p3d_r_gripper_palm_controller' filename='libgazebo_ros_p3d.so'>
+    <!-- <plugin name="p3d_r_gripper_palm_controller" filename="libgazebo_ros_p3d.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>100.0</updateRate>
+      <updateRate>100.0.0</updateRate>
       <topicName>r_gripper_palm_pose_ground_truth</topicName>
-      <xyzOffsets>0 0 0</xyzOffsets>
-      <rpyOffsets>0 0 0</rpyOffsets>
-      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffsets>0.0 0.0 0.0</xyzOffsets>
+      <rpyOffsets>0.0 0.0 0.0</rpyOffsets>
+      <gaussianNoise>0.0.0</gaussianNoise>
       <frameName>map</frameName>
       <bodyName>r_wrist_roll_link</bodyName>
-      <xyzOffset>0 0 0</xyzOffset>
-      <rpyOffset>0 -0 0</rpyOffset>
+      <xyzOffset>0.0 0.0 0.0</xyzOffset>
+      <rpyOffset>0.0 -0.0 0.0</rpyOffset>
     </plugin> -->
-    <gripper name='r_grasp_hack'>
+    <gripper name="r_grasp_hack">
       <grasp_check>
-        <attach_steps>20</attach_steps>
-        <detach_steps>40</detach_steps>
+        <attach_steps>20.0</attach_steps>
+        <detach_steps>40.0</detach_steps>
         <min_contact_count>2</min_contact_count>
       </grasp_check>
       <gripper_link>r_gripper_r_finger_tip_link</gripper_link>
       <gripper_link>r_gripper_l_finger_tip_link</gripper_link>
       <palm_link>r_wrist_roll_link</palm_link>
     </gripper>
-    <!-- <plugin name='p3d_l_gripper_l_finger_controller' filename='libgazebo_ros_p3d.so'>
+    <!-- <plugin name="p3d_l_gripper_l_finger_controller" filename="libgazebo_ros_p3d.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>100.0</updateRate>
+      <updateRate>100.0.0</updateRate>
       <bodyName>l_gripper_l_finger_link</bodyName>
       <topicName>l_gripper_l_finger_pose_ground_truth</topicName>
-      <gaussianNoise>0.0</gaussianNoise>
+      <gaussianNoise>0.0.0</gaussianNoise>
       <frameName>base_footprint</frameName>
-      <xyzOffset>0 0 -0.051</xyzOffset>
-      <rpyOffset>0 -0 0</rpyOffset>
+      <xyzOffset>0.0 0.0 -0.051</xyzOffset>
+      <rpyOffset>0.0 -0.0 0.0</rpyOffset>
     </plugin> -->
-    <!-- <plugin name='f3d_l_gripper_l_finger_controller' filename='libgazebo_ros_f3d.so'>
+    <!-- <plugin name="f3d_l_gripper_l_finger_controller" filename="libgazebo_ros_f3d.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>100.0</updateRate>
+      <updateRate>100.0.0</updateRate>
       <bodyName>l_gripper_l_finger_link</bodyName>
       <topicName>l_gripper_l_finger_force_ground_truth</topicName>
     </plugin>-->
-    <link name='l_gripper_l_parallel_link'>
+    <link name="l_gripper_l_parallel_link">
       <inertial>
         <mass>0.17126</mass>
         <inertia>
@@ -4388,16 +4388,16 @@
           <iyz>-3.06125e-06</iyz>
           <izz>0.000181054</izz>
         </inertia>
-        <pose>0.03598 0.0173 -0.00164 0 -0 0</pose>
+        <pose>0.03598 0.0173 -0.00164 0.0 -0.0 0.0</pose>
       </inertial>
-      <pose>0.82991 0.219 0.790675 0 -0 0</pose>
-      <gravity>0</gravity>
+      <pose>0.82991 0.219 0.790675 0.0 -0.0 0.0</pose>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
     </link>
-    <link name='l_gripper_r_parallel_link'>
+    <link name="l_gripper_r_parallel_link">
       <inertial>
         <mass>0.17389</mass>
         <inertia>
@@ -4408,21 +4408,21 @@
           <iyz>2.4611e-06</iyz>
           <izz>0.00018107</izz>
         </inertia>
-        <pose>0.03576 -0.01736 -0.00095 0 -0 0</pose>
+        <pose>0.03576 -0.01736 -0.00095 0.0 -0.0 0.0</pose>
       </inertial>
-      <pose>0.82991 0.157 0.790675 0 -0 0</pose>
-      <gravity>0</gravity>
+      <pose>0.82991 0.157 0.790675 0.0 -0.0 0.0</pose>
+      <gravity>0.0</gravity>
       <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
+        <linear>0.0</linear>
+        <angular>0.0</angular>
       </velocity_decay>
     </link>
-    <joint name='l_gripper_r_screw_screw_joint' type='screw'>
+    <joint name="l_gripper_r_screw_screw_joint" type="screw">
       <child>l_gripper_motor_screw_link</child>
       <parent>l_gripper_r_finger_tip_link</parent>
       <thread_pitch>-3141.6</thread_pitch>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
@@ -4430,12 +4430,12 @@
         </limit>
       </axis>
     </joint>
-    <joint name='l_gripper_l_screw_screw_joint' type='screw'>
+    <joint name="l_gripper_l_screw_screw_joint" type="screw">
       <parent>l_gripper_l_finger_tip_link</parent>
       <child>l_gripper_motor_screw_link</child>
       <thread_pitch>3141.6</thread_pitch>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
@@ -4443,14 +4443,14 @@
         </limit>
       </axis>
     </joint>
-    <joint name='l_gripper_r_parallel_root_joint' type='revolute'>
+    <joint name="l_gripper_r_parallel_root_joint" type="revolute">
       <parent>l_gripper_r_parallel_link</parent>
       <axis>
-        <xyz>0 0 -1</xyz>
+        <xyz>0.0 0.0 -1</xyz>
         <dynamics>
           <damping>0.2</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
@@ -4458,17 +4458,17 @@
           <upper>1e+16</upper>
         </limit>
       </axis>
-      <pose>0.05891 -0.031 0 0 -0 0</pose>
+      <pose>0.05891 -0.031 0.0 0.0 -0.0 0.0</pose>
       <child>l_wrist_roll_link</child>
     </joint>
-    <joint name='l_gripper_l_parallel_root_joint' type='revolute'>
+    <joint name="l_gripper_l_parallel_root_joint" type="revolute">
       <parent>l_gripper_l_parallel_link</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <dynamics>
           <damping>0.2</damping>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.0</spring_reference>
+          <spring_stiffness>0.0</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
@@ -4476,40 +4476,40 @@
           <upper>1e+16</upper>
         </limit>
       </axis>
-      <pose>0.05891 0.031 0 0 -0 0</pose>
+      <pose>0.05891 0.031 0.0 0.0 -0.0 0.0</pose>
       <child>l_wrist_roll_link</child>
     </joint>
-    <joint name='l_gripper_r_parallel_tip_joint' type='revolute'>
+    <joint name="l_gripper_r_parallel_tip_joint" type="revolute">
       <parent>l_gripper_r_parallel_link</parent>
       <child>l_gripper_r_finger_tip_link</child>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
       </axis>
-      <pose>-0.018 -0.021 0 0 -0 0</pose>
+      <pose>-0.018 -0.021 0.0 0.0 -0.0 0.0</pose>
     </joint>
-    <joint name='l_gripper_l_parallel_tip_joint' type='revolute'>
+    <joint name="l_gripper_l_parallel_tip_joint" type="revolute">
       <parent>l_gripper_l_parallel_link</parent>
       <child>l_gripper_l_finger_tip_link</child>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0.0 0.0 1</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
       </axis>
-      <pose>-0.018 0.021 0 0 -0 0</pose>
+      <pose>-0.018 0.021 0.0 0.0 -0.0 0.0</pose>
     </joint>
-    <joint name='l_gripper_joint' type='prismatic'>
+    <joint name="l_gripper_joint" type="prismatic">
       <parent>l_gripper_r_finger_tip_link</parent>
       <child>l_gripper_l_finger_tip_link</child>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
@@ -4517,23 +4517,23 @@
         </limit>
       </axis>
     </joint>
-    <static>0</static>
-    <!-- <plugin name='p3d_l_gripper_palm_controller' filename='libgazebo_ros_p3d.so'>
+    <static>0.0</static>
+    <!-- <plugin name="p3d_l_gripper_palm_controller" filename="libgazebo_ros_p3d.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>100.0</updateRate>
+      <updateRate>100.0.0</updateRate>
       <topicName>l_gripper_palm_pose_ground_truth</topicName>
-      <xyzOffsets>0 0 0</xyzOffsets>
-      <rpyOffsets>0 0 0</rpyOffsets>
-      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffsets>0.0 0.0 0.0</xyzOffsets>
+      <rpyOffsets>0.0 0.0 0.0</rpyOffsets>
+      <gaussianNoise>0.0.0</gaussianNoise>
       <frameName>map</frameName>
       <bodyName>l_wrist_roll_link</bodyName>
-      <xyzOffset>0 0 0</xyzOffset>
-      <rpyOffset>0 -0 0</rpyOffset>
+      <xyzOffset>0.0 0.0 0.0</xyzOffset>
+      <rpyOffset>0.0 -0.0 0.0</rpyOffset>
     </plugin> -->
-    <gripper name='l_grasp_hack'>
+    <gripper name="l_grasp_hack">
       <grasp_check>
-        <attach_steps>20</attach_steps>
-        <detach_steps>40</detach_steps>
+        <attach_steps>20.0</attach_steps>
+        <detach_steps>40.0</detach_steps>
         <min_contact_count>2</min_contact_count>
       </grasp_check>
       <gripper_link>l_gripper_r_finger_tip_link</gripper_link>
@@ -4542,332 +4542,22 @@
     </gripper>
 
     <!-- Human -->
-    <link name='left_foot'>
-      <pose>0.810877 -0.273304 0 0 1.570796327 0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->
-      <inertial>
-        <mass>1.0817</mass>
-        <pose>0 0 0 0 0 0</pose><!-- Link mass is centered -->
-        <inertia>
-          <ixx>0.00164105</ixx>
-          <iyy>0.000227357</iyy>
-          <izz>0.00164105</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
-        </inertia>
-      </inertial>
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.082</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <friction>
-            <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
-            </ode>
-          </friction>
-        </surface>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.082</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-       
-       <sensor name='left_foot_contact' type='contact'>
-          <contact>
-            <collision>collision</collision>
-          </contact>
-        </sensor>
-    </link>
-    
-    <joint name='left_ankle' type='revolute'>
-      <parent>left_leg</parent>
-      <child>left_foot</child>
-      <pose>0.769877 -0.273304 0 0 1.570796327 0</pose>
-      <axis>
-        <xyz>0 1 0</xyz>
-      </axis>
-    </joint>
-    
-    <link name='right_foot'>
-      <pose>0.810877 -0.102304 0 0 1.570796327 0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->
-      
-      <inertial>
-        <mass>1.0817</mass>
-        <pose>0 0 0 0 0 0</pose><!-- Link mass is centered -->
-        <inertia>
-          <ixx>0.00164105</ixx>
-          <iyy>0.000227357</iyy>
-          <izz>0.00164105</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
-        </inertia>
-      </inertial>
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.082</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <friction>
-            <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
-            </ode>
-          </friction>
-        </surface>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.082</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-       
-       <sensor name='right_foot_contact' type='contact'>
-          <contact>
-            <collision>collision</collision>
-          </contact>
-        </sensor>
-    </link>
-    
-    <joint name='right_ankle' type='revolute'>
-      <parent>right_leg</parent>
-      <child>right_foot</child>
-      <pose>0.769877 -0.102304 0 0 1.570796327 0</pose>
-       <axis>
-        <xyz>0 1 0</xyz>
-      </axis>
-    </joint>
-    
-    <link name='left_leg'>
-      <pose>0.769877 -0.273304 0.2045 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height. -->
-      
-      <inertial>
-        <mass>3.4689</mass>
-        <pose>0 0 0.027403 0 0 0</pose>
-        <inertia>
-          <ixx>0.052923954</ixx>
-          <iyy>0.000276446</iyy>
-          <izz>0.052923954</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
-        </inertia>
-      </inertial>
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.409</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.409</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-    </link>
+    <link name="trunk">
+      <pose>0.769877 -0.187804 1.031 0.0 0.0 0.0</pose><!-- Height of leg + thigh + 0.5 * trunk-->
 
-    <joint name='left_knee' type='revolute'>
-      <parent>left_thigh</parent>
-      <child>left_leg</child>
-      <pose>0.769877 -0.273304 0.409 0 0 0</pose>
-      <axis>
-        <xyz>0 1 0</xyz>
-      </axis>
-    </joint>
-    
-    <link name='right_leg'>
-      <pose>0.769877 -0.102304 0.2045 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height -->
-      
-      <inertial>
-        <mass>3.4689</mass>
-        <pose>0 0 0.027403 0 0 0</pose>
-        <inertia>
-          <ixx>0.052923954</ixx>
-          <iyy>0.000276446</iyy>
-          <izz>0.052923954</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
-        </inertia>
-      </inertial>
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.409</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.409</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-    </link>
-    
-    <joint name='right_knee' type='revolute'>
-      <parent>right_thigh</parent>
-      <child>right_leg</child>
-      <pose>00.769877 -0.102304	0.409 0 0 0</pose>
-      <axis>
-        <xyz>0 1 0</xyz>
-      </axis>
-    </joint>
-    
-    <link name='left_thigh'>
-      <pose>0.769877 -0.273304 0.626 0 0 0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
-      
-      <inertial>
-        <mass>7.46</mass>
-        <pose>0 0 0.029078 0 0 0</pose>
-        <inertia>
-          <ixx>0.146596409</ixx>
-          <iyy>0.001321394</iyy>
-          <izz>0.146596409</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
-        </inertia>
-      </inertial>
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.434</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.434</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-    </link>
-    
-    <joint name='left_hip' type='revolute'>
-      <parent>transpelvic_link</parent>
-      <child>left_thigh</child>
-      <pose>0.769877 -0.273304 0.843 0 0 0</pose> <!-- Half thigh height -->
-      <axis>
-        <xyz>0 1 0</xyz>
-      </axis>
-    </joint>
-    
-    <link name='right_thigh'>
-      <pose>0.769877 -0.102304 0.626 0 0 0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
-      
-      <inertial>
-        <mass>7.46</mass>
-        <pose>0 0 0.029078 0 0 0</pose>
-        <inertia>
-          <ixx>0.146596409</ixx>
-          <iyy>0.001321394</iyy>
-          <izz>0.146596409</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
-        </inertia>
-      </inertial>
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.434</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.434</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-    </link>
-
-    <joint name='right_hip' type='revolute'>
-      <parent>transpelvic_link</parent>
-      <child>right_thigh</child>
-      <pose>0.769877 -0.102304 0.843 0 0 0</pose> <!-- Half thigh height -->
-      <axis>
-        <xyz>0 1 0</xyz>
-      </axis>
-    </joint>
-    
-    <link name='transpelvic_link'>
-      <pose>0.769877 -0.187804 0.843 0 1.570796327 1.570796327</pose><!-- Height of leg + thigh, rotated to ground plane and rotated about the trunk -->
-      
-      <!-- No inertial properties. Visualization only -->
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.171</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.171</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-    </link>
-    
-    <joint name='lower_spine' type='revolute'>
-      <parent>trunk</parent>
-      <child>transpelvic_link</child>
-      <pose>0.769877 -0.187804 0.843 0 0 0</pose>
-      <axis>
-        <xyz>0 1 0</xyz>
-      </axis>
-    </joint>
-    
-    <link name='trunk'>
-      <pose>0.769877 -0.187804 1.031 0 0 0</pose><!-- Height of leg + thigh + 0.5 * trunk-->
-      
       <inertial>
         <mass>37.0762</mass>
-        <pose>0 0 0 0 0 0</pose><!-- Link mass is centered -->
+        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
         <inertia>
           <ixx>1.674614776</ixx>
           <iyy>0.01679029</iyy>
           <izz>1.674614776</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.376</length>
@@ -4875,7 +4565,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.376</length>
@@ -4883,22 +4573,331 @@
           </cylinder>
         </geometry>
        </visual>
+    </link>    
+    <link name="left_foot">
+      <pose>0.810877 -0.273304 0.0 0.0 1.570796327 0.0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->
+      <inertial>
+        <mass>1.0817</mass>
+        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
+        <inertia>
+          <ixx>0.00164105</ixx>
+          <iyy>0.000227357</iyy>
+          <izz>0.00164105</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <length>0.082</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+       </collision>
+       <visual name="visual">
+         <geometry>
+          <cylinder>
+            <length>0.082</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+       
+       <sensor name="left_foot_contact" type="contact">
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
-    <joint name='upper_spine' type='revolute'>
-      <parent>trunk</parent>
-      <child>clavicular_link</child>
-      <pose>0.769877 -0.187804 1.219 0 0 0</pose>
+    <joint name="left_ankle" type="revolute">
+      <parent>left_leg</parent>
+      <child>left_foot</child>
+      <pose>0.769877 -0.273304 0.0 0.0 1.570796327 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='clavicular_link'>
-      <pose>0.769877 -0.187804 1.219 0 1.570796327 1.570796327</pose><!-- Height of leg + thigh + trunk, rotated to ground plane and rotated about the trunk -->
+    <link name="right_foot">
+      <pose>0.810877 -0.102304 0.0 0.0 1.570796327 0.0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->
+      
+      <inertial>
+        <mass>1.0817</mass>
+        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
+        <inertia>
+          <ixx>0.00164105</ixx>
+          <iyy>0.000227357</iyy>
+          <izz>0.00164105</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <length>0.082</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+       </collision>
+       <visual name="visual">
+         <geometry>
+          <cylinder>
+            <length>0.082</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+       
+       <sensor name="right_foot_contact" type="contact">
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
+    </link>
+    
+    <joint name="right_ankle" type="revolute">
+      <parent>right_leg</parent>
+      <child>right_foot</child>
+      <pose>0.769877 -0.102304 0.0 0.0 1.570796327 0.0</pose>
+       <axis>
+        <xyz>0.0 1 0.0</xyz>
+      </axis>
+    </joint>
+    
+    <link name="left_leg">
+      <pose>0.769877 -0.273304 0.2045 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height. -->
+      
+      <inertial>
+        <mass>3.4689</mass>
+        <pose>0.0 0.0 0.027403 0.0 0.0 0.0</pose>
+        <inertia>
+          <ixx>0.052923954</ixx>
+          <iyy>0.000276446</iyy>
+          <izz>0.052923954</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <length>0.409</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name="visual">
+         <geometry>
+          <cylinder>
+            <length>0.409</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+
+    <joint name="left_knee" type="revolute">
+      <parent>left_thigh</parent>
+      <child>left_leg</child>
+      <pose>0.769877 -0.273304 0.409 0.0 0.0 0.0</pose>
+      <axis>
+        <xyz>0.0 1 0.0</xyz>
+      </axis>
+    </joint>
+    
+    <link name="right_leg">
+      <pose>0.769877 -0.102304 0.2045 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height -->
+      
+      <inertial>
+        <mass>3.4689</mass>
+        <pose>0.0 0.0 0.027403 0.0 0.0 0.0</pose>
+        <inertia>
+          <ixx>0.052923954</ixx>
+          <iyy>0.000276446</iyy>
+          <izz>0.052923954</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <length>0.409</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name="visual">
+         <geometry>
+          <cylinder>
+            <length>0.409</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <joint name="right_knee" type="revolute">
+      <parent>right_thigh</parent>
+      <child>right_leg</child>
+      <pose>00.769877 -0.102304	0.409 0.0 0.0 0.0</pose>
+      <axis>
+        <xyz>0.0 1 0.0</xyz>
+      </axis>
+    </joint>
+    
+    <link name="left_thigh">
+      <pose>0.769877 -0.273304 0.626 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+      
+      <inertial>
+        <mass>7.46</mass>
+        <pose>0.0 0.0 0.029078 0.0 0.0 0.0</pose>
+        <inertia>
+          <ixx>0.146596409</ixx>
+          <iyy>0.001321394</iyy>
+          <izz>0.146596409</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <length>0.434</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name="visual">
+         <geometry>
+          <cylinder>
+            <length>0.434</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <joint name="left_hip" type="revolute">
+      <parent>transpelvic_link</parent>
+      <child>left_thigh</child>
+      <pose>0.769877 -0.273304 0.843 0.0 0.0 0.0</pose> <!-- Half thigh height -->
+      <axis>
+        <xyz>0.0 1 0.0</xyz>
+      </axis>
+    </joint>
+    
+    <link name="right_thigh">
+      <pose>0.769877 -0.102304 0.626 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+      
+      <inertial>
+        <mass>7.46</mass>
+        <pose>0.0 0.0 0.029078 0.0 0.0 0.0</pose>
+        <inertia>
+          <ixx>0.146596409</ixx>
+          <iyy>0.001321394</iyy>
+          <izz>0.146596409</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <length>0.434</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name="visual">
+         <geometry>
+          <cylinder>
+            <length>0.434</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+
+    <joint name="right_hip" type="revolute">
+      <parent>transpelvic_link</parent>
+      <child>right_thigh</child>
+      <pose>0.769877 -0.102304 0.843 0.0 0.0 0.0</pose> <!-- Half thigh height -->
+      <axis>
+        <xyz>0.0 1 0.0</xyz>
+      </axis>
+    </joint>
+    
+    <link name="transpelvic_link">
+      <pose>0.769877 -0.187804 0.843 0.0 1.570796327 1.570796327</pose><!-- Height of leg + thigh, rotated to ground plane and rotated about the trunk -->
       
       <!-- No inertial properties. Visualization only -->
-      <collision name='collision'>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <length>0.171</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name="visual">
+         <geometry>
+          <cylinder>
+            <length>0.171</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+    </link>
+    
+    <joint name="lower_spine" type="revolute">
+      <parent>trunk</parent>
+      <child>transpelvic_link</child>
+      <pose>0.769877 -0.187804 0.843 0.0 0.0 0.0</pose>
+      <axis>
+        <xyz>0.0 1 0.0</xyz>
+      </axis>
+    </joint>
+    
+    <joint name="upper_spine" type="revolute">
+      <parent>trunk</parent>
+      <child>clavicular_link</child>
+      <pose>0.769877 -0.187804 1.219 0.0 0.0 0.0</pose>
+      <axis>
+        <xyz>0.0 1 0.0</xyz>
+      </axis>
+    </joint>
+    
+    <link name="clavicular_link">
+      <pose>0.769877 -0.187804 1.219 0.0 1.570796327 1.570796327</pose><!-- Height of leg + thigh + trunk, rotated to ground plane and rotated about the trunk -->
+      
+      <!-- No inertial properties. Visualization only -->
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.163</length>
@@ -4906,7 +4905,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.163</length>
@@ -4916,31 +4915,31 @@
        </visual>
     </link>
     
-    <joint name='neck' type='revolute'>
+    <joint name="neck" type="revolute">
       <parent>clavicular_link</parent>
       <child>head_neck</child>
-      <pose>0.769877 -0.187804 1.219 0 0 0</pose>
+      <pose>0.769877 -0.187804 1.219 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='head_neck'>
-      <pose>0.769877 -0.187804 1.3815 0 0 0</pose><!-- Height of leg + thigh + trunk + 0.5 * head-neck -->
+    <link name="head_neck">
+      <pose>0.769877 -0.187804 1.3815 0.0 0.0 0.0</pose><!-- Height of leg + thigh + trunk + 0.5 * head-neck -->
       
       <inertial>
         <mass>6.0426</mass>
-        <pose>0 0 0.1625 0 0 0</pose>
+        <pose>0.0 0.0 0.1625 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.156387114</ixx>
           <iyy>0.000734459</iyy>
           <izz>0.156387114</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.325</length>
@@ -4948,7 +4947,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.325</length>
@@ -4958,22 +4957,22 @@
        </visual>
     </link>
     
-    <link name='left_upper_arm'>
-      <pose>0.769877 -0.269304 1.37 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+    <link name="left_upper_arm">
+      <pose>0.769877 -0.269304 1.37 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
       
       <inertial>
         <mass>2.0888</mass>
-        <pose>0 0 -0.019328 0 0 0</pose>
+        <pose>0.0 0.0 -0.019328 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.019752519</ixx>
           <iyy>9.28219E-05</iyy>
           <izz>0.019752519</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.302</length>
@@ -4981,7 +4980,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.302</length>
@@ -4991,31 +4990,31 @@
        </visual>
     </link>
     
-    <joint name='left_shoulder' type='revolute'>
+    <joint name="left_shoulder" type="revolute">
       <parent>clavicular_link</parent>
       <child>left_upper_arm</child>
-      <pose>0.769877 -0.269304 1.219 0 0 0</pose>
+      <pose>0.769877 -0.269304 1.219 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='right_upper_arm'>
-      <pose>0.769877 -0.106304 1.37 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+    <link name="right_upper_arm">
+      <pose>0.769877 -0.106304 1.37 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
       
       <inertial>
         <mass>2.0888</mass>
-        <pose>0 0 -0.019328 0 0 0</pose>
+        <pose>0.0 0.0 -0.019328 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.019752519</ixx>
           <iyy>9.28219E-05</iyy>
           <izz>0.019752519</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.302</length>
@@ -5023,7 +5022,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.302</length>
@@ -5033,31 +5032,31 @@
        </visual>
     </link>
     
-    <joint name='right_shoulder' type='revolute'>
+    <joint name="right_shoulder" type="revolute">
       <parent>clavicular_link</parent>
       <child>right_upper_arm</child>
-      <pose>0.769877 -0.106304 1.219 0 0 0</pose>
+      <pose>0.769877 -0.106304 1.219 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='left_forearm'>
-      <pose>0.769877 -0.269304 1.657 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+    <link name="left_forearm">
+      <pose>0.769877 -0.269304 1.657 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
       
       <inertial>
         <mass>1.1936</mass>
-        <pose>0 0 -0.01904 0 0 0</pose>
+        <pose>0.0 0.0 -0.01904 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.008107405</ixx>
           <iyy>4.65747E-05</iyy>
           <izz>0.008107405</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.272</length>
@@ -5065,7 +5064,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.272</length>
@@ -5075,31 +5074,31 @@
        </visual>
     </link>
     
-    <joint name='left_elbow' type='revolute'>
+    <joint name="left_elbow" type="revolute">
       <parent>left_upper_arm</parent>
       <child>left_forearm</child>
-      <pose>0.769877 -0.269304 1.521 0 0 0</pose>
+      <pose>0.769877 -0.269304 1.521 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='right_forearm'>
-      <pose>0.769877 -0.106304 1.657 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+    <link name="right_forearm">
+      <pose>0.769877 -0.106304 1.657 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
       
       <inertial>
         <mass>1.1936</mass>
-        <pose>0 0 -0.01904 0 0 0</pose>
+        <pose>0.0 0.0 -0.01904 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.008107405</ixx>
           <iyy>4.65747E-05</iyy>
           <izz>0.008107405</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.272</length>
@@ -5107,7 +5106,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.272</length>
@@ -5117,31 +5116,31 @@
        </visual>
     </link>
     
-    <joint name='right_elbow' type='revolute'>
+    <joint name="right_elbow" type="revolute">
       <parent>right_upper_arm</parent>
       <child>right_forearm</child>
-      <pose>0.769877 -0.106304 1.521 0 0 0</pose>
+      <pose>0.769877 -0.106304 1.521 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='left_hand'>
-      <pose>0.769877 -0.269304 1.828 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+    <link name="left_hand">
+      <pose>0.769877 -0.269304 1.828 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
       
       <inertial>
         <mass>0.4476</mass>
-        <pose>0 0 0.00042 0 0 0</pose>
+        <pose>0.0 0.0 0.00042 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.000193464</ixx>
           <iyy>7.36224E-06</iyy>
           <izz>0.000193464</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.07</length>
@@ -5149,7 +5148,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.07</length>
@@ -5159,31 +5158,31 @@
        </visual>
     </link>
     
-    <joint name='left_wrist' type='revolute'>
+    <joint name="left_wrist" type="revolute">
       <parent>left_forearm</parent>
       <child>left_hand</child>
-      <pose>0.769877 -0.269304 1.793 0 0 0</pose>
+      <pose>0.769877 -0.269304 1.793 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='right_hand'>
-      <pose>0.769877 -0.106304 1.828 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+    <link name="right_hand">
+      <pose>0.769877 -0.106304 1.828 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
       
       <inertial>
         <mass>0.4476</mass>
-        <pose>0 0 0.00042 0 0 0</pose>
+        <pose>0.0 0.0 0.00042 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.000193464</ixx>
           <iyy>7.36224E-06</iyy>
           <izz>0.000193464</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.07</length>
@@ -5191,7 +5190,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.07</length>
@@ -5201,22 +5200,22 @@
        </visual>
     </link>
     
-    <joint name='right_wrist' type='revolute'>
+    <joint name="right_wrist" type="revolute">
       <parent>right_forearm</parent>
       <child>right_hand</child>
-      <pose>0.769877 -0.106304 1.793 0 0 0</pose>
+      <pose>0.769877 -0.106304 1.793 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
 
     <!-- Virtual connecting joint -->
-    <joint name='virtual_robot_human_connection' type='revolute'>
+    <joint name="virtual_robot_human_connection" type="revolute">
       <parent>r_wrist_roll_link</parent>
       <child>trunk</child>
-      <pose>0.769877, -0.187804, 0.826658 0 0 0 0</pose>
+      <pose>0.769877, -0.187804, 0.826658 0.0 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
 
