@@ -80,9 +80,9 @@
     </link>
     
     <joint name='${prefix}left_ankle' type='revolute'>
-      <parent>left_leg</parent>
-      <child>left_foot</child>
-      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.0 + zoffset} 0.0 1.570796327 0.0</pose>
+      <parent>${prefix}left_leg</parent>
+      <child>${prefix}left_foot</child>
+      <pose>0.0 0.0 0.0 0.0 1.570796327 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -136,9 +136,9 @@
     </link>
     
     <joint name='${prefix}right_ankle' type='revolute'>
-      <parent>right_leg</parent>
-      <child>right_foot</child>
-      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.0 + zoffset} 0.0 1.570796327 0.0</pose>
+      <parent>${prefix}right_leg</parent>
+      <child>${prefix}right_foot</child>
+      <pose>0.0 0.0 0.0 0.0 1.570796327 0.0</pose>
        <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -178,9 +178,9 @@
     </link>
     
     <joint name='${prefix}left_knee' type='revolute'>
-      <parent>left_thigh</parent>
-      <child>left_leg</child>
-      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.409 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}left_thigh</parent>
+      <child>${prefix}left_leg</child>
+      <pose>0.0 0.0 0.2045 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -220,9 +220,9 @@
     </link>
     
     <joint name='${prefix}right_knee' type='revolute'>
-      <parent>right_thigh</parent>
-      <child>right_leg</child>
-      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.409 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}right_thigh</parent>
+      <child>${prefix}right_leg</child>
+      <pose>0.0 0.0 0.2045 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -262,9 +262,9 @@
     </link>
     
     <joint name='${prefix}left_hip' type='revolute'>
-      <parent>transpelvic_link</parent>
-      <child>left_thigh</child>
-      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.843 + zoffset} 0.0 0.0 0.0</pose> <!--Height leg + thigh -->
+      <parent>${prefix}transpelvic_link</parent>
+      <child>${prefix}left_thigh</child>
+      <pose>0.0 0.0 0.217 0.0 0.0 0.0</pose> <!--Height leg + thigh -->
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -304,9 +304,9 @@
     </link>
 
     <joint name='${prefix}right_hip' type='revolute'>
-      <parent>transpelvic_link</parent>
-      <child>right_thigh</child>
-      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.843 + zoffset} 0.0 0.0 0.0</pose> <!-- leg + thigh height -->
+      <parent>${prefix}transpelvic_link</parent>
+      <child>${prefix}right_thigh</child>
+      <pose>0.0 0.0 0.217 0.0 0.0 0.0</pose> <!-- leg + thigh height -->
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -335,18 +335,18 @@
     </link>
     
     <joint name='${prefix}lower_spine' type='revolute'>
-      <parent>trunk</parent>
-      <child>transpelvic_link</child>
-      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${0.843 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}trunk</parent>
+      <child>${prefix}transpelvic_link</child>
+      <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
     <joint name='${prefix}upper_spine' type='revolute'>
-      <parent>trunk</parent>
-      <child>clavicular_link</child>
-      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${1.219 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}trunk</parent>
+      <child>${prefix}clavicular_link</child>
+      <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -375,9 +375,9 @@
     </link>
     
     <joint name='${prefix}neck' type='revolute'>
-      <parent>clavicular_link</parent>
-      <child>head_neck</child>
-      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${1.219 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}clavicular_link</parent>
+      <child>${prefix}head_neck</child>
+      <pose>0.0 0.0 -0.1625 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -450,9 +450,9 @@
     </link>
     
     <joint name='${prefix}left_shoulder' type='revolute'>
-      <parent>clavicular_link</parent>
-      <child>left_upper_arm</child>
-      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.219 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}clavicular_link</parent>
+      <child>${prefix}left_upper_arm</child>
+      <pose>0.0 0.0 -0.151 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -492,9 +492,9 @@
     </link>
     
     <joint name='${prefix}right_shoulder' type='revolute'>
-      <parent>clavicular_link</parent>
-      <child>right_upper_arm</child>
-      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.219 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}clavicular_link</parent>
+      <child>${prefix}right_upper_arm</child>
+      <pose>0.0 0.0 -0.151 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -534,9 +534,9 @@
     </link>
     
     <joint name='${prefix}left_elbow' type='revolute'>
-      <parent>left_upper_arm</parent>
-      <child>left_forearm</child>
-      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.521 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}left_upper_arm</parent>
+      <child>${prefix}left_forearm</child>
+      <pose>0.0 0.0 -0.136 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -576,9 +576,9 @@
     </link>
     
     <joint name='${prefix}right_elbow' type='revolute'>
-      <parent>right_upper_arm</parent>
-      <child>right_forearm</child>
-      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.521 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}right_upper_arm</parent>
+      <child>${prefix}right_forearm</child>
+      <pose>0.0 0.0 -0.136 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -618,9 +618,9 @@
     </link>
     
     <joint name='${prefix}left_wrist' type='revolute'>
-      <parent>left_forearm</parent>
-      <child>left_hand</child>
-      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.793 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}left_forearm</parent>
+      <child>${prefix}left_hand</child>
+      <pose>0.0 0.0 -0.035 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -660,9 +660,9 @@
     </link>
     
     <joint name='${prefix}right_wrist' type='revolute'>
-      <parent>right_forearm</parent>
-      <child>right_hand</child>
-      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.793 + zoffset} 0.0 0.0 0.0</pose>
+      <parent>${prefix}right_forearm</parent>
+      <child>${prefix}right_hand</child>
+      <pose>0.0 0.0 -0.035 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>

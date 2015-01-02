@@ -38,8 +38,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="base_footprint_collision_base_link">
         <pose>0.0 0.0 0.051 0.0 -0.0 0.0</pose>
         <geometry>
@@ -57,7 +56,6 @@
           </friction>
         </surface>
       </collision>
-      -->
       <visual name="base_footprint_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -80,8 +78,7 @@
           </script>
         </material>
       </visual>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="base_footprint_visual_base_link">
         <pose>0.0 0.0 0.051 0.0 -0.0 0.0</pose>
         <geometry>
@@ -91,7 +88,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+
       <velocity_decay>
         <linear>0.0</linear>
         <angular>0.0</angular>
@@ -165,8 +162,7 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="bl_caster_rotation_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -184,9 +180,7 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="bl_caster_rotation_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -202,7 +196,7 @@
           </script>
         </material>
       </visual>
-      -->
+
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -266,8 +260,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="bl_caster_l_wheel_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -277,7 +270,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -341,8 +334,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="bl_caster_r_wheel_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -352,7 +344,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -391,8 +383,7 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="br_caster_rotation_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -410,9 +401,7 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="br_caster_rotation_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -428,7 +417,7 @@
           </script>
         </material>
       </visual>
-      -->
+
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -492,8 +481,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="br_caster_l_wheel_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -503,7 +491,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -567,8 +555,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="br_caster_r_wheel_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -578,7 +565,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -617,8 +604,7 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="fl_caster_rotation_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -636,9 +622,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="fl_caster_rotation_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -654,7 +639,7 @@
           </script>
         </material>
       </visual>
-      -->
+      
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -718,8 +703,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="fl_caster_l_wheel_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -729,7 +713,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -793,8 +777,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="fl_caster_r_wheel_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -804,7 +787,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -843,8 +826,7 @@
           <izz>0.011764</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="fr_caster_rotation_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -862,9 +844,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="fr_caster_rotation_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -880,7 +861,7 @@
           </script>
         </material>
       </visual>
-      -->
+      
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -944,8 +925,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="fr_caster_l_wheel_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -955,7 +935,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -1019,8 +999,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="fr_caster_r_wheel_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1030,7 +1009,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -1069,8 +1048,7 @@
           <izz>0.538967</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="torso_lift_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1088,9 +1066,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="torso_lift_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1100,7 +1077,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>1</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -1154,8 +1131,7 @@
           <izz>0.0576527</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="head_pan_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1174,7 +1150,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <velocity_decay>
         <linear>0.0</linear>
         <angular>0.0</angular>
@@ -1213,8 +1189,7 @@
           <izz>0.119008</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="head_tilt_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1224,7 +1199,7 @@
           </mesh>
         </geometry>
       </collision>
-      -->
+      
       <collision name="head_tilt_link_collision_head_plate_frame">
         <pose>0.0232 0.0 0.0645 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1241,8 +1216,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="head_tilt_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1252,7 +1226,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <visual name="head_tilt_link_visual_double_stereo_link">
         <pose>0.0132 0.0 0.0895 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1544,8 +1518,7 @@
           <izz>0.273538</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_shoulder_pan_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1563,9 +1536,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_shoulder_pan_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1575,7 +1547,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -1624,8 +1596,7 @@
           <izz>0.0197575</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_shoulder_lift_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1643,9 +1614,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_shoulder_lift_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1655,7 +1625,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -1704,8 +1674,7 @@
           <izz>0.0905498</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_upper_arm_roll_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1723,9 +1692,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <collision name="l_upper_arm_roll_link_collision_l_upper_arm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1751,9 +1719,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_upper_arm_roll_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1778,7 +1745,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <velocity_decay>
         <linear>0.0</linear>
         <angular>0.0</angular>
@@ -1832,8 +1799,7 @@
           <izz>0.00359157</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_elbow_flex_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1851,9 +1817,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_elbow_flex_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1863,7 +1828,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -1912,8 +1877,7 @@
           <izz>0.0310133</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_forearm_roll_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1931,9 +1895,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <collision name="l_forearm_roll_link_collision_l_forearm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1959,9 +1922,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_forearm_roll_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1977,9 +1939,8 @@
           </script>
         </material>
       </visual>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_forearm_roll_link_visual_l_forearm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -1989,7 +1950,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <velocity_decay>
         <linear>0.0</linear>
         <angular>0.0</angular>
@@ -2080,8 +2041,7 @@
           <izz>0.000644505</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_wrist_flex_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2099,9 +2059,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_wrist_flex_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2111,7 +2070,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -2160,8 +2119,7 @@
           <izz>0.012243</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_wrist_roll_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2179,7 +2137,7 @@
           </friction>
         </surface>
       </collision>
-      -->
+      
       <collision name="l_wrist_roll_link_collision_l_gripper_motor_accelerometer_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2196,8 +2154,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_wrist_roll_link_collision_l_gripper_palm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2223,9 +2180,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_wrist_roll_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2241,7 +2197,7 @@
           </script>
         </material>
       </visual>
-      -->
+      
       <visual name="l_wrist_roll_link_visual_l_gripper_motor_accelerometer_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2250,8 +2206,7 @@
           </box>
         </geometry>
       </visual>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="l_wrist_roll_link_visual_l_gripper_palm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2261,7 +2216,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <velocity_decay>
         <linear>0.0</linear>
         <angular>0.0</angular>
@@ -2313,8 +2268,7 @@
           <izz>0.000181054</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_gripper_l_finger_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2338,9 +2292,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_gripper_l_finger_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2350,7 +2303,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -2402,8 +2355,7 @@
           <izz>1.54177e-05</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_gripper_l_finger_tip_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2427,9 +2379,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_gripper_l_finger_tip_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2439,7 +2390,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -2581,8 +2532,7 @@
           <izz>0.00018107</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_gripper_r_finger_link_collision">
         <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
@@ -2606,9 +2556,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_gripper_r_finger_link_visual">
         <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
@@ -2618,7 +2567,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -2670,8 +2619,7 @@
           <izz>1.54177e-05</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="l_gripper_r_finger_tip_link_collision">
         <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
@@ -2695,9 +2643,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="l_gripper_r_finger_tip_link_visual">
         <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
@@ -2707,7 +2654,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -2772,8 +2719,7 @@
           <izz>0.000895018</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="laser_tilt_mount_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2783,9 +2729,8 @@
           </mesh>
         </geometry>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="laser_tilt_mount_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2795,7 +2740,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <velocity_decay>
         <linear>0.0</linear>
         <angular>0.0</angular>
@@ -2869,8 +2814,7 @@
           <izz>0.273538</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_shoulder_pan_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2888,9 +2832,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_shoulder_pan_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2900,7 +2843,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -2949,8 +2892,7 @@
           <izz>0.0197575</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_shoulder_lift_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2968,9 +2910,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_shoulder_lift_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -2980,7 +2921,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -3029,8 +2970,7 @@
           <izz>0.0906174</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_upper_arm_roll_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3048,9 +2988,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <collision name="r_upper_arm_roll_link_collision_r_upper_arm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3076,9 +3015,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_upper_arm_roll_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3094,9 +3032,8 @@
           </script>
         </material>
       </visual>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_upper_arm_roll_link_visual_r_upper_arm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3106,7 +3043,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <velocity_decay>
         <linear>0.0</linear>
         <angular>0.0</angular>
@@ -3160,8 +3097,7 @@
           <izz>0.00359157</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_elbow_flex_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3179,9 +3115,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_elbow_flex_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3191,7 +3126,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -3240,8 +3175,7 @@
           <izz>0.0310133</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_forearm_roll_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3259,9 +3193,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <collision name="r_forearm_roll_link_collision_r_forearm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3287,9 +3220,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_forearm_roll_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3305,9 +3237,8 @@
           </script>
         </material>
       </visual>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_forearm_roll_link_visual_r_forearm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3317,7 +3248,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <velocity_decay>
         <linear>0.0</linear>
         <angular>0.0</angular>
@@ -3408,8 +3339,7 @@
           <izz>0.000644505</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_wrist_flex_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3427,9 +3357,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_wrist_flex_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3439,7 +3368,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -3488,8 +3417,7 @@
           <izz>0.012243</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_wrist_roll_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3507,7 +3435,7 @@
           </friction>
         </surface>
       </collision>
-      -->
+      
       <collision name="r_wrist_roll_link_collision_r_gripper_motor_accelerometer_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3524,8 +3452,7 @@
           </friction>
         </surface>
       </collision>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_wrist_roll_link_collision_r_gripper_palm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3551,9 +3478,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_wrist_roll_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3569,7 +3495,7 @@
           </script>
         </material>
       </visual>
-      -->
+      
       <visual name="r_wrist_roll_link_visual_r_gripper_motor_accelerometer_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3578,8 +3504,7 @@
           </box>
         </geometry>
       </visual>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <visual name="r_wrist_roll_link_visual_r_gripper_palm_link">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3589,7 +3514,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <velocity_decay>
         <linear>0.0</linear>
         <angular>0.0</angular>
@@ -3641,8 +3566,7 @@
           <izz>0.000181054</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_gripper_l_finger_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3666,9 +3590,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_gripper_l_finger_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3678,7 +3601,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -3730,8 +3653,7 @@
           <izz>1.54177e-05</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_gripper_l_finger_tip_link_collision">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3755,9 +3677,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_gripper_l_finger_tip_link_visual">
         <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
         <geometry>
@@ -3767,7 +3688,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -3909,8 +3830,7 @@
           <izz>0.00018107</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_gripper_r_finger_link_collision">
         <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
@@ -3934,9 +3854,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_gripper_r_finger_link_visual">
         <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
@@ -3946,7 +3865,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -3998,8 +3917,7 @@
           <izz>1.54177e-05</izz>
         </inertia>
       </inertial>
-      <!-- Moby lacks mesh support -->
-      <!-- 
+
       <collision name="r_gripper_r_finger_tip_link_collision">
         <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
@@ -4023,9 +3941,8 @@
           </friction>
         </surface>
       </collision>
-      -->
-      <!-- Moby lacks mesh support -->
-      <!-- 
+      
+
       <visual name="r_gripper_r_finger_tip_link_visual">
         <pose>0.0 0.0 0.0 -3.14159 -0.0 0.0</pose>
         <geometry>
@@ -4035,7 +3952,7 @@
           </mesh>
         </geometry>
       </visual>
-      -->
+      
       <gravity>0.0</gravity>
       <velocity_decay>
         <linear>0.0</linear>
@@ -4150,19 +4067,18 @@
       <xyzOffset>0.0 0.0 -0.051</xyzOffset>
       <rpyOffset>0.0 -0.0 0.0</rpyOffset>
     </plugin> -->
-    <!-- Switched to prismatic joint for Moby -->
     <joint name="torso_lift_screw_torso_lift_joint" type="prismatic">
       <parent>torso_lift_link</parent>
       <child>torso_lift_motor_screw_link</child>
       <axis>
         <xyz>0.0 0.0 1</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
-        <!--<limit>
+        <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
-        </limit>-->
+        </limit>
       </axis>
-      <!--<thread_pitch>3141.6</thread_pitch>-->
+      <thread_pitch>3141.6</thread_pitch>
     </joint>
     <!-- <plugin name="imu_controller" filename="libgazebo_ros_imu.so">
       <alwaysOn>true</alwaysOn>
@@ -4182,7 +4098,7 @@
       <textureTopicName>projector_wg6802418_controller/image</textureTopicName>
       <projectorTopicName>projector_wg6802418_controller/projector</projectorTopicName>
       <projector>head_tilt_link/projector_wg6802418_projector_wg6802418</projector>
-    </plugin>-->
+    </plugin> -->
     <!-- <plugin name="p3d_r_gripper_l_finger_controller" filename="libgazebo_ros_p3d.so">
       <alwaysOn>true</alwaysOn>
       <updateRate>100.0.0</updateRate>
@@ -4376,7 +4292,7 @@
       <updateRate>100.0.0</updateRate>
       <bodyName>l_gripper_l_finger_link</bodyName>
       <topicName>l_gripper_l_finger_force_ground_truth</topicName>
-    </plugin>-->
+    </plugin> -->
     <link name="l_gripper_l_parallel_link">
       <inertial>
         <mass>0.17126</mass>
@@ -4552,8 +4468,8 @@
     <!-- Virtual connecting joint -->
     <joint name="virtual_robot_human_connection" type="revolute">
       <parent>r_wrist_roll_link</parent>
-      <child>trunk</child>
-      <pose>0.769877, -0.187804, 0.826658 0.0 0.0 0.0 0.0</pose>
+      <child>${prefix}trunk</child>
+      <pose>${xoffset}, ${yoffset}, 0.826658 0.0 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
       </axis>
