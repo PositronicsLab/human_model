@@ -1,24 +1,24 @@
-<?xml version='1.0'?>
-<sdf version='1.4'>
+<?xml version="1.0"?>
+<sdf version="1.4">
   <model name="human">
     <static>false</static>
     
-    <link name='trunk'>
-      <pose>0 0 1.031 0 0 0</pose><!-- Height of leg + thigh + 0.5 * trunk-->
+    <link name="trunk">
+      <pose>0.0 0.0 1.031 0.0 0.0 0.0</pose><!-- Height of leg + thigh + 0.5 * trunk-->
       
       <inertial>
         <mass>37.0762</mass>
-        <pose>0 0 0 0 0 0</pose><!-- Link mass is centered -->
+        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
         <inertia>
           <ixx>1.674614776</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
           <iyy>0.01679029</iyy>
           <izz>1.674614776</izz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.376</length>
@@ -26,7 +26,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.376</length>
@@ -36,21 +36,21 @@
        </visual>
     </link>
     
-    <link name='left_foot'>
-      <pose>0.041 -0.0855 0 0 1.570796327 0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->  
+    <link name="left_foot">
+      <pose>0.041 0.0855 0.0 0.0 1.570796327 0.0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->  
       <inertial>
         <mass>1.0817</mass>
-        <pose>0 0 0 0 0 0</pose><!-- Link mass is centered -->
+        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
         <inertia>
           <ixx>0.00164105</ixx>
           <iyy>0.000227357</iyy>
           <izz>0.00164105</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.082</length>
@@ -60,13 +60,13 @@
         <surface>
           <friction>
             <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
             </ode>
           </friction>
         </surface>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.082</length>
@@ -75,38 +75,38 @@
         </geometry>
        </visual>
        
-       <sensor name='left_foot_contact' type='contact'>
+       <sensor name="left_foot_contact" type="contact">
           <contact>
             <collision>collision</collision>
           </contact>
         </sensor>
     </link>
     
-    <joint name='left_ankle' type='revolute'>
+    <joint name="left_ankle" type="revolute">
       <parent>left_leg</parent>
       <child>left_foot</child>
-      <pose>0 -0.0855 0 0 1.570796327 0</pose>
+      <pose>0.0 0.0855 0.0 0.0 1.570796327 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='right_foot'>
-      <pose>0.041 0.0855 0 0 1.570796327 0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->
+    <link name="right_foot">
+      <pose>0.041 0.0855 0.0 0.0 1.570796327 0.0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->
       
       <inertial>
         <mass>1.0817</mass>
-        <pose>0 0 0 0 0 0</pose><!-- Link mass is centered -->
+        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
         <inertia>
           <ixx>0.00164105</ixx>
           <iyy>0.000227357</iyy>
           <izz>0.00164105</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.082</length>
@@ -116,13 +116,13 @@
         <surface>
           <friction>
             <ode>
-              <mu>100</mu>
-              <mu2>100</mu2>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
             </ode>
           </friction>
         </surface>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.082</length>
@@ -131,38 +131,38 @@
         </geometry>
        </visual>
        
-       <sensor name='right_foot_contact' type='contact'>
+       <sensor name="right_foot_contact" type="contact">
           <contact>
             <collision>collision</collision>
           </contact>
         </sensor>
     </link>
     
-    <joint name='right_ankle' type='revolute'>
+    <joint name="right_ankle" type="revolute">
       <parent>right_leg</parent>
       <child>right_foot</child>
-      <pose>-0 0.0855 0 0 1.570796327 0</pose>
+      <pose>0.0 0.0855 0.0 0.0 1.570796327 0.0</pose>
        <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='left_leg'>
-      <pose>0 -0.0855 0.2045 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height. -->
+    <link name="left_leg">
+      <pose>0.0 0.0855 0.2045 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height. -->
       
       <inertial>
         <mass>3.4689</mass>
-        <pose>0 0 0.027403 0 0 0</pose>
+        <pose>0.0 0.0 0.027403 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.052923954</ixx>
           <iyy>0.000276446</iyy>
           <izz>0.052923954</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.409</length>
@@ -170,7 +170,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.409</length>
@@ -180,31 +180,31 @@
        </visual>
     </link>
     
-    <joint name='left_knee' type='revolute'>
+    <joint name="left_knee" type="revolute">
       <parent>left_thigh</parent>
       <child>left_leg</child>
-      <pose>0 -0.0855 0.2045 0 0 0</pose>
+      <pose>0.0 0.0855 0.2045 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='right_leg'>
-      <pose>0 0.0855 0.2045 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height -->
+    <link name="right_leg">
+      <pose>0.0 0.0855 0.2045 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height -->
       
       <inertial>
         <mass>3.4689</mass>
-        <pose>0 0 0.027403 0 0 0</pose>
+        <pose>0.0 0.0 0.027403 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.052923954</ixx>
           <iyy>0.000276446</iyy>
           <izz>0.052923954</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.409</length>
@@ -212,7 +212,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.409</length>
@@ -222,31 +222,31 @@
        </visual>
     </link>
     
-    <joint name='right_knee' type='revolute'>
+    <joint name="right_knee" type="revolute">
       <parent>right_thigh</parent>
       <child>right_leg</child>
-      <pose>0 0.0855 0.2045 0 0 0</pose>
+      <pose>0.0 0.0855 0.2045 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='left_thigh'>
-      <pose>0 -0.0855 0.626 0 0 0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+    <link name="left_thigh">
+      <pose>0.0 0.0855 0.626 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
       
       <inertial>
         <mass>7.46</mass>
-        <pose>0 0 0.029078 0 0 0</pose>
+        <pose>0.0 0.0 0.029078 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.146596409</ixx>
           <iyy>0.001321394</iyy>
           <izz>0.146596409</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.434</length>
@@ -254,7 +254,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.434</length>
@@ -264,31 +264,31 @@
        </visual>
     </link>
     
-    <joint name='left_hip' type='revolute'>
+    <joint name="left_hip" type="revolute">
       <parent>transpelvic_link</parent>
       <child>left_thigh</child>
-      <pose>0 -0.0855 0.843 0 0 0</pose> <!--Height leg + thigh -->
+      <pose>0.0 0.0855 0.843 0.0 0.0 0.0</pose> <!--Height leg + thigh -->
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='right_thigh'>
-      <pose>0 0.0855 0.626 0 0 0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+    <link name="right_thigh">
+      <pose>0.0 0.0855 0.626 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
       
       <inertial>
         <mass>7.46</mass>
-        <pose>0 0 0.029078 0 0 0</pose>
+        <pose>0.0 0.0 0.029078 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.146596409</ixx>
           <iyy>0.001321394</iyy>
           <izz>0.146596409</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.434</length>
@@ -296,7 +296,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.434</length>
@@ -306,20 +306,20 @@
        </visual>
     </link>
 
-    <joint name='right_hip' type='revolute'>
+    <joint name="right_hip" type="revolute">
       <parent>transpelvic_link</parent>
       <child>right_thigh</child>
-      <pose>0 0.0855 0.843 0 0 0</pose> <!-- leg + thigh height -->
+      <pose>0.0 0.0855 0.843 0.0 0.0 0.0</pose> <!-- leg + thigh height -->
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='transpelvic_link'>
-      <pose>0 0 0.843 0 1.570796327 1.570796327</pose><!-- Height of leg + thigh, rotated to ground plane and rotated about the trunk -->
+    <link name="transpelvic_link">
+      <pose>0.0 0.0 0.843 0.0 1.570796327 1.570796327</pose><!-- Height of leg + thigh, rotated to ground plane and rotated about the trunk -->
       
       <!-- No inertial properties. Visualization only -->
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.171</length>
@@ -327,7 +327,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.171</length>
@@ -337,29 +337,29 @@
        </visual>
     </link>
     
-    <joint name='lower_spine' type='revolute'>
+    <joint name="lower_spine" type="revolute">
       <parent>trunk</parent>
       <child>transpelvic_link</child>
-      <pose>0 0 0.843 0 0 0</pose>
+      <pose>0.0 0.0 0.843 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <joint name='upper_spine' type='revolute'>
+    <joint name="upper_spine" type="revolute">
       <parent>trunk</parent>
       <child>clavicular_link</child>
-      <pose>0 0 1.219 0 0 0</pose>
+      <pose>0.0 0.0 1.219 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='clavicular_link'>
-      <pose>0 0 1.219 0 1.570796327 1.570796327</pose><!-- Height of leg + thigh + trunk, rotated to ground plane and rotated about the trunk -->
+    <link name="clavicular_link">
+      <pose>0.0 0.0 1.219 0.0 1.570796327 1.570796327</pose><!-- Height of leg + thigh + trunk, rotated to ground plane and rotated about the trunk -->
       
       <!-- No inertial properties. Visualization only -->
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.163</length>
@@ -367,7 +367,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.163</length>
@@ -377,31 +377,31 @@
        </visual>
     </link>
     
-    <joint name='neck' type='revolute'>
+    <joint name="neck" type="revolute">
       <parent>clavicular_link</parent>
       <child>head_neck</child>
-      <pose>0 0 1.219 0 0 0</pose>
+      <pose>0.0 0.0 1.219 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='head_neck'>
-      <pose>0 0 1.3815 0 0 0</pose><!-- Height of leg + thigh + trunk + 0.5 * head-neck -->
+    <link name="head_neck">
+      <pose>0.0 0.0 1.3815 0.0 0.0 0.0</pose><!-- Height of leg + thigh + trunk + 0.5 * head-neck -->
       
       <inertial>
         <mass>6.0426</mass>
-        <pose>0 0 0.1625 0 0 0</pose>
+        <pose>0.0 0.0 0.1625 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.156387114</ixx>
           <iyy>0.000734459</iyy>
           <izz>0.156387114</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.325</length>
@@ -409,7 +409,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.325</length>
@@ -419,22 +419,22 @@
        </visual>
     </link>
     
-    <link name='left_upper_arm'>
-      <pose>0 -0.0815 1.37 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+    <link name="left_upper_arm">
+      <pose>0.0 0.0815 1.37 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
       
       <inertial>
         <mass>2.0888</mass>
-        <pose>0 0 -0.019328 0 0 0</pose>
+        <pose>0.0 0.0 0.019328 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.019752519</ixx>
           <iyy>9.28219E-05</iyy>
           <izz>0.019752519</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.302</length>
@@ -442,7 +442,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.302</length>
@@ -452,31 +452,31 @@
        </visual>
     </link>
     
-    <joint name='left_shoulder' type='revolute'>
+    <joint name="left_shoulder" type="revolute">
       <parent>clavicular_link</parent>
       <child>left_upper_arm</child>
-      <pose>0 -0.0815 1.219 0 0 0</pose>
+      <pose>0.0 0.0815 1.219 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='right_upper_arm'>
-      <pose>0 0.0815 1.37 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+    <link name="right_upper_arm">
+      <pose>0.0 0.0815 1.37 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
       
       <inertial>
         <mass>2.0888</mass>
-        <pose>0 0 -0.019328 0 0 0</pose>
+        <pose>0.0 0.0 0.019328 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.019752519</ixx>
           <iyy>9.28219E-05</iyy>
           <izz>0.019752519</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.302</length>
@@ -484,7 +484,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.302</length>
@@ -494,31 +494,31 @@
        </visual>
     </link>
     
-    <joint name='right_shoulder' type='revolute'>
+    <joint name="right_shoulder" type="revolute">
       <parent>clavicular_link</parent>
       <child>right_upper_arm</child>
-      <pose>0 0.0815 1.219 0 0 0</pose>
+      <pose>0.0 0.0815 1.219 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='left_forearm'>
-      <pose>0 -0.0815 1.657 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+    <link name="left_forearm">
+      <pose>0.0 0.0815 1.657 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
       
       <inertial>
         <mass>1.1936</mass>
-        <pose>0 0 -0.01904 0 0 0</pose>
+        <pose>0.0 0.0 0.01904 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.008107405</ixx>
           <iyy>4.65747E-05</iyy>
           <izz>0.008107405</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.272</length>
@@ -526,7 +526,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.272</length>
@@ -536,31 +536,31 @@
        </visual>
     </link>
     
-    <joint name='left_elbow' type='revolute'>
+    <joint name="left_elbow" type="revolute">
       <parent>left_upper_arm</parent>
       <child>left_forearm</child>
-      <pose>0 -0.0815 1.521 0 0 0</pose>
+      <pose>0.0 0.0815 1.521 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='right_forearm'>
-      <pose>0 0.0815 1.657 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+    <link name="right_forearm">
+      <pose>0.0 0.0815 1.657 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
       
       <inertial>
         <mass>1.1936</mass>
-        <pose>0 0 -0.01904 0 0 0</pose>
+        <pose>0.0 0.0 0.01904 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.008107405</ixx>
           <iyy>4.65747E-05</iyy>
           <izz>0.008107405</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.272</length>
@@ -568,7 +568,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.272</length>
@@ -578,31 +578,31 @@
        </visual>
     </link>
     
-    <joint name='right_elbow' type='revolute'>
+    <joint name="right_elbow" type="revolute">
       <parent>right_upper_arm</parent>
       <child>right_forearm</child>
-      <pose>0 0.0815 1.521 0 0 0</pose>
+      <pose>0.0 0.0815 1.521 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='left_hand'>
-      <pose>0 -0.0815 1.828 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+    <link name="left_hand">
+      <pose>0.0 0.0815 1.828 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
       
       <inertial>
         <mass>0.4476</mass>
-        <pose>0 0 0.00042 0 0 0</pose>
+        <pose>0.0 0.0 0.00042 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.000193464</ixx>
           <iyy>7.36224E-06</iyy>
           <izz>0.000193464</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.07</length>
@@ -610,7 +610,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.07</length>
@@ -620,31 +620,31 @@
        </visual>
     </link>
     
-    <joint name='left_wrist' type='revolute'>
+    <joint name="left_wrist" type="revolute">
       <parent>left_forearm</parent>
       <child>left_hand</child>
-      <pose>0 -0.0815 1.793 0 0 0</pose>
+      <pose>0.0 0.0815 1.793 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
     
-    <link name='right_hand'>
-      <pose>0 0.0815 1.828 0 0 0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+    <link name="right_hand">
+      <pose>0.0 0.0815 1.828 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
       
       <inertial>
         <mass>0.4476</mass>
-        <pose>0 0 0.00042 0 0 0</pose>
+        <pose>0.0 0.0 0.00042 0.0 0.0 0.0</pose>
         <inertia>
           <ixx>0.000193464</ixx>
           <iyy>7.36224E-06</iyy>
           <izz>0.000193464</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <collision name='collision'>
+      <collision name="collision">
         <geometry>
           <cylinder>
             <length>0.07</length>
@@ -652,7 +652,7 @@
           </cylinder>
         </geometry>
        </collision>
-       <visual name='visual'>
+       <visual name="visual">
          <geometry>
           <cylinder>
             <length>0.07</length>
@@ -662,12 +662,12 @@
        </visual>
     </link>
     
-    <joint name='right_wrist' type='revolute'>
+    <joint name="right_wrist" type="revolute">
       <parent>right_forearm</parent>
       <child>right_hand</child>
-      <pose>0 0.0815 1.793 0 0 0</pose>
+      <pose>0.0 0.0815 1.793 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0.0 1 0.0</xyz>
       </axis>
     </joint>
   </model>
