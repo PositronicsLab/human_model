@@ -95,6 +95,10 @@ int main(){
   P->x = Ravelin::Origin3d(1.0, 0.0, 0.0);
   P->rpose = link->get_pose();
 
+  // 2a. This is a verification step (described in email)
+  Transform3d gTP = Pose3d::calc_relative_pose(P, GLOBAL);
+  std::cout << "pose of bilateral constraint frame: " << std::endl << gTP;
+
   // 3. Finally we get the Jacobian of the humanoid (R) 
   Ravelin::MatrixNd R;
   body->calc_jacobian(P, link, R);
