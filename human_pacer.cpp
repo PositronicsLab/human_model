@@ -83,7 +83,7 @@ int main(){
   std::cout << "ST: " << ST << std::endl;
   std::cout << "f: " << f << std::endl;
 
-  // get a Jacobian for a particular point on a robot link
+  // get a Jacobian for a particular point on a humanoid link
   // 1. I'll specify a random link
   Moby::RCArticulatedBody body = robot->get_articulated_body();
   std::vector<Moby::RigidBodyPtr> links = body->get_links();
@@ -95,9 +95,8 @@ int main(){
   P->x = Ravelin::Origin3d(1.0, 0.0, 0.0);
   P->rpose = link->get_pose();
 
-  // 3. Finally we get the Jacobian  
-  Ravelin::MatrixNd J;
-  body->calc_jacobian(P, link, J);
-  std::cout << "J: " << std::endl << J;
-  
+  // 3. Finally we get the Jacobian of the humanoid (R) 
+  Ravelin::MatrixNd R;
+  body->calc_jacobian(P, link, R);
+  std::cout << "R: " << std::endl << R;
 }
