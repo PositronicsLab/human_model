@@ -4456,6 +4456,13 @@
       <gripper_link>l_gripper_l_finger_tip_link</gripper_link>
       <palm_link>l_wrist_roll_link</palm_link>
     </gripper>
+ 
+    <!-- Controller for the pr2 arm -->
+    <plugin name="pr2_arm_controller" filename="libStableControllerPlugin.dylib">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100.0.0</updateRate>
+    </plugin>
+
 
     <!-- Human -->
     <!-- TODO: These should not be needed but parameters aren"t working -->
