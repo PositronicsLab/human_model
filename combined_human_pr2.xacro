@@ -4459,8 +4459,8 @@
 
     <!-- Human -->
     <!-- TODO: These should not be needed but parameters aren"t working -->
-    <xacro:property name="xoffset" value="0.769877" />
-    <xacro:property name="yoffset" value="-0.187804" />
+    <xacro:property name="xoffset" value="0.939280" />
+    <xacro:property name="yoffset" value="-0.25" />
     <xacro:property name="zoffset" value="0" />
     <xacro:property name="prefix" value="human_" />
     <xacro:include filename="human-model-include.xacro"/>
