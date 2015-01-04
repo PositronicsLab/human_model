@@ -82,4 +82,25 @@ int main(){
   std::cout << "M: " << M << std::endl;
   std::cout << "ST: " << ST << std::endl;
   std::cout << "f: " << f << std::endl;
+
+  // get a Jacobian for a particular point on a humanoid link
+  // 1. I'll specify a random link
+  Moby::RCArticulatedBody body = robot->get_articulated_body();
+  std::vector<Moby::RigidBodyPtr> links = body->get_links();
+  std::random_shuffle(links.begin(), links.end());
+  Moby::RigidBodyPtr link = links.front();
+
+  // 2. Now we'll pick a frame defined at (1,0,0) w.r.t. the link
+  shared_ptr<Ravelin::Pose3d> P;
+  P->x = Ravelin::Origin3d(1.0, 0.0, 0.0);
+  P->rpose = link->get_pose();
+
+  // 2a. This is a verification step (described in email)
+  Transform3d gTP = Pose3d::calc_relative_pose(P, GLOBAL);
+  std::cout << "pose of bilateral constraint frame: " << std::endl << gTP;
+
+  // 3. Finally we get the Jacobian of the humanoid (R) 
+  Ravelin::MatrixNd R;
+  body->calc_jacobian(P, link, R);
+  std::cout << "R: " << std::endl << R;
 }
