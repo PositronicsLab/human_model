@@ -13,6 +13,13 @@ find_package(Boost REQUIRED COMPONENTS system)
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
+include (FindPkgConfig)
+if (PKG_CONFIG_FOUND)
+  pkg_check_modules(GAZEBO gazebo)
+endif(PKG_CONFIG_FOUND)
+include_directories(${GAZEBO_INCLUDE_DIRS})
+link_directories(${GAZEBO_LIBRARY_DIRS})
+
 # look for Pacer
 find_library(PACER_FOUND Pacer REQUIRED /usr/local/lib /usr/lib)
 add_definitions (-DUSE_INV_DYN)
@@ -53,3 +60,7 @@ target_link_libraries(combined-human-pr2-pacer Pacer Ravelin)
 target_link_libraries(robot-controller Ravelin Opt)
 install(TARGETS human-pacer DESTINATION ${CMAKE_SOURCE_DIR}/human-pacer)
 
+# Gazebo controller plugin
+add_library(StableControllerPlugin SHARED stable-controller-plugin.cpp)
+target_link_libraries(StableControllerPlugin Moby Ravelin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS StableControllerPlugin DESTINATION lib)
