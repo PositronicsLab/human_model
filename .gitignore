@@ -4,3 +4,6 @@ Makefile
 cmake_install.cmake
 human-pacer
 combined-human-pr2-pacer
+Debug
+Release
+*.generated.sdf
