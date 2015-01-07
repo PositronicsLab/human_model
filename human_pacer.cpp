@@ -59,7 +59,7 @@ int main(){
                     );
 
   // Init a robot from the model we want
-  std::string sdf_file("human-model.sdf");
+  std::string sdf_file("human-model.generated.sdf");
   std::string init_file("human.pacer");
   boost::shared_ptr<Robot> robot
       = boost::shared_ptr<Robot>(new Robot(sdf_file, init_file));
@@ -91,7 +91,7 @@ int main(){
   Moby::RigidBodyPtr link = links.front();
 
   // 2. Now we'll pick a frame defined at (1,0,0) w.r.t. the link
-  boost::shared_ptr<Ravelin::Pose3d> P;
+  boost::shared_ptr<Ravelin::Pose3d> P = boost::shared_ptr<Ravelin::Pose3d>(new Ravelin::Pose3d());
   P->x = Ravelin::Origin3d(1.0, 0.0, 0.0);
   P->rpose = link->get_pose();
 
