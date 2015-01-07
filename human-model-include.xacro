@@ -85,6 +85,10 @@
       <pose>0.0 0.0 0.0 0.0 1.570796327 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+          <lower>-0.680678408</lower>
+          <upper>0.726056969</upper>
+        </limit>
       </axis>
     </joint>
     
@@ -141,6 +145,10 @@
       <pose>0.0 0.0 0.0 0.0 1.570796327 0.0</pose>
        <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+          <lower>-0.680678408</lower>
+          <upper>0.726056969</upper>
+        </limit>
       </axis>
     </joint>
     
@@ -183,6 +191,10 @@
       <pose>0.0 0.0 0.2045 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>2.160717614</upper>
+        </limit>
       </axis>
     </joint>
     
@@ -225,7 +237,12 @@
       <pose>0.0 0.0 0.2045 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>2.160717614</upper>
+        </limit>
       </axis>
+      
     </joint>
     
     <link name='${prefix}left_thigh'>
@@ -267,7 +284,18 @@
       <pose>0.0 0.0 0.217 0.0 0.0 0.0</pose> <!--Height leg + thigh -->
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>-2.043780554</lower>
+            <upper>0</upper>
+        </limit>
       </axis>
+      <axis2>
+        <xyz>0.0 0.0 -1.0</xyz>
+        <limit>
+            <lower>-0.483456203</lower>
+            <upper>1.012290966</upper>
+        </limit>
+      </axis2>
     </joint>
     
     <link name='${prefix}right_thigh'>
@@ -309,7 +337,18 @@
       <pose>0.0 0.0 0.217 0.0 0.0 0.0</pose> <!-- leg + thigh height -->
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>-2.043780554</lower>
+            <upper>0</upper>
+        </limit>
       </axis>
+      <axis2>
+        <xyz>0.0 0.0 1.0</xyz>
+        <limit>
+            <lower>-0.483456203</lower>
+            <upper>1.012290966</upper>
+        </limit>
+      </axis2>
     </joint>
     
     <link name='${prefix}transpelvic_link'>
@@ -340,7 +379,12 @@
       <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>0</lower>
+            <upper>0</upper>
+        </limit>
       </axis>
+
     </joint>
     
     <joint name='${prefix}upper_spine' type='revolute'>
@@ -349,6 +393,10 @@
       <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>0</lower>
+            <upper>0</upper>
+        </limit>
       </axis>
     </joint>
     
@@ -380,6 +428,10 @@
       <pose>0.0 0.0 -0.1625 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>0</lower>
+            <upper>0</upper>
+        </limit>
       </axis>
     </joint>
     
@@ -455,7 +507,18 @@
       <pose>0.0 0.0 -0.151 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>3.371976115</lower>
+            <upper>-1.099557429</upper>
+        </limit>
       </axis>
+      <axis2>
+        <xyz>0.0 0.0 -1.0</xyz>
+        <limit>
+            <lower>-2.305579942</lower>
+            <upper>0.88662726</upper>
+        </limit>
+      </axis2>
     </joint>
     
     <link name='${prefix}right_upper_arm'>
@@ -497,7 +560,18 @@
       <pose>0.0 0.0 -0.151 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>3.371976115</lower>
+            <upper>-1.099557429</upper>
+        </limit>
       </axis>
+      <axis2>
+        <xyz>0.0 0.0 1.0</xyz>
+        <limit>
+            <lower>-2.305579942</lower>
+            <upper>0.88662726</upper>
+        </limit>
+      </axis2>
     </joint>
     
     <link name='${prefix}left_forearm'>
@@ -538,7 +612,11 @@
       <child>${prefix}left_forearm</child>
       <pose>0.0 0.0 -0.136 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0.0 1 0.0</xyz>
+        <xyz>0.0 -1 0.0</xyz>
+        <limit>
+            <lower>0</lower>
+            <upper>2.460914245</upper>
+        </limit>
       </axis>
     </joint>
     
@@ -580,7 +658,11 @@
       <child>${prefix}right_forearm</child>
       <pose>0.0 0.0 -0.136 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0.0 1 0.0</xyz>
+        <xyz>0.0 -1 0.0</xyz>
+        <limit>
+            <lower>0</lower>
+            <upper>2.460914245</upper>
+        </limit>
       </axis>
     </joint>
     
@@ -623,7 +705,18 @@
       <pose>0.0 0.0 -0.035 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>-1.651081472</lower>
+            <upper>1.780235837</upper>
+        </limit>
       </axis>
+      <axis2>
+        <xyz>0.0 0.0 1.0</xyz>
+        <limit>
+            <lower>-0.438077642</lower>
+            <upper>0.808087444</upper>
+        </limit>
+      </axis2>
     </joint>
     
     <link name='${prefix}right_hand'>
@@ -665,6 +758,17 @@
       <pose>0.0 0.0 -0.035 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>-1.651081472</lower>
+            <upper>1.780235837</upper>
+        </limit>
       </axis>
+      <axis2>
+        <xyz>0.0 0.0 1.0</xyz>
+        <limit>
+            <lower>-0.438077642</lower>
+            <upper>0.808087444</upper>
+        </limit>
+      </axis2>
     </joint>
 </xacro:macro>
