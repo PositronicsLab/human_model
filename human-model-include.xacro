@@ -508,8 +508,8 @@
       <axis>
         <xyz>0.0 1 0.0</xyz>
         <limit>
-            <lower>3.371976115</lower>
-            <upper>-1.099557429</upper>
+            <lower>-3.371976115</lower>
+            <upper>1.099557429</upper>
         </limit>
       </axis>
       <axis2>
@@ -561,8 +561,8 @@
       <axis>
         <xyz>0.0 1 0.0</xyz>
         <limit>
-            <lower>3.371976115</lower>
-            <upper>-1.099557429</upper>
+            <lower>-3.371976115</lower>
+            <upper>1.099557429</upper>
         </limit>
       </axis>
       <axis2>
