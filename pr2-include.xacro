@@ -2753,7 +2753,7 @@
         <limit>
           <lower>-2.2854</lower>
           <upper>0.714602</upper>
-          <effort>30</effort>
+          <effort>${armEffort}</effort>
           <velocity>2.088</velocity>
         </limit>
         <dynamics>
@@ -2827,7 +2827,7 @@
         <limit>
           <lower>-0.5236</lower>
           <upper>1.3963</upper>
-          <effort>30</effort>
+          <effort>${armEffort}</effort>
           <velocity>2.082</velocity>
         </limit>
         <dynamics>
@@ -2945,7 +2945,7 @@
         <limit>
           <lower>-3.9</lower>
           <upper>0.8</upper>
-          <effort>30</effort>
+          <effort>${armEffort}</effort>
           <velocity>3.27</velocity>
         </limit>
         <dynamics>
@@ -3020,7 +3020,7 @@
         <limit>
           <lower>-2.3213</lower>
           <upper>0</upper>
-          <effort>30</effort>
+          <effort>${armEffort}</effort>
           <velocity>3.3</velocity>
         </limit>
         <dynamics>
@@ -3250,7 +3250,7 @@
         <limit>
           <lower>-2.18</lower>
           <upper>0</upper>
-          <effort>10</effort>
+          <effort>${wristEffort}</effort>
           <velocity>3.078</velocity>
         </limit>
         <dynamics>

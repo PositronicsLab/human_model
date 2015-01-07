@@ -1,8 +1,10 @@
 <sdf version="1.5">
   <model name="combined_human_pr2" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:include filename="pr2.nomodel.sdf" />
+   <xacro:property name="armEffort" value="0" /> <!-- Standard value is 30 -->
+    <xacro:property name="wristEffort" value="0" /> <!-- Standard value is 10 -->
+    <xacro:include filename="pr2-include.xacro" />
     <!-- Controller for the pr2 arm -->
-    <plugin name="pr2_arm_controller" filename="libStableControllerPlugin.dylib">    </plugin>
+    <!-- <plugin name="pr2_arm_controller" filename="libStableControllerPlugin.dylib">    </plugin>-->
 
 
 
