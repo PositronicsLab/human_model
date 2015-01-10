@@ -17,7 +17,7 @@
     <xacro:include filename="human-model-include.xacro"/>
     
     <!-- Virtual connecting joint -->
-    <joint name="virtual_robot_human_connection" type="universal">
+    <joint name="virtual_robot_human_connection" type="ball">
       <parent>r_wrist_roll_link</parent>
       <child>${prefix}left_thigh</child>
       <pose>${xoffset} ${yoffset} ${0.826658 + zoffset} 0.0 0.0 0.0</pose>
@@ -31,7 +31,7 @@
         <ode>
           <limit>
             <cfm>0</cfm>
-            <erp>0.2</erp>
+            <erp>0.8</erp>
           </limit>
         </ode>
       </physics>
