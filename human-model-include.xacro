@@ -89,6 +89,9 @@
           <lower>-0.680678408</lower>
           <upper>0.726056969</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
     </joint>
     
@@ -149,6 +152,9 @@
           <lower>-0.680678408</lower>
           <upper>0.726056969</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
     </joint>
     
@@ -195,6 +201,9 @@
           <lower>0</lower>
           <upper>2.160717614</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
     </joint>
     
@@ -241,6 +250,9 @@
           <lower>0</lower>
           <upper>2.160717614</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
       
     </joint>
@@ -288,6 +300,9 @@
             <lower>-2.043780554</lower>
             <upper>0</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
       <axis2>
         <xyz>-1.0 0.0 0.0</xyz>
@@ -295,6 +310,9 @@
             <lower>-0.483456203</lower>
             <upper>1.012290966</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis2>
     </joint>
     
@@ -341,6 +359,9 @@
             <lower>-2.043780554</lower>
             <upper>0</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
       <axis2>
         <xyz>1.0 0.0 0.0</xyz>
@@ -348,6 +369,9 @@
             <lower>-0.483456203</lower>
             <upper>1.012290966</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis2>
     </joint>
     
@@ -383,6 +407,9 @@
             <lower>0</lower>
             <upper>0</upper>
         </limit>
+        <dynamics>
+            <damping>0.0</damping>
+        </dynamics>
       </axis>
 
     </joint>
@@ -397,6 +424,9 @@
             <lower>0</lower>
             <upper>0</upper>
         </limit>
+        <dynamics>
+            <damping>0.0</damping>
+        </dynamics>
       </axis>
     </joint>
     
@@ -432,6 +462,9 @@
             <lower>0</lower>
             <upper>0</upper>
         </limit>
+        <dynamics>
+            <damping>0.0</damping>
+        </dynamics>
       </axis>
     </joint>
     
@@ -506,18 +539,24 @@
       <child>${prefix}left_upper_arm</child>
       <pose>0.0 0.0 -0.151 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0.0 1 0.0</xyz>
+        <xyz>0.0 1.0 0.0</xyz>
         <limit>
             <lower>-3.371976115</lower>
             <upper>1.099557429</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
       <axis2>
-        <xyz>0.0 0.0 -1.0</xyz>
+        <xyz>-1.0 0.0 0.0</xyz>
         <limit>
             <lower>-2.305579942</lower>
             <upper>0.88662726</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis2>
     </joint>
     
@@ -559,18 +598,24 @@
       <child>${prefix}right_upper_arm</child>
       <pose>0.0 0.0 -0.151 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0.0 1 0.0</xyz>
+        <xyz>0.0 1.0 0.0</xyz>
         <limit>
             <lower>-3.371976115</lower>
             <upper>1.099557429</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
       <axis2>
-        <xyz>0.0 0.0 1.0</xyz>
+        <xyz>1.0 0.0 0.0</xyz>
         <limit>
             <lower>-2.305579942</lower>
             <upper>0.88662726</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis2>
     </joint>
     
@@ -617,6 +662,9 @@
             <lower>0</lower>
             <upper>2.460914245</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
     </joint>
     
@@ -663,6 +711,9 @@
             <lower>0</lower>
             <upper>2.460914245</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
     </joint>
     
@@ -709,6 +760,9 @@
             <lower>-1.651081472</lower>
             <upper>1.780235837</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
       <axis2>
         <xyz>0.0 0.0 1.0</xyz>
@@ -716,6 +770,9 @@
             <lower>-0.438077642</lower>
             <upper>0.808087444</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis2>
     </joint>
     
@@ -762,6 +819,9 @@
             <lower>-1.651081472</lower>
             <upper>1.780235837</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis>
       <axis2>
         <xyz>0.0 0.0 1.0</xyz>
@@ -769,6 +829,9 @@
             <lower>-0.438077642</lower>
             <upper>0.808087444</upper>
         </limit>
+        <dynamics>
+            <damping>0.2</damping>
+        </dynamics>
       </axis2>
     </joint>
 </xacro:macro>

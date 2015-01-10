@@ -10,8 +10,9 @@ using namespace Pacer;
 using namespace Ravelin;
 
 int main(){
-  // 1.57 1.57 0 0 0 0 1.57 0 0 0 1.57 0 0 0 0 0 0
+
   std::map<std::string,double> q,qd;
+  // TODO: Is q needed if it is set this way in the model?
   q["0left_ankle"   ] = 1.57;
   q["0right_ankle"   ] = 1.57;
   q["0left_knee"   ] = 0;
@@ -47,9 +48,9 @@ int main(){
   qd["0right_elbow"   ] = 0;
   qd["0left_wrist"] =  0;
   qd["0right_wrist"] = 0;
- 
-  // TODO: Confirm if this is right 
-  Ravelin::SVector6d base_xd(1,0,0,0,0,0);
+
+  // Pose must match below pose 
+  Ravelin::SVector6d base_xd(0,0,0,0,0,0);
   boost::shared_ptr<Ravelin::Pose3d>
       base_pose = boost::shared_ptr<Ravelin::Pose3d>(
                     new Ravelin::Pose3d(
@@ -84,15 +85,13 @@ int main(){
   std::cout << "f: " << f << std::endl;
 
   // get a Jacobian for a particular point on a humanoid link
-  // 1. I'll specify a random link
+  // 1. Get the link where the robot's hand is attached
   Moby::RCArticulatedBodyPtr body = robot->get_articulated_body();
-  std::vector<Moby::RigidBodyPtr> links = body->get_links();
-  std::random_shuffle(links.begin(), links.end());
-  Moby::RigidBodyPtr link = links.front();
+  Moby::RigidBodyPtr link = body->find_link("left_thigh");
 
-  // 2. Now we'll pick a frame defined at (1,0,0) w.r.t. the link
+  // 2. Now we'll pick a frame defined at (0,0,-0.164675) w.r.t. the link
   boost::shared_ptr<Ravelin::Pose3d> P = boost::shared_ptr<Ravelin::Pose3d>(new Ravelin::Pose3d());
-  P->x = Ravelin::Origin3d(1.0, 0.0, 0.0);
+  P->x = Ravelin::Origin3d(0.0, 0.0, -0.164675);
   P->rpose = link->get_pose();
 
   // 2a. This is a verification step (described in email)
