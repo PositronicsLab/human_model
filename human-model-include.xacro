@@ -31,6 +31,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='trunk_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <link name='${prefix}left_foot'>
@@ -189,6 +194,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='left_leg_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}left_knee' type='revolute'>
@@ -238,6 +248,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='right_leg_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}right_knee' type='revolute'>
@@ -288,6 +303,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='left_thigh_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}left_hip' type='revolute'>
@@ -347,6 +367,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='right_thigh_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
 
     <joint name='${prefix}right_hip' type='revolute'>
@@ -395,6 +420,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='transpelvic_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}lower_spine' type='revolute'>
@@ -450,6 +480,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='clavicular_link_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}neck' type='revolute'>
@@ -499,6 +534,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='head_neck_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <link name='${prefix}left_upper_arm'>
@@ -532,6 +572,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='left_upper_arm_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}left_shoulder' type='revolute'>
@@ -591,6 +636,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='right_upper_arm_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}right_shoulder' type='revolute'>
@@ -650,6 +700,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='left_forearm_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}left_elbow' type='revolute'>
@@ -699,6 +754,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='right_forearm_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}right_elbow' type='revolute'>
@@ -748,6 +808,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='left_hand_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}left_wrist' type='revolute'>
@@ -807,6 +872,11 @@
           </cylinder>
         </geometry>
        </visual>
+       <sensor name='right_hand_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
     </link>
     
     <joint name='${prefix}right_wrist' type='revolute'>
