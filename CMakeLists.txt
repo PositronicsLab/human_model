@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 2.8.3 FATAL_ERROR)
 
 project(Human)
 
@@ -9,14 +9,19 @@ set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMakeModules)
 set (PROJECT_SRC_DIR .)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
-find_package(Boost REQUIRED COMPONENTS system)
-include_directories(${Boost_INCLUDE_DIRS})
+Include(FindBoost)
+find_package(Boost ${MIN_BOOST_VERSION} REQUIRED system filesystem regex)
+
+find_package(Protobuf REQUIRED)
+
 link_directories(${Boost_LIBRARY_DIRS})
+include_directories(${Boost_INCLUDE_DIRS})
 
 include (FindPkgConfig)
 if (PKG_CONFIG_FOUND)
   pkg_check_modules(GAZEBO gazebo)
 endif(PKG_CONFIG_FOUND)
+
 include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 
@@ -59,6 +64,9 @@ target_link_libraries(human-pacer Moby Pacer Ravelin)
 target_link_libraries(combined-human-pr2-pacer Pacer Ravelin)
 target_link_libraries(robot-controller Ravelin Opt)
 install(TARGETS human-pacer DESTINATION ${CMAKE_SOURCE_DIR}/human-pacer)
+
+add_executable(listener listener.cpp)
+target_link_libraries(listener ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${PROTOBUF_LIBRARIES} pthread)
 
 # Gazebo controller plugin
 add_library(StableControllerPlugin SHARED stable-controller-plugin.cpp)
