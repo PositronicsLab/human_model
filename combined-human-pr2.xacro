@@ -1,7 +1,7 @@
 <sdf version="1.5">
   <model name="combined_human_pr2" xmlns:xacro="http://www.ros.org/wiki/xacro">
-   <xacro:property name="armEffort" value="0" /> <!-- Standard value is 30 -->
-    <xacro:property name="wristEffort" value="0" /> <!-- Standard value is 10 -->
+   <xacro:property name="armEffort" value="30" /> <!-- Standard value is 30 -->
+    <xacro:property name="wristEffort" value="10" /> <!-- Standard value is 10 -->
     <xacro:include filename="pr2-include.xacro" />
     <!-- Controller for the pr2 arm -->
     <!-- <plugin name="pr2_arm_controller" filename="libStableControllerPlugin.dylib">    </plugin>-->
@@ -13,7 +13,7 @@
     <xacro:property name="xoffset" value="0.939280" />
     <xacro:property name="yoffset" value="-0.25" />
     <xacro:property name="zoffset" value="0" />
-    <xacro:property name="prefix" value="human_" />
+    <xacro:property name="prefix" value="" />
     <xacro:include filename="human-model-include.xacro"/>
     
     <!-- Virtual connecting joint -->
@@ -31,7 +31,7 @@
         <ode>
           <limit>
             <cfm>0</cfm>
-            <erp>0.8</erp>
+            <erp>0.2</erp>
           </limit>
         </ode>
       </physics>

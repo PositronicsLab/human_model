@@ -104,7 +104,23 @@ int main(int _argc, char **_argv)
     "/gazebo/default/human/left_forearm/left_forearm_contact",
     "/gazebo/default/human/right_forearm/right_forearm_contact",
     "/gazebo/default/human/left_hand/left_hand_contact",
-    "/gazebo/default/human/right_hand/right_hand_contact"
+    "/gazebo/default/human/right_hand/right_hand_contact",
+     "/gazebo/default/combined_human_pr2/trunk/trunk_contact",
+     "/gazebo/default/combined_human_pr2/left_foot/left_foot_contact",
+     "/gazebo/default/combined_human_pr2/right_foot/right_foot_contact",
+     "/gazebo/default/combined_human_pr2/left_leg/left_leg_contact",
+     "/gazebo/default/combined_human_pr2/right_leg/right_leg_contact",
+     "/gazebo/default/combined_human_pr2/left_thigh/left_thigh_contact",
+     "/gazebo/default/combined_human_pr2/right_thigh/right_thigh_contact",
+     "/gazebo/default/combined_human_pr2/transpelvic_link/transpelvic_contact",
+     "/gazebo/default/combined_human_pr2/clavicular_link/clavicular_link_contact",
+     "/gazebo/default/combined_human_pr2/head_neck/head_neck_contact",
+     "/gazebo/default/combined_human_pr2/left_upper_arm/left_upper_arm_contact",
+     "/gazebo/default/combined_human_pr2/right_upper_arm/right_upper_arm_contact",
+     "/gazebo/default/combined_human_pr2/left_forearm/left_forearm_contact",
+     "/gazebo/default/combined_human_pr2/right_forearm/right_forearm_contact",
+     "/gazebo/default/combined_human_pr2/left_hand/left_hand_contact",
+     "/gazebo/default/combined_human_pr2/right_hand/right_hand_contact"
   };
 
   // Keep a reference to all subscriptions
