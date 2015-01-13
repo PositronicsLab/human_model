@@ -2,7 +2,7 @@
 <sdf version='1.4'>
   <model name="human" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <!-- TODO: These should not be needed but parameters aren't working -->
-    <xacro:property name="xoffset" value="0" />
+    <!-- <xacro:property name="xoffset" value="0" /> -->
     <xacro:property name="yoffset" value="0" />
     <xacro:property name="zoffset" value="0" />
     <xacro:property name="prefix" value="" />
