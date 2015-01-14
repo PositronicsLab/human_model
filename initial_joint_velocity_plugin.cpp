@@ -28,6 +28,7 @@ namespace gazebo {
       // Create a random number generator. Note that this has a minute bias that it will
       // not generate 1.0
       boost::mt19937 rng;
+      rng.seed(static_cast<unsigned int>(std::time(0)));
       boost::uniform_real<float> u(-1.0f, 1.0f);
       boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
       
@@ -59,6 +60,7 @@ namespace gazebo {
         for(unsigned int j = 0; j < joint->GetAngleCount(); ++j){
           float random = gen();
           std::cout << "Setting velocity for joint " << joints[i] << " axis number " << j << " to " << random << std::endl;
+          joint->SetMaxForce(j, 5.0);
           joint->SetVelocity(j, random);
           csvFile << random << ",";
         }

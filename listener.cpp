@@ -57,6 +57,25 @@ static const std::string topics[] = {
     "/gazebo/default/human/right_hand/right_hand_contact"
 };
 
+static const std::string contacts[] = {
+    "human::trunk::collision",
+    "human::left_foot::collision",
+    "human::right_foot::collision",
+    "human::left_leg::collision",
+    "human::right_leg::collision",
+    "human::left_thigh::collision",
+    "human::right_thigh::collision",
+    "human::transpelvic_link::collision",
+    "human::clavicular_link::collision",
+    "human::head_neck::collision",
+    "human::left_upper_arm::collision",
+    "human::right_upper_arm::collision",
+    "human::left_forearm::collision",
+    "human::right_forearm::collision",
+    "human::left_hand::collision",
+    "human::right_hand::collision",
+};
+
 /////////////////////////////////////////////////
 // Function is called everytime a message is received.
 void cb(ConstContactsPtr &_msg)
@@ -103,12 +122,12 @@ void finish(){
   // Print max forces
   double overallMax = 0;
   std::string overallMaxLink;
-  for(unsigned int i = 0; i < boost::size(topics); ++i){
-      std::cout << topics[i] << ": " << maxForces[topics[i]] << "(N)" << std::endl;
-      outputCSV << maxForces[topics[i]] << ", ";
-      if(maxForces[topics[i]] > overallMax){
-        overallMax = maxForces[topics[i]];
-        overallMaxLink = topics[i];
+  for(unsigned int i = 0; i < boost::size(contacts); ++i){
+      std::cout << contacts[i] << ": " << maxForces[contacts[i]] << "(N)" << std::endl;
+      outputCSV << maxForces[contacts[i]] << ", ";
+      if(maxForces[contacts[i]] > overallMax){
+        overallMax = maxForces[contacts[i]];
+        overallMaxLink = contacts[i];
       }
     }
 
@@ -122,7 +141,7 @@ void finish(){
 int main(int _argc, char **_argv)
 {
   // Open the output file
-  outputCSV.open("../output.csv", ios::out | ios::app);
+  outputCSV.open("output.csv", ios::out | ios::app);
   assert(outputCSV.is_open());
 
   // Load gazebo
@@ -153,7 +172,7 @@ int main(int _argc, char **_argv)
   // TODO: Use a sim trigger here
   while(true){
     gazebo::common::Time::MSleep(100);
-    if(running && gazebo::common::Time::GetWallTime() > startTime + 10){
+    if(running && gazebo::common::Time::GetWallTime() > startTime + 5){
       break;
     }
   }
