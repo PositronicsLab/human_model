@@ -6,6 +6,10 @@
 #include <boost/random.hpp>
 #include <boost/generator_iterator.hpp>
 #include <iostream>
+#include <iostream>
+#include <fstream>
+
+using namespace std;
 
 namespace gazebo {
   class InitialJointVelocityPlugin : public WorldPlugin {
@@ -14,6 +18,11 @@ namespace gazebo {
     }
 
     public: void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf){
+      // Open a file to store the random values
+      ofstream csvFile;
+      csvFile.open("joint_velocities.csv", ios::out | ios::app);
+      assert(csvFile.is_open());
+
       std::cout << "Loading the initial velocity plugin" << std::endl;
 
       // Create a random number generator. Note that this has a minute bias that it will
@@ -51,8 +60,11 @@ namespace gazebo {
           float random = gen();
           std::cout << "Setting velocity for joint " << joints[i] << " axis number " << j << " to " << random << std::endl;
           joint->SetVelocity(j, random);
+          csvFile << random << ",";
         }
       }
+      csvFile << endl;
+      csvFile.close();
     };
 
   };
