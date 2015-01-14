@@ -23,5 +23,6 @@
     <include>
           <uri>file://.</uri>
     </include>
+    <plugin name="initial_joint_velocity_plugin" filename="libInitialJointVelocityPlugin.dylib"/>
   </world>
 </sdf>

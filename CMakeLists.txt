@@ -72,3 +72,7 @@ target_link_libraries(listener ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${PROTOBUF
 add_library(StableControllerPlugin SHARED stable-controller-plugin.cpp)
 target_link_libraries(StableControllerPlugin Moby Ravelin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS StableControllerPlugin DESTINATION lib)
+
+add_library(InitialJointVelocityPlugin SHARED initial_joint_velocity_plugin.cpp)
+target_link_libraries(InitialJointVelocityPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS InitialJointVelocityPlugin DESTINATION lib)
