@@ -21,8 +21,35 @@
 #include <gazebo/math/Vector3.hh>
 
 #include <iostream>
+#include <fstream>
 
+using namespace std;
+using namespace gazebo;
+
+// Global variables
 std::map<std::string, double> maxForces;
+ofstream outputCSV;
+gazebo::transport::NodePtr node;
+
+// List of topics to listen on
+static const std::string topics[] = {
+    "~/human/trunk/trunk_contact",
+    "~/human/left_foot/left_foot_contact",
+    "~/human/right_foot/right_foot_contact",
+    "~/human/left_leg/left_leg_contact",
+    "~/human/right_leg/right_leg_contact",
+    "~/human/left_thigh/left_thigh_contact",
+    "~/human/right_thigh/right_thigh_contact",
+    "~/human/transpelvic_link/transpelvic_contact",
+    "~/human/clavicular_link/clavicular_link_contact",
+    "~/human/head_neck/head_neck_contact",
+    "~/human/left_upper_arm/left_upper_arm_contact",
+    "~/human/right_upper_arm/right_upper_arm_contact",
+    "~/human/left_forearm/left_forearm_contact",
+    "~/human/right_forearm/right_forearm_contact",
+    "~human/left_hand/left_hand_contact",
+    "~/human/right_hand/right_hand_contact"
+};
 
 /////////////////////////////////////////////////
 // Function is called everytime a message is received.
@@ -46,7 +73,17 @@ void cb(ConstContactsPtr &_msg)
   }
 }
 
-void signalHandler(int signum){
+void subscribeToContactTopics(){
+  // Keep a reference to all subscriptions
+  std::vector<gazebo::transport::SubscriberPtr> subs;
+  
+  for(unsigned int i = 0; i < boost::size(topics); ++i){
+    // Register for topic
+    subs.push_back(node->Subscribe(topics[i], cb));
+  }
+}
+
+void finish(){
   // Make sure to shut everything down.
   // gazebo::shutdown();
   // 1.9 fix
@@ -57,24 +94,28 @@ void signalHandler(int signum){
   // Print max forces
   double overallMax = 0;
   std::string overallMaxLink;
-  for(std::map<std::string, double>::const_iterator it = maxForces.begin();
-    it != maxForces.end(); ++it)
-    {
-      std::cout << it->first << ": " << it->second << "(N)" << std::endl;
-      if(it->second > overallMax){
-        overallMax = it->second;
-        overallMaxLink = it->first;
+  for(unsigned int i = 0; i < boost::size(topics); ++i){
+      std::cout << topics[i] << ": " << maxForces[topics[i]] << "(N)" << std::endl;
+      outputCSV << maxForces[topics[i]] << ", ";
+      if(maxForces[topics[i]] > overallMax){
+        overallMax = maxForces[topics[i]];
+        overallMaxLink = topics[i];
       }
     }
 
     std::cout << "Maximum force: " << std::endl;
     std::cout << overallMaxLink << ": " << overallMax << "(N)" << std::endl;
-    exit(signum);
+    outputCSV << overallMaxLink << ", " << overallMax << endl;
+    outputCSV.close();
 }
 
 /////////////////////////////////////////////////
 int main(int _argc, char **_argv)
 {
+  // Open the output file
+  outputCSV.open("../output.csv", ios::out | ios::app);
+  assert(outputCSV.is_open());
+
   // Load gazebo
   // gazebo::setupClient(_argc, _argv);
   // 1.9 fix
@@ -84,56 +125,29 @@ int main(int _argc, char **_argv)
   // End 1.9 fix
 
   // Create our node for communication
-  gazebo::transport::NodePtr node(new gazebo::transport::Node());
+  node.reset(new gazebo::transport::Node());
   node->Init();
-
-  // List of topics to listen on
-  const std::string topics[] = {
-    "/gazebo/default/human/trunk/trunk_contact",
-    "/gazebo/default/human/left_foot/left_foot_contact",
-    "/gazebo/default/human/right_foot/right_foot_contact",
-    "/gazebo/default/human/left_leg/left_leg_contact",
-    "/gazebo/default/human/right_leg/right_leg_contact",
-    "/gazebo/default/human/left_thigh/left_thigh_contact",
-    "/gazebo/default/human/right_thigh/right_thigh_contact",
-    "/gazebo/default/human/transpelvic_link/transpelvic_contact",
-    "/gazebo/default/human/clavicular_link/clavicular_link_contact",
-    "/gazebo/default/human/head_neck/head_neck_contact",
-    "/gazebo/default/human/left_upper_arm/left_upper_arm_contact",
-    "/gazebo/default/human/right_upper_arm/right_upper_arm_contact",
-    "/gazebo/default/human/left_forearm/left_forearm_contact",
-    "/gazebo/default/human/right_forearm/right_forearm_contact",
-    "/gazebo/default/human/left_hand/left_hand_contact",
-    "/gazebo/default/human/right_hand/right_hand_contact",
-     "/gazebo/default/combined_human_pr2/trunk/trunk_contact",
-     "/gazebo/default/combined_human_pr2/left_foot/left_foot_contact",
-     "/gazebo/default/combined_human_pr2/right_foot/right_foot_contact",
-     "/gazebo/default/combined_human_pr2/left_leg/left_leg_contact",
-     "/gazebo/default/combined_human_pr2/right_leg/right_leg_contact",
-     "/gazebo/default/combined_human_pr2/left_thigh/left_thigh_contact",
-     "/gazebo/default/combined_human_pr2/right_thigh/right_thigh_contact",
-     "/gazebo/default/combined_human_pr2/transpelvic_link/transpelvic_contact",
-     "/gazebo/default/combined_human_pr2/clavicular_link/clavicular_link_contact",
-     "/gazebo/default/combined_human_pr2/head_neck/head_neck_contact",
-     "/gazebo/default/combined_human_pr2/left_upper_arm/left_upper_arm_contact",
-     "/gazebo/default/combined_human_pr2/right_upper_arm/right_upper_arm_contact",
-     "/gazebo/default/combined_human_pr2/left_forearm/left_forearm_contact",
-     "/gazebo/default/combined_human_pr2/right_forearm/right_forearm_contact",
-     "/gazebo/default/combined_human_pr2/left_hand/left_hand_contact",
-     "/gazebo/default/combined_human_pr2/right_hand/right_hand_contact"
-  };
-
-  // Keep a reference to all subscriptions
-  std::vector<gazebo::transport::SubscriberPtr> subs;
   
-  for(unsigned int i = 0; i < boost::size(topics); ++i){
-    // Register for topic
-    subs.push_back(node->Subscribe(topics[i], cb));
+  // The world starts paused. When we come online, register for all our topics.
+  subscribeToContactTopics();
+  
+  // Now unpause
+  // Create a publisher on the ~/world_control topic
+  transport::PublisherPtr worldControlPub = node->Advertise<msgs::WorldControl>("/gazebo/default/world_control");
+
+  cout << "Sending world control message" << endl;
+  msgs::WorldControl controlMsg;
+  controlMsg.set_pause(false);
+  worldControlPub->Publish(controlMsg);
+    
+  // Wait for 10 seconds.
+  // TODO: Use a sim trigger here
+  for(unsigned int i = 0; i < 15; ++i){
+    gazebo::common::Time::MSleep(1000);
   }
-
-  signal(SIGINT, signalHandler);
-
-  // Busy wait loop...replace with your own code as needed.
-  while (true)
-    gazebo::common::Time::MSleep(10);
+  
+  cout << "Completing contact sension" << endl;
+  finish();
+  exit(0);
 }
+
