@@ -30,12 +30,10 @@ using namespace gazebo;
 std::map<std::string, double> maxForces;
 ofstream outputCSV;
 gazebo::transport::NodePtr node;
+bool running = true;
 
 // Keep a reference to all subscriptions
 std::vector<gazebo::transport::SubscriberPtr> subs;
-
-bool running = false;
-gazebo::common::Time startTime;
 
 // List of topics to listen on
 static const std::string topics[] = {
@@ -80,10 +78,6 @@ static const std::string contacts[] = {
 // Function is called everytime a message is received.
 void cb(ConstContactsPtr &_msg)
 {
-  if(!running){
-    running = true;
-    startTime = gazebo::common::Time::GetWallTime();
-  }
   // Dump the message contents to stdout.
   // std::cout << _msg->DebugString();
 
@@ -115,10 +109,11 @@ void finish(){
   // Make sure to shut everything down.
   // gazebo::shutdown();
   // 1.9 fix
+  cout << "Shutting down gazebo client" << endl;
   gazebo::fini();
   gazebo::stop();
   // End 1.9 fix
-
+  cout << "Shutdown complete" << endl;
   // Print max forces
   double overallMax = 0;
   std::string overallMaxLink;
@@ -135,11 +130,22 @@ void finish(){
     std::cout << overallMaxLink << ": " << overallMax << "(N)" << std::endl;
     outputCSV << overallMaxLink << ", " << overallMax << endl;
     outputCSV.close();
+    running = false;
+}
+
+void wscb(ConstWorldStatisticsPtr &_msg){
+  // cout << _msg->DebugString() << endl;
+  if(_msg->sim_time().sec() >= 2.0){
+    cout << "Completing" << endl;
+    running = false;
+  }
 }
 
 /////////////////////////////////////////////////
 int main(int _argc, char **_argv)
 {
+  cout << "Creating listener" << endl;
+
   // Open the output file
   outputCSV.open("output.csv", ios::out | ios::app);
   assert(outputCSV.is_open());
@@ -155,7 +161,10 @@ int main(int _argc, char **_argv)
   // Create our node for communication
   node.reset(new gazebo::transport::Node());
   node->Init("default"); // Name of the world
-  
+ 
+  // Listen to the world stats
+  gazebo::transport::SubscriberPtr sub = node->Subscribe("/gazebo/default/world_stats", wscb, true);
+ 
   // The world starts paused. When we come online, register for all our topics.
   subscribeToContactTopics();
   
@@ -168,17 +177,18 @@ int main(int _argc, char **_argv)
   // controlMsg.set_pause(false);
   // worldControlPub->Publish(controlMsg);
     
-  // Wait for 10 seconds.
-  // TODO: Use a sim trigger here
-  while(true){
+  while(running){
     gazebo::common::Time::MSleep(100);
-    if(running && gazebo::common::Time::GetWallTime() > startTime + 5){
-      break;
-    }
   }
-  
-  cout << "Completing contact sension" << endl;
+  // Make sure to shut everything down.
+  // gazebo::shutdown();
+  // 1.9 fix
+  cout << "Shutting down gazebo client" << endl;
+  sub = NULL;
+  gazebo::fini();
+  gazebo::stop();
   finish();
+  cout << "Exiting listener" << endl;
   exit(0);
 }
 
