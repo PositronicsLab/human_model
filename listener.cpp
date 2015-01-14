@@ -31,30 +31,40 @@ std::map<std::string, double> maxForces;
 ofstream outputCSV;
 gazebo::transport::NodePtr node;
 
+// Keep a reference to all subscriptions
+std::vector<gazebo::transport::SubscriberPtr> subs;
+
+bool running = false;
+gazebo::common::Time startTime;
+
 // List of topics to listen on
 static const std::string topics[] = {
-    "~/human/trunk/trunk_contact",
-    "~/human/left_foot/left_foot_contact",
-    "~/human/right_foot/right_foot_contact",
-    "~/human/left_leg/left_leg_contact",
-    "~/human/right_leg/right_leg_contact",
-    "~/human/left_thigh/left_thigh_contact",
-    "~/human/right_thigh/right_thigh_contact",
-    "~/human/transpelvic_link/transpelvic_contact",
-    "~/human/clavicular_link/clavicular_link_contact",
-    "~/human/head_neck/head_neck_contact",
-    "~/human/left_upper_arm/left_upper_arm_contact",
-    "~/human/right_upper_arm/right_upper_arm_contact",
-    "~/human/left_forearm/left_forearm_contact",
-    "~/human/right_forearm/right_forearm_contact",
-    "~human/left_hand/left_hand_contact",
-    "~/human/right_hand/right_hand_contact"
+    "/gazebo/default/human/trunk/trunk_contact",
+    "/gazebo/default/human/left_foot/left_foot_contact",
+    "/gazebo/default/human/right_foot/right_foot_contact",
+    "/gazebo/default/human/left_leg/left_leg_contact",
+    "/gazebo/default/human/right_leg/right_leg_contact",
+    "/gazebo/default/human/left_thigh/left_thigh_contact",
+    "/gazebo/default/human/right_thigh/right_thigh_contact",
+    "/gazebo/default/human/transpelvic_link/transpelvic_contact",
+    "/gazebo/default/human/clavicular_link/clavicular_link_contact",
+    "/gazebo/default/human/head_neck/head_neck_contact",
+    "/gazebo/default/human/left_upper_arm/left_upper_arm_contact",
+    "/gazebo/default/human/right_upper_arm/right_upper_arm_contact",
+    "/gazebo/default/human/left_forearm/left_forearm_contact",
+    "/gazebo/default/human/right_forearm/right_forearm_contact",
+    "/gazebo/default/human/left_hand/left_hand_contact",
+    "/gazebo/default/human/right_hand/right_hand_contact"
 };
 
 /////////////////////////////////////////////////
 // Function is called everytime a message is received.
 void cb(ConstContactsPtr &_msg)
 {
+  if(!running){
+    running = true;
+    startTime = gazebo::common::Time::GetWallTime();
+  }
   // Dump the message contents to stdout.
   // std::cout << _msg->DebugString();
 
@@ -62,28 +72,27 @@ void cb(ConstContactsPtr &_msg)
     for(unsigned int j = 0; j < _msg->contact(i).wrench_size(); j++){
       // The human link should always be body1
       const gazebo::msgs::JointWrench& jw = _msg->contact(i).wrench(j);
-      std::cout << "Contact between: " << jw.body_1_name() << " and " << jw.body_2_name() << std::endl;
+      // std::cout << "Contact between: " << jw.body_1_name() << " and " << jw.body_2_name() << std::endl;
       const gazebo::msgs::Wrench& w = jw.body_1_wrench();
       const gazebo::msgs::Vector3d& force = w.force();
       const gazebo::math::Vector3 v = gazebo::math::Vector3(force.x(), force.y(), force.z());
       double magnitude = v.GetLength();
-      std::cout << "Body1 wrench: " << magnitude << std::endl;
+      // std::cout << "Body1 wrench: " << magnitude << std::endl;
       maxForces[jw.body_1_name()] = std::max(maxForces[jw.body_1_name()], magnitude); 
     }    
   }
 }
 
 void subscribeToContactTopics(){
-  // Keep a reference to all subscriptions
-  std::vector<gazebo::transport::SubscriberPtr> subs;
   
   for(unsigned int i = 0; i < boost::size(topics); ++i){
     // Register for topic
-    subs.push_back(node->Subscribe(topics[i], cb));
+    subs.push_back(node->Subscribe(topics[i], cb, true));
   }
 }
 
 void finish(){
+  subs.clear();
   // Make sure to shut everything down.
   // gazebo::shutdown();
   // 1.9 fix
@@ -126,24 +135,27 @@ int main(int _argc, char **_argv)
 
   // Create our node for communication
   node.reset(new gazebo::transport::Node());
-  node->Init();
+  node->Init("default"); // Name of the world
   
   // The world starts paused. When we come online, register for all our topics.
   subscribeToContactTopics();
   
   // Now unpause
   // Create a publisher on the ~/world_control topic
-  transport::PublisherPtr worldControlPub = node->Advertise<msgs::WorldControl>("/gazebo/default/world_control");
+  // transport::PublisherPtr worldControlPub = node->Advertise<msgs::WorldControl>("/gazebo/default/world_control");
 
-  cout << "Sending world control message" << endl;
-  msgs::WorldControl controlMsg;
-  controlMsg.set_pause(false);
-  worldControlPub->Publish(controlMsg);
+  // cout << "Sending world control message" << endl;
+  // msgs::WorldControl controlMsg;
+  // controlMsg.set_pause(false);
+  // worldControlPub->Publish(controlMsg);
     
   // Wait for 10 seconds.
   // TODO: Use a sim trigger here
-  for(unsigned int i = 0; i < 15; ++i){
-    gazebo::common::Time::MSleep(1000);
+  while(true){
+    gazebo::common::Time::MSleep(100);
+    if(running && gazebo::common::Time::GetWallTime() > startTime + 10){
+      break;
+    }
   }
   
   cout << "Completing contact sension" << endl;
