@@ -38,71 +38,8 @@
         </sensor>
     </link>
     
-    <link name='${prefix}left_foot'>
-      <pose>${0.041 + xoffset} ${-0.0855 + yoffset} ${0.0 + zoffset} 0.0 1.570796327 0.0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->  
-      <inertial>
-        <mass>1.0817</mass>
-        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
-        <inertia>
-          <ixx>0.00164105</ixx>
-          <iyy>0.000227357</iyy>
-          <izz>0.00164105</izz>
-          <ixy>0.0</ixy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-        </inertia>
-      </inertial>
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.082</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <friction>
-            <ode>
-              <mu>100.0</mu>
-              <mu2>100.0</mu2>
-            </ode>
-          </friction>
-        </surface>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.082</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-       
-       <sensor name='left_foot_contact' type='contact'>
-          <contact>
-            <collision>collision</collision>
-          </contact>
-        </sensor>
-    </link>
-    
-    <joint name='${prefix}left_ankle' type='revolute'>
-      <parent>${prefix}left_leg</parent>
-      <child>${prefix}left_foot</child>
-      <pose>0.0 0.0 0.0 0.0 1.570796327 0.0</pose>
-      <axis>
-        <xyz>0.0 1 0.0</xyz>
-        <limit>
-          <lower>-0.680678408</lower>
-          <upper>0.726056969</upper>
-        </limit>
-        <dynamics>
-            <damping>0.20</damping>
-        </dynamics>
-      </axis>
-    </joint>
-    
     <link name='${prefix}right_foot'>
-      <pose>${0.041 + xoffset} ${0.0855 + yoffset} ${0.0 + zoffset} 0.0 1.570796327 0.0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->
-      
+      <pose>${0.041 + xoffset} ${-0.0855 + yoffset} ${0.0 + zoffset} 0.0 1.570796327 0.0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->  
       <inertial>
         <mass>1.0817</mass>
         <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
@@ -151,6 +88,69 @@
       <parent>${prefix}right_leg</parent>
       <child>${prefix}right_foot</child>
       <pose>0.0 0.0 0.0 0.0 1.570796327 0.0</pose>
+      <axis>
+        <xyz>0.0 1 0.0</xyz>
+        <limit>
+          <lower>-0.680678408</lower>
+          <upper>0.726056969</upper>
+        </limit>
+        <dynamics>
+            <damping>0.20</damping>
+        </dynamics>
+      </axis>
+    </joint>
+    
+    <link name='${prefix}left_foot'>
+      <pose>${0.041 + xoffset} ${0.0855 + yoffset} ${0.0 + zoffset} 0.0 1.570796327 0.0</pose><!-- Move forward by half length of foot. Y coordinate is half the pelvic width. Rotate to horizontal plane -->
+      
+      <inertial>
+        <mass>1.0817</mass>
+        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
+        <inertia>
+          <ixx>0.00164105</ixx>
+          <iyy>0.000227357</iyy>
+          <izz>0.00164105</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.082</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>100.0</mu>
+              <mu2>100.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.082</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+       
+       <sensor name='left_foot_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
+    </link>
+    
+    <joint name='${prefix}left_ankle' type='revolute'>
+      <parent>${prefix}left_leg</parent>
+      <child>${prefix}left_foot</child>
+      <pose>0.0 0.0 0.0 0.0 1.570796327 0.0</pose>
        <axis>
         <xyz>0.0 1 0.0</xyz>
         <limit>
@@ -163,62 +163,8 @@
       </axis>
     </joint>
     
-    <link name='${prefix}left_leg'>
-      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.2045 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height. -->
-      
-      <inertial>
-        <mass>3.4689</mass>
-        <pose>0.0 0.0 0.027403 0.0 0.0 0.0</pose>
-        <inertia>
-          <ixx>0.052923954</ixx>
-          <iyy>0.000276446</iyy>
-          <izz>0.052923954</izz>
-          <ixy>0.0</ixy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-        </inertia>
-      </inertial>
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.409</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.409</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-       <sensor name='left_leg_contact' type='contact'>
-          <contact>
-            <collision>collision</collision>
-          </contact>
-        </sensor>
-    </link>
-    
-    <joint name='${prefix}left_knee' type='revolute'>
-      <parent>${prefix}left_thigh</parent>
-      <child>${prefix}left_leg</child>
-      <pose>0.0 0.0 0.2045 0.0 0.0 0.0</pose>
-      <axis>
-        <xyz>0.0 1 0.0</xyz>
-        <limit>
-          <lower>0</lower>
-          <upper>2.160717614</upper>
-        </limit>
-        <dynamics>
-            <damping>0.20</damping>
-        </dynamics>
-      </axis>
-    </joint>
-    
     <link name='${prefix}right_leg'>
-      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.2045 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height -->
+      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.2045 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height. -->
       
       <inertial>
         <mass>3.4689</mass>
@@ -269,19 +215,18 @@
             <damping>0.20</damping>
         </dynamics>
       </axis>
-      
     </joint>
     
-    <link name='${prefix}left_thigh'>
-      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.626 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+    <link name='${prefix}left_leg'>
+      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.2045 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height -->
       
       <inertial>
-        <mass>7.46</mass>
-        <pose>0.0 0.0 0.029078 0.0 0.0 0.0</pose>
+        <mass>3.4689</mass>
+        <pose>0.0 0.0 0.027403 0.0 0.0 0.0</pose>
         <inertia>
-          <ixx>0.146596409</ixx>
-          <iyy>0.001321394</iyy>
-          <izz>0.146596409</izz>
+          <ixx>0.052923954</ixx>
+          <iyy>0.000276446</iyy>
+          <izz>0.052923954</izz>
           <ixy>0.0</ixy>
           <ixz>0.0</ixz>
           <iyz>0.0</iyz>
@@ -290,7 +235,7 @@
       <collision name='collision'>
         <geometry>
           <cylinder>
-            <length>0.434</length>
+            <length>0.409</length>
             <radius>0.02</radius>
           </cylinder>
         </geometry>
@@ -298,46 +243,37 @@
        <visual name='visual'>
          <geometry>
           <cylinder>
-            <length>0.434</length>
+            <length>0.409</length>
             <radius>0.02</radius>
           </cylinder>
         </geometry>
        </visual>
-       <sensor name='left_thigh_contact' type='contact'>
+       <sensor name='left_leg_contact' type='contact'>
           <contact>
             <collision>collision</collision>
           </contact>
         </sensor>
     </link>
     
-    <joint name='${prefix}left_hip' type='revolute2'>
-      <parent>${prefix}transpelvic_link</parent>
-      <child>${prefix}left_thigh</child>
-      <pose>0.0 0.0 0.217 0.0 0.0 0.0</pose> <!--Height leg + thigh -->
+    <joint name='${prefix}left_knee' type='revolute'>
+      <parent>${prefix}left_thigh</parent>
+      <child>${prefix}left_leg</child>
+      <pose>0.0 0.0 0.2045 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
         <limit>
-            <lower>0</lower>
-            <upper>2.043780554</upper>
+          <lower>0</lower>
+          <upper>2.160717614</upper>
         </limit>
         <dynamics>
             <damping>0.20</damping>
         </dynamics>
       </axis>
-     <axis2>
-        <xyz>1.0 0.0 0.0</xyz>
-        <limit>
-            <lower>-0.483456203</lower>
-            <upper>1.012290966</upper>
-        </limit>
-        <dynamics>
-            <damping>0.20</damping>
-        </dynamics>
-      </axis2>
+      
     </joint>
     
     <link name='${prefix}right_thigh'>
-      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.626 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.626 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
       
       <inertial>
         <mass>7.46</mass>
@@ -373,10 +309,74 @@
           </contact>
         </sensor>
     </link>
-
+    
     <joint name='${prefix}right_hip' type='revolute2'>
       <parent>${prefix}transpelvic_link</parent>
       <child>${prefix}right_thigh</child>
+      <pose>0.0 0.0 0.217 0.0 0.0 0.0</pose> <!--Height leg + thigh -->
+      <axis>
+        <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>0</lower>
+            <upper>2.043780554</upper>
+        </limit>
+        <dynamics>
+            <damping>0.20</damping>
+        </dynamics>
+      </axis>
+     <axis2>
+        <xyz>1.0 0.0 0.0</xyz>
+        <limit>
+            <lower>-0.483456203</lower>
+            <upper>1.012290966</upper>
+        </limit>
+        <dynamics>
+            <damping>0.20</damping>
+        </dynamics>
+      </axis2>
+    </joint>
+    
+    <link name='${prefix}left_thigh'>
+      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.626 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+      
+      <inertial>
+        <mass>7.46</mass>
+        <pose>0.0 0.0 0.029078 0.0 0.0 0.0</pose>
+        <inertia>
+          <ixx>0.146596409</ixx>
+          <iyy>0.001321394</iyy>
+          <izz>0.146596409</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.434</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.434</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+       <sensor name='left_thigh_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
+    </link>
+
+    <joint name='${prefix}left_hip' type='revolute2'>
+      <parent>${prefix}transpelvic_link</parent>
+      <child>${prefix}left_thigh</child>
       <pose>0.0 0.0 0.217 0.0 0.0 0.0</pose> <!-- leg + thigh height -->
       <axis>
         <xyz>0.0 1 0.0</xyz>
@@ -541,72 +541,8 @@
         </sensor>
     </link>
     
-    <link name='${prefix}left_upper_arm'>
-      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.37 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
-      
-      <inertial>
-        <mass>2.0888</mass>
-        <pose>0.0 0.0 -0.019328 0.0 0.0 0.0</pose>
-        <inertia>
-          <ixx>0.019752519</ixx>
-          <iyy>9.28219E-05</iyy>
-          <izz>0.019752519</izz>
-          <ixy>0.0</ixy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-        </inertia>
-      </inertial>
-      <collision name='collision'>
-        <geometry>
-          <cylinder>
-            <length>0.302</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </collision>
-       <visual name='visual'>
-         <geometry>
-          <cylinder>
-            <length>0.302</length>
-            <radius>0.02</radius>
-          </cylinder>
-        </geometry>
-       </visual>
-       <sensor name='left_upper_arm_contact' type='contact'>
-          <contact>
-            <collision>collision</collision>
-          </contact>
-        </sensor>
-    </link>
-    
-    <joint name='${prefix}left_shoulder' type='revolute2'>
-      <parent>${prefix}clavicular_link</parent>
-      <child>${prefix}left_upper_arm</child>
-      <pose>0.0 0.0 -0.151 0.0 0.0 0.0</pose>
-      <axis>
-        <xyz>0.0 1.0 0.0</xyz>
-        <limit>
-            <lower>-3.371976115</lower>
-            <upper>1.099557429</upper>
-        </limit>
-        <dynamics>
-            <damping>0.20</damping>
-        </dynamics>
-      </axis>
-      <axis2>
-        <xyz>-1.0 0.0 0.0</xyz>
-        <limit>
-            <lower>-2.305579942</lower>
-            <upper>0.88662726</upper>
-        </limit>
-        <dynamics>
-            <damping>0.20</damping>
-        </dynamics>
-      </axis2>
-    </joint>
-    
     <link name='${prefix}right_upper_arm'>
-      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.37 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.37 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
       
       <inertial>
         <mass>2.0888</mass>
@@ -669,16 +605,16 @@
       </axis2>
     </joint>
     
-    <link name='${prefix}left_forearm'>
-      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.657 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+    <link name='${prefix}left_upper_arm'>
+      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.37 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
       
       <inertial>
-        <mass>1.1936</mass>
-        <pose>0.0 0.0 -0.01904 0.0 0.0 0.0</pose>
+        <mass>2.0888</mass>
+        <pose>0.0 0.0 -0.019328 0.0 0.0 0.0</pose>
         <inertia>
-          <ixx>0.008107405</ixx>
-          <iyy>4.65747E-05</iyy>
-          <izz>0.008107405</izz>
+          <ixx>0.019752519</ixx>
+          <iyy>9.28219E-05</iyy>
+          <izz>0.019752519</izz>
           <ixy>0.0</ixy>
           <ixz>0.0</ixz>
           <iyz>0.0</iyz>
@@ -687,7 +623,7 @@
       <collision name='collision'>
         <geometry>
           <cylinder>
-            <length>0.272</length>
+            <length>0.302</length>
             <radius>0.02</radius>
           </cylinder>
         </geometry>
@@ -695,36 +631,46 @@
        <visual name='visual'>
          <geometry>
           <cylinder>
-            <length>0.272</length>
+            <length>0.302</length>
             <radius>0.02</radius>
           </cylinder>
         </geometry>
        </visual>
-       <sensor name='left_forearm_contact' type='contact'>
+       <sensor name='left_upper_arm_contact' type='contact'>
           <contact>
             <collision>collision</collision>
           </contact>
         </sensor>
     </link>
     
-    <joint name='${prefix}left_elbow' type='revolute'>
-      <parent>${prefix}left_upper_arm</parent>
-      <child>${prefix}left_forearm</child>
-      <pose>0.0 0.0 -0.136 0.0 0.0 0.0</pose>
+    <joint name='${prefix}left_shoulder' type='revolute2'>
+      <parent>${prefix}clavicular_link</parent>
+      <child>${prefix}left_upper_arm</child>
+      <pose>0.0 0.0 -0.151 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0.0 -1 0.0</xyz>
+        <xyz>0.0 1.0 0.0</xyz>
         <limit>
-            <lower>0</lower>
-            <upper>2.460914245</upper>
+            <lower>-3.371976115</lower>
+            <upper>1.099557429</upper>
         </limit>
         <dynamics>
             <damping>0.20</damping>
         </dynamics>
       </axis>
+      <axis2>
+        <xyz>-1.0 0.0 0.0</xyz>
+        <limit>
+            <lower>-2.305579942</lower>
+            <upper>0.88662726</upper>
+        </limit>
+        <dynamics>
+            <damping>0.20</damping>
+        </dynamics>
+      </axis2>
     </joint>
     
     <link name='${prefix}right_forearm'>
-      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.657 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.657 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
       
       <inertial>
         <mass>1.1936</mass>
@@ -777,16 +723,16 @@
       </axis>
     </joint>
     
-    <link name='${prefix}left_hand'>
-      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.828 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+    <link name='${prefix}left_forearm'>
+      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.657 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
       
       <inertial>
-        <mass>0.4476</mass>
-        <pose>0.0 0.0 0.00042 0.0 0.0 0.0</pose>
+        <mass>1.1936</mass>
+        <pose>0.0 0.0 -0.01904 0.0 0.0 0.0</pose>
         <inertia>
-          <ixx>0.000193464</ixx>
-          <iyy>7.36224E-06</iyy>
-          <izz>0.000193464</izz>
+          <ixx>0.008107405</ixx>
+          <iyy>4.65747E-05</iyy>
+          <izz>0.008107405</izz>
           <ixy>0.0</ixy>
           <ixz>0.0</ixz>
           <iyz>0.0</iyz>
@@ -795,7 +741,7 @@
       <collision name='collision'>
         <geometry>
           <cylinder>
-            <length>0.07</length>
+            <length>0.272</length>
             <radius>0.02</radius>
           </cylinder>
         </geometry>
@@ -803,46 +749,36 @@
        <visual name='visual'>
          <geometry>
           <cylinder>
-            <length>0.07</length>
+            <length>0.272</length>
             <radius>0.02</radius>
           </cylinder>
         </geometry>
        </visual>
-       <sensor name='left_hand_contact' type='contact'>
+       <sensor name='left_forearm_contact' type='contact'>
           <contact>
             <collision>collision</collision>
           </contact>
         </sensor>
     </link>
     
-    <joint name='${prefix}left_wrist' type='revolute2'>
-      <parent>${prefix}left_forearm</parent>
-      <child>${prefix}left_hand</child>
-      <pose>0.0 0.0 -0.035 0.0 0.0 0.0</pose>
+    <joint name='${prefix}left_elbow' type='revolute'>
+      <parent>${prefix}left_upper_arm</parent>
+      <child>${prefix}left_forearm</child>
+      <pose>0.0 0.0 -0.136 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0.0 1 0.0</xyz>
+        <xyz>0.0 -1 0.0</xyz>
         <limit>
-            <lower>-1.651081472</lower>
-            <upper>1.780235837</upper>
+            <lower>0</lower>
+            <upper>2.460914245</upper>
         </limit>
         <dynamics>
             <damping>0.20</damping>
         </dynamics>
       </axis>
-      <axis2>
-        <xyz>1.0 0.0 0.0</xyz>
-        <limit>
-            <lower>-0.438077642</lower>
-            <upper>0.808087444</upper>
-        </limit>
-        <dynamics>
-            <damping>0.20</damping>
-        </dynamics>
-      </axis2>
     </joint>
     
     <link name='${prefix}right_hand'>
-      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.828 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.828 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
       
       <inertial>
         <mass>0.4476</mass>
@@ -882,6 +818,70 @@
     <joint name='${prefix}right_wrist' type='revolute2'>
       <parent>${prefix}right_forearm</parent>
       <child>${prefix}right_hand</child>
+      <pose>0.0 0.0 -0.035 0.0 0.0 0.0</pose>
+      <axis>
+        <xyz>0.0 1 0.0</xyz>
+        <limit>
+            <lower>-1.651081472</lower>
+            <upper>1.780235837</upper>
+        </limit>
+        <dynamics>
+            <damping>0.20</damping>
+        </dynamics>
+      </axis>
+      <axis2>
+        <xyz>1.0 0.0 0.0</xyz>
+        <limit>
+            <lower>-0.438077642</lower>
+            <upper>0.808087444</upper>
+        </limit>
+        <dynamics>
+            <damping>0.20</damping>
+        </dynamics>
+      </axis2>
+    </joint>
+    
+    <link name='${prefix}left_hand'>
+      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.828 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+      
+      <inertial>
+        <mass>0.4476</mass>
+        <pose>0.0 0.0 0.00042 0.0 0.0 0.0</pose>
+        <inertia>
+          <ixx>0.000193464</ixx>
+          <iyy>7.36224E-06</iyy>
+          <izz>0.000193464</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <geometry>
+          <cylinder>
+            <length>0.07</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </collision>
+       <visual name='visual'>
+         <geometry>
+          <cylinder>
+            <length>0.07</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+       </visual>
+       <sensor name='left_hand_contact' type='contact'>
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
+    </link>
+    
+    <joint name='${prefix}left_wrist' type='revolute2'>
+      <parent>${prefix}left_forearm</parent>
+      <child>${prefix}left_hand</child>
       <pose>0.0 0.0 -0.035 0.0 0.0 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
