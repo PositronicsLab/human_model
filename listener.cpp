@@ -107,11 +107,11 @@ void subscribeToContactTopics(){
 void finish(){
   subs.clear();
   // Make sure to shut everything down.
-  // gazebo::shutdown();
+  gazebo::shutdown();
   // 1.9 fix
   cout << "Shutting down gazebo client" << endl;
-  gazebo::fini();
-  gazebo::stop();
+  // gazebo::fini();
+  // gazebo::stop();
   // End 1.9 fix
   cout << "Shutdown complete" << endl;
   // Print max forces
@@ -151,11 +151,11 @@ int main(int _argc, char **_argv)
   assert(outputCSV.is_open());
 
   // Load gazebo
-  // gazebo::setupClient(_argc, _argv);
+  gazebo::setupClient(_argc, _argv);
   // 1.9 fix
-  gazebo::load();
-  gazebo::init();
-  gazebo::run();
+  // gazebo::load();
+  // gazebo::init();
+  // gazebo::run();
   // End 1.9 fix
 
   // Create our node for communication
@@ -185,8 +185,6 @@ int main(int _argc, char **_argv)
   // 1.9 fix
   cout << "Shutting down gazebo client" << endl;
   sub = NULL;
-  gazebo::fini();
-  gazebo::stop();
   finish();
   cout << "Exiting listener" << endl;
   exit(0);

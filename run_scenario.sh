@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in `seq 1 100`;
+for i in `seq 1 7`;
 do
   echo "Executing scenario: $i"
   # Launch the listener

@@ -2,6 +2,7 @@
 #include <gazebo/common/common.hh>
 #include <gazebo/physics/model.hh>
 #include <gazebo/physics/joint.hh>
+#include <gazebo/physics/world.hh>
 #include <stdio.h>
 #include <boost/random.hpp>
 #include <boost/generator_iterator.hpp>
@@ -10,6 +11,8 @@
 #include <fstream>
 
 using namespace std;
+
+#define USE_FIXED_SEED 1
 
 namespace gazebo {
   class InitialJointVelocityPlugin : public WorldPlugin {
@@ -28,7 +31,11 @@ namespace gazebo {
       // Create a random number generator. Note that this has a minute bias that it will
       // not generate 1.0
       boost::mt19937 rng;
+      #if(!USE_FIXED_SEED)
       rng.seed(static_cast<unsigned int>(std::time(0)));
+      #else
+      rng.seed(0);
+      #endif
       boost::uniform_real<float> u(-1.0f, 1.0f);
       boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
       
