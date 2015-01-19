@@ -9,3 +9,4 @@ combined-human-pr2-pacer
 Debug
 Release
 *.generated.sdf
+.DS_Store

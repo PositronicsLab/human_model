@@ -324,8 +324,8 @@
             <damping>0.20</damping>
         </dynamics>
       </axis>
-      <axis2>
-        <xyz>-1.0 0.0 0.0</xyz>
+     <axis2>
+        <xyz>1.0 0.0 0.0</xyz>
         <limit>
             <lower>-0.483456203</lower>
             <upper>1.012290966</upper>
@@ -389,7 +389,7 @@
         </dynamics>
       </axis>
       <axis2>
-        <xyz>1.0 0.0 0.0</xyz>
+        <xyz>-1.0 0.0 0.0</xyz>
         <limit>
             <lower>-0.483456203</lower>
             <upper>1.012290966</upper>
