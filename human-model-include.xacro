@@ -62,8 +62,8 @@
         <surface>
           <friction>
             <ode>
-              <mu>100.0</mu>
-              <mu2>100.0</mu2>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
             </ode>
           </friction>
         </surface>
@@ -125,8 +125,8 @@
         <surface>
           <friction>
             <ode>
-              <mu>100.0</mu>
-              <mu2>100.0</mu2>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
             </ode>
           </friction>
         </surface>
@@ -315,7 +315,7 @@
       <child>${prefix}right_thigh</child>
       <pose>0.0 0.0 0.217 0.0 0.0 0.0</pose> <!--Height leg + thigh -->
       <axis>
-        <xyz>0.0 1 0.0</xyz>
+        <xyz>0.0 1.0 0.0</xyz>
         <limit>
             <lower>0</lower>
             <upper>2.043780554</upper>
@@ -334,8 +334,20 @@
             <damping>0.20</damping>
         </dynamics>
       </axis2>
+      <!-- Joint limits on ball joints not currently supported in gazebo -->
+      <!-- 
+      <axis3>
+        <xyz>0.0 0.0 1.0</xyz>
+        <limit>
+            <lower>-0.60562925</lower>
+            <upper>0.675442421</upper>
+        </limit>
+        <dynamics>
+            <damping>0.20</damping>
+        </dynamics>
+      </axis3>
+      -->
     </joint>
-    
     <link name='${prefix}left_thigh'>
       <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.626 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
       
@@ -398,6 +410,19 @@
             <damping>0.20</damping>
         </dynamics>
       </axis2>
+      <!-- Joint limits on ball joints not currently supported in gazebo -->
+      <!--
+     <axis3>
+        <xyz>0.0 0.0 -1.0</xyz>
+        <limit>
+            <lower>-0.60562925</lower>
+            <upper>0.675442421</upper>
+        </limit>
+        <dynamics>
+            <damping>0.20</damping>
+        </dynamics>
+      </axis3>
+      -->
     </joint>
     
     <link name='${prefix}transpelvic_link'>
@@ -586,8 +611,8 @@
       <axis>
         <xyz>0.0 1.0 0.0</xyz>
         <limit>
-            <lower>-3.371976115</lower>
-            <upper>1.099557429</upper>
+            <lower>-1.099557429</lower>
+            <upper>3.371976115</upper>
         </limit>
         <dynamics>
             <damping>0.20</damping>
@@ -603,6 +628,19 @@
             <damping>0.20</damping>
         </dynamics>
       </axis2>
+      <!-- Joint limits on ball joints not currently supported in gazebo -->
+      <!--
+     <axis3>
+        <xyz>0.0 0.0 1.0</xyz>
+        <limit>
+            <lower>-2.305579942</lower>
+            <upper>0.88662726</upper>
+        </limit>
+        <dynamics>
+            <damping>0.20</damping>
+        </dynamics>
+      </axis3>
+      -->
     </joint>
     
     <link name='${prefix}left_upper_arm'>
@@ -650,8 +688,8 @@
       <axis>
         <xyz>0.0 1.0 0.0</xyz>
         <limit>
-            <lower>-3.371976115</lower>
-            <upper>1.099557429</upper>
+            <lower>-1.099557429</lower>
+            <upper>3.371976115</upper>
         </limit>
         <dynamics>
             <damping>0.20</damping>
@@ -667,6 +705,19 @@
             <damping>0.20</damping>
         </dynamics>
       </axis2>
+      <!-- Joint limits on ball joints not currently supported in gazebo -->
+      <!--
+     <axis3>
+        <xyz>0.0 0.0 -1.0</xyz>
+        <limit>
+            <lower>-2.305579942</lower>
+            <upper>0.88662726</upper>
+        </limit> 
+        <dynamics>
+            <damping>0.20</damping>
+        </dynamics>
+      </axis3>
+      -->
     </joint>
     
     <link name='${prefix}right_forearm'>
