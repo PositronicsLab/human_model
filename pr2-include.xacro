@@ -42,7 +42,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/base_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/base_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -81,7 +81,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/base.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/base.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -163,7 +163,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/caster_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/caster_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -180,7 +180,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/caster.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/caster.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -258,7 +258,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -330,7 +330,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -377,7 +377,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/caster_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/caster_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -394,7 +394,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/caster.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/caster.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -472,7 +472,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -544,7 +544,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -591,7 +591,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/caster_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/caster_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -608,7 +608,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/caster.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/caster.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -686,7 +686,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -758,7 +758,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -805,7 +805,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/caster_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/caster_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -822,7 +822,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/caster.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/caster.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -900,7 +900,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -972,7 +972,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/base_v0/wheel.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1019,7 +1019,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/torso_v0/torso_lift_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/torso_v0/torso_lift_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -1036,7 +1036,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/torso_v0/torso_lift.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/torso_v0/torso_lift.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1098,7 +1098,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/head_v0/head_pan_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/head_v0/head_pan_L.stl</uri>
           </mesh>
         </geometry>
       </collision>
@@ -1107,7 +1107,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/head_v0/head_pan.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/head_v0/head_pan.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1154,7 +1154,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/head_v0/head_tilt_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/head_v0/head_tilt_L.stl</uri>
           </mesh>
         </geometry>
       </collision>
@@ -1179,7 +1179,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/head_v0/head_tilt.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/head_v0/head_tilt.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1479,7 +1479,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/shoulder_pan.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/shoulder_pan.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -1496,7 +1496,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/shoulder_pan.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/shoulder_pan.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1553,7 +1553,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/shoulder_lift.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/shoulder_lift.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -1570,7 +1570,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/shoulder_lift.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/shoulder_lift.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1627,7 +1627,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/upper_arm_roll_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/upper_arm_roll_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -1644,7 +1644,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/upper_arm.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/upper_arm.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -1669,7 +1669,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/upper_arm_roll.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/upper_arm_roll.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1684,7 +1684,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/upper_arm.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/upper_arm.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1746,7 +1746,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/elbow_flex.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/elbow_flex.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -1763,7 +1763,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/elbow_flex.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/elbow_flex.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1820,7 +1820,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/forearm_roll_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/forearm_roll_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -1837,7 +1837,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/forearm.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/forearm.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -1862,7 +1862,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/forearm_roll.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/forearm_roll.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1877,7 +1877,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/forearm.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/forearm.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1976,7 +1976,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/wrist_flex.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/wrist_flex.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -1993,7 +1993,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/wrist_flex.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/wrist_flex.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -2050,7 +2050,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/wrist_roll_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/wrist_roll_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -2083,7 +2083,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/gripper_palm.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/gripper_palm.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -2108,7 +2108,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/wrist_roll.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/wrist_roll.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -2131,7 +2131,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/gripper_palm.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/gripper_palm.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -2191,7 +2191,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -2214,7 +2214,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -2274,7 +2274,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger_tip.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger_tip.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -2297,7 +2297,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger_tip.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger_tip.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -2447,7 +2447,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -2470,7 +2470,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -2530,7 +2530,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger_tip.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger_tip.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -2553,7 +2553,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger_tip.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger_tip.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -2626,7 +2626,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/tilting_laser_v0/tilting_hokuyo_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/tilting_laser_v0/tilting_hokuyo_L.stl</uri>
           </mesh>
         </geometry>
       </collision>
@@ -2635,7 +2635,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/tilting_laser_v0/tilting_hokuyo.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/tilting_laser_v0/tilting_hokuyo.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -2717,7 +2717,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/shoulder_pan.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/shoulder_pan.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -2734,7 +2734,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/shoulder_pan.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/shoulder_pan.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -2791,7 +2791,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/shoulder_lift.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/shoulder_lift.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -2808,7 +2808,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/shoulder_lift.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/shoulder_lift.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -2865,7 +2865,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/upper_arm_roll_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/upper_arm_roll_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -2882,7 +2882,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/upper_arm.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/upper_arm.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -2907,7 +2907,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/shoulder_v0/upper_arm_roll.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/shoulder_v0/upper_arm_roll.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -2922,7 +2922,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/upper_arm.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/upper_arm.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -2984,7 +2984,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/elbow_flex.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/elbow_flex.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -3001,7 +3001,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/elbow_flex.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/elbow_flex.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -3058,7 +3058,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/forearm_roll_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/forearm_roll_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -3075,7 +3075,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/forearm.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/forearm.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -3100,7 +3100,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/upper_arm_v0/forearm_roll.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/upper_arm_v0/forearm_roll.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -3115,7 +3115,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/forearm.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/forearm.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -3214,7 +3214,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/wrist_flex.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/wrist_flex.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -3231,7 +3231,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/wrist_flex.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/wrist_flex.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -3288,7 +3288,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/wrist_roll_L.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/wrist_roll_L.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -3321,7 +3321,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/gripper_palm.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/gripper_palm.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -3346,7 +3346,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/forearm_v0/wrist_roll.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/forearm_v0/wrist_roll.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -3369,7 +3369,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/gripper_palm.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/gripper_palm.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -3429,7 +3429,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -3452,7 +3452,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -3512,7 +3512,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger_tip.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger_tip.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -3535,7 +3535,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger_tip.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger_tip.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -3685,7 +3685,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -3708,7 +3708,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -3768,7 +3768,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger_tip.stl</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger_tip.stl</uri>
           </mesh>
         </geometry>
         <surface>
@@ -3791,7 +3791,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>/Users/joshualurz/.gazebo/models/pr2/pr2_description/meshes/gripper_v0/l_finger_tip.dae</uri>
+            <uri>model://pr2/pr2_description/meshes/gripper_v0/l_finger_tip.dae</uri>
           </mesh>
         </geometry>
       </visual>
