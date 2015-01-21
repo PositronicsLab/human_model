@@ -31,7 +31,7 @@
         <ode>
           <limit>
             <cfm>0.000</cfm>
-            <erp>0.4</erp>
+            <erp>0.8</erp>
           </limit>
         </ode>
       </physics>
