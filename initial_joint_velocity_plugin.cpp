@@ -41,7 +41,10 @@ namespace gazebo {
       
       // Get the human
       physics::ModelPtr human = _world->GetModel("human");
-      assert(human != NULL);
+      if(human == NULL){
+        std::cout << "Human model not defined" << std::endl;
+        return;
+      }
 
       // Now loop over joints and set an initial velocity for each.
       // We specifically look for the human joints to avoid setting a velocity

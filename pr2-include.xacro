@@ -114,35 +114,6 @@
         <angular>0</angular>
       </velocity_decay>
       <self_collide>0</self_collide>
-      <sensor name='base_laser' type='ray'>
-        <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <visualize>0</visualize>
-        <ray>
-          <scan>
-            <horizontal>
-              <samples>640</samples>
-              <resolution>1</resolution>
-              <min_angle>-2.2689</min_angle>
-              <max_angle>2.2689</max_angle>
-            </horizontal>
-          </scan>
-          <range>
-            <min>0.08</min>
-            <max>10</max>
-            <resolution>0.01</resolution>
-          </range>
-        </ray>
-        <plugin name='gazebo_ros_base_laser_controller' filename='libgazebo_ros_laser.so'>
-          <gaussianNoise>0.005</gaussianNoise>
-          <alwaysOn>true</alwaysOn>
-          <updateRate>20</updateRate>
-          <topicName>base_scan</topicName>
-          <frameName>base_laser_link</frameName>
-          <hokuyoMinIntensity>101</hokuyoMinIntensity>
-        </plugin>
-        <pose>0.275 0 0.303 0 -0 0</pose>
-      </sensor>
     </link>
     <link name='bl_caster_rotation_link'>
       <pose>-0.2246 0.2246 0.0792 0 -0 0</pose>
@@ -1236,80 +1207,6 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <sensor name='narrow_stereo_l_stereo_camera_sensor' type='camera'>
-        <always_on>1</always_on>
-        <update_rate>25</update_rate>
-        <camera name='__default__'>
-          <horizontal_fov>0.785398</horizontal_fov>
-          <image>
-            <format>L8</format>
-            <width>640</width>
-            <height>480</height>
-          </image>
-          <clip>
-            <near>0.1</near>
-            <far>100</far>
-          </clip>
-        </camera>
-        <plugin name='narrow_stereo_l_stereo_camera_controller' filename='libgazebo_ros_camera.so'>
-          <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
-          <cameraName>narrow_stereo/left</cameraName>
-          <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <frameName>narrow_stereo_optical_frame</frameName>
-          <hackBaseline>0</hackBaseline>
-          <CxPrime>320.5</CxPrime>
-          <Cx>320.5</Cx>
-          <Cy>240.5</Cy>
-          <focalLength>772.548518</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
-        </plugin>
-        <pose>0.0682 0.06 0.1146 0 -0 0</pose>
-      </sensor>
-      <velocity_decay>
-        <linear>0</linear>
-        <angular>0</angular>
-      </velocity_decay>
-      <sensor name='narrow_stereo_r_stereo_camera_sensor' type='camera'>
-        <always_on>1</always_on>
-        <update_rate>25</update_rate>
-        <camera name='__default__'>
-          <horizontal_fov>0.785398</horizontal_fov>
-          <image>
-            <format>L8</format>
-            <width>640</width>
-            <height>480</height>
-          </image>
-          <clip>
-            <near>0.1</near>
-            <far>100</far>
-          </clip>
-        </camera>
-        <plugin name='narrow_stereo_r_stereo_camera_controller' filename='libgazebo_ros_camera.so'>
-          <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
-          <cameraName>narrow_stereo/right</cameraName>
-          <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <frameName>narrow_stereo_optical_frame</frameName>
-          <hackBaseline>0.09</hackBaseline>
-          <CxPrime>320.5</CxPrime>
-          <Cx>320.5</Cx>
-          <Cy>240.5</Cy>
-          <focalLength>772.548518</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
-        </plugin>
-        <pose>0.0682 -0.03 0.1146 0 -0 0</pose>
-      </sensor>
       <velocity_decay>
         <linear>0</linear>
         <angular>0</angular>
@@ -1322,80 +1219,14 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <sensor name='wide_stereo_l_stereo_camera_sensor' type='camera'>
-        <always_on>1</always_on>
-        <update_rate>25</update_rate>
-        <camera name='__default__'>
-          <horizontal_fov>1.5708</horizontal_fov>
-          <image>
-            <format>BAYER_BGGR8</format>
-            <width>640</width>
-            <height>480</height>
-          </image>
-          <clip>
-            <near>0.1</near>
-            <far>100</far>
-          </clip>
-        </camera>
-        <plugin name='wide_stereo_l_stereo_camera_controller' filename='libgazebo_ros_camera.so'>
-          <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
-          <cameraName>wide_stereo/left</cameraName>
-          <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <frameName>wide_stereo_optical_frame</frameName>
-          <hackBaseline>0</hackBaseline>
-          <CxPrime>320.5</CxPrime>
-          <Cx>320.5</Cx>
-          <Cy>240.5</Cy>
-          <focalLength>320.000105</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
-        </plugin>
-        <pose>0.0682 0.03 0.1146 0 -0 0</pose>
-      </sensor>
       <velocity_decay>
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <sensor name='wide_stereo_r_stereo_camera_sensor' type='camera'>
-        <always_on>1</always_on>
-        <update_rate>25</update_rate>
-        <camera name='__default__'>
-          <horizontal_fov>1.5708</horizontal_fov>
-          <image>
-            <format>BAYER_BGGR8</format>
-            <width>640</width>
-            <height>480</height>
-          </image>
-          <clip>
-            <near>0.1</near>
-            <far>100</far>
-          </clip>
-        </camera>
-        <plugin name='wide_stereo_r_stereo_camera_controller' filename='libgazebo_ros_camera.so'>
-          <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
-          <cameraName>wide_stereo/right</cameraName>
-          <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <frameName>wide_stereo_optical_frame</frameName>
-          <hackBaseline>0.09</hackBaseline>
-          <CxPrime>320.5</CxPrime>
-          <Cx>320.5</Cx>
-          <Cy>240.5</Cy>
-          <focalLength>320.000105</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
-        </plugin>
-        <pose>0.0682 -0.06 0.1146 0 -0 0</pose>
-      </sensor>
+      <velocity_decay>
+        <linear>0</linear>
+        <angular>0</angular>
+      </velocity_decay>
       <velocity_decay>
         <linear>0</linear>
         <angular>0</angular>
@@ -1406,40 +1237,6 @@
         <angular>0</angular>
       </velocity_decay>
       <self_collide>0</self_collide>
-      <sensor name='high_def_sensor' type='camera'>
-        <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <camera name='__default__'>
-          <horizontal_fov>0.785398</horizontal_fov>
-          <image>
-            <format>R8G8B8</format>
-            <width>2448</width>
-            <height>2050</height>
-          </image>
-          <clip>
-            <near>0.1</near>
-            <far>100</far>
-          </clip>
-        </camera>
-        <plugin name='high_def_controller' filename='libgazebo_ros_prosilica.so'>
-          <updateRate>20.0</updateRate>
-          <cameraName>prosilica</cameraName>
-          <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <pollServiceName>request_image</pollServiceName>
-          <frameName>high_def_optical_frame</frameName>
-          <CxPrime>1224.5</CxPrime>
-          <Cx>1224.5</Cx>
-          <Cy>1025.5</Cy>
-          <focalLength>2954.998083</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
-        </plugin>
-        <pose>0.069657 -0.11 0.1191 0 -0 0</pose>
-      </sensor>
     </link>
     <joint name='head_tilt_joint' type='revolute'>
       <child>head_tilt_link</child>
@@ -1889,41 +1686,6 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <sensor name='l_forearm_cam_sensor' type='camera'>
-        <always_on>1</always_on>
-        <update_rate>25</update_rate>
-        <camera name='__default__'>
-          <horizontal_fov>1.5708</horizontal_fov>
-          <image>
-            <format>R8G8B8</format>
-            <width>640</width>
-            <height>480</height>
-          </image>
-          <clip>
-            <near>0.1</near>
-            <far>100</far>
-          </clip>
-        </camera>
-        <plugin name='l_forearm_cam_controller' filename='libgazebo_ros_camera.so'>
-          <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
-          <cameraName>l_forearm_cam</cameraName>
-          <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <frameName>l_forearm_cam_optical_frame</frameName>
-          <hackBaseline>0</hackBaseline>
-          <CxPrime>320.5</CxPrime>
-          <Cx>320.5</Cx>
-          <Cy>240.5</Cy>
-          <focalLength>320</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
-        </plugin>
-        <pose>0.135 0 0.044 -1.5708 -0.562869 0</pose>
-      </sensor>
       <gravity>0</gravity>
       <velocity_decay>
         <linear>0</linear>
@@ -2649,35 +2411,6 @@
         <angular>0</angular>
       </velocity_decay>
       <self_collide>0</self_collide>
-      <sensor name='laser_tilt' type='ray'>
-        <always_on>1</always_on>
-        <update_rate>40</update_rate>
-        <visualize>0</visualize>
-        <ray>
-          <scan>
-            <horizontal>
-              <samples>640</samples>
-              <resolution>1</resolution>
-              <min_angle>-1.39626</min_angle>
-              <max_angle>1.39626</max_angle>
-            </horizontal>
-          </scan>
-          <range>
-            <min>0.08</min>
-            <max>10</max>
-            <resolution>0.01</resolution>
-          </range>
-        </ray>
-        <plugin name='gazebo_ros_laser_tilt_controller' filename='libgazebo_ros_laser.so'>
-          <gaussianNoise>0.005</gaussianNoise>
-          <alwaysOn>true</alwaysOn>
-          <updateRate>40</updateRate>
-          <topicName>tilt_scan</topicName>
-          <frameName>laser_tilt_link</frameName>
-          <hokuyoMinIntensity>101</hokuyoMinIntensity>
-        </plugin>
-        <pose>0 0 0.03 0 -0 0</pose>
-      </sensor>
     </link>
     <joint name='laser_tilt_mount_joint' type='revolute'>
       <child>laser_tilt_mount_link</child>
@@ -3127,41 +2860,6 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <sensor name='r_forearm_cam_sensor' type='camera'>
-        <always_on>1</always_on>
-        <update_rate>25</update_rate>
-        <camera name='__default__'>
-          <horizontal_fov>1.5708</horizontal_fov>
-          <image>
-            <format>R8G8B8</format>
-            <width>640</width>
-            <height>480</height>
-          </image>
-          <clip>
-            <near>0.1</near>
-            <far>100</far>
-          </clip>
-        </camera>
-        <plugin name='r_forearm_cam_controller' filename='libgazebo_ros_camera.so'>
-          <alwaysOn>true</alwaysOn>
-          <updateRate>25.0</updateRate>
-          <cameraName>r_forearm_cam</cameraName>
-          <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <frameName>r_forearm_cam_optical_frame</frameName>
-          <hackBaseline>0</hackBaseline>
-          <CxPrime>320.5</CxPrime>
-          <Cx>320.5</Cx>
-          <Cy>240.5</Cy>
-          <focalLength>320</focalLength>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
-        </plugin>
-        <pose>0.135 0 0.044 1.5708 -0.562869 0</pose>
-      </sensor>
       <gravity>0</gravity>
       <velocity_decay>
         <linear>0</linear>

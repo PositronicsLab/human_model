@@ -1,7 +1,7 @@
 <sdf version="1.5">
   <model name="human" xmlns:xacro="http://www.ros.org/wiki/xacro">
-   <xacro:property name="armEffort" value="30" /> <!-- Standard value is 30 -->
-    <xacro:property name="wristEffort" value="10" /> <!-- Standard value is 10 -->
+   <xacro:property name="armEffort" value="0" /> <!-- Standard value is 30 -->
+    <xacro:property name="wristEffort" value="0" /> <!-- Standard value is 10 -->
     <xacro:include filename="pr2-include.xacro" />
     <!-- Controller for the pr2 arm -->
     <!-- <plugin name="pr2_arm_controller" filename="libStableControllerPlugin.dylib">    </plugin>-->
@@ -20,7 +20,7 @@
     <joint name="virtual_robot_human_connection" type="ball">
       <parent>r_wrist_roll_link</parent>
       <child>${prefix}left_thigh</child>
-      <pose>${xoffset - 0.16828} ${yoffset + 0.062} ${0.790675 + zoffset} 0.0 0.0 0.0</pose>
+      <pose>0 0 0.145 0.0 0.0 0.0</pose><!-- Connect at point at robot hand height on thigh -->
       <axis> 
         <xyz>0.0 1 0.0</xyz>
       </axis>
@@ -28,11 +28,10 @@
         <xyz>0.0 0.0 1.0</xyz>
       </axis2>
       <physics>
+        <provide_feedback>1</provide_feedback>
         <ode>
-          <limit>
-            <cfm>0.000</cfm>
-            <erp>0.8</erp>
-          </limit>
+          <provide_feedback>1</provide_feedback>
+          <erp>0.3</erp>
         </ode>
       </physics>
     </joint>
