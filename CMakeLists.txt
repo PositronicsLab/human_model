@@ -28,6 +28,9 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 # look for Pacer
 find_library(PACER_FOUND Pacer REQUIRED /usr/local/lib /usr/lib)
 add_definitions (-DUSE_INV_DYN)
+
+find_library(SDFORMAT_FOUND SDFormat REQUIRED /usr/local/lib /usr/lib)
+
 # fix the C++ linking error on 64-bit Linux
 set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
 
@@ -70,7 +73,7 @@ target_link_libraries(listener ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${PROTOBUF
 
 # Gazebo controller plugin
 add_library(StableControllerPlugin SHARED stable-controller-plugin.cpp)
-target_link_libraries(StableControllerPlugin Moby Ravelin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+target_link_libraries(StableControllerPlugin Moby Ravelin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf SDFormat)
 install(TARGETS StableControllerPlugin DESTINATION lib)
 
 add_library(InitialJointVelocityPlugin SHARED initial_joint_velocity_plugin.cpp)
