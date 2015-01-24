@@ -60,22 +60,22 @@ set(VISUALIZE_LIBS glut osg osgDB GLU ${GLUT_LIBRARIES} ${GLU_LIBRARIES} ${OPENG
 FIND_PACKAGE( GLUT REQUIRED )
 FIND_PACKAGE( OpenGL REQUIRED )
 
-add_executable(human-pacer human_pacer.cpp)
-add_executable(combined-human-pr2-pacer combined_human_pr2_pacer.cpp)
-add_library(robot-controller robot-controller.cpp)
+add_executable(human-pacer src/human_pacer.cpp)
+add_executable(combined-human-pr2-pacer src/combined_human_pr2_pacer.cpp)
+add_library(robot-controller src/robot-controller.cpp)
 target_link_libraries(human-pacer Moby Pacer Ravelin)
 target_link_libraries(combined-human-pr2-pacer Pacer Ravelin)
 target_link_libraries(robot-controller Ravelin Opt)
 install(TARGETS human-pacer DESTINATION ${CMAKE_SOURCE_DIR}/human-pacer)
 
-add_executable(listener listener.cpp)
+add_executable(listener src/listener.cpp)
 target_link_libraries(listener ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${PROTOBUF_LIBRARIES} pthread)
 
 # Gazebo controller plugin
-add_library(StableControllerPlugin SHARED stable-controller-plugin.cpp)
+add_library(StableControllerPlugin SHARED src/stable-controller-plugin.cpp)
 target_link_libraries(StableControllerPlugin Moby Ravelin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf SDFormat)
 install(TARGETS StableControllerPlugin DESTINATION lib)
 
-add_library(InitialJointVelocityPlugin SHARED initial_joint_velocity_plugin.cpp)
+add_library(InitialJointVelocityPlugin SHARED src/initial_joint_velocity_plugin.cpp)
 target_link_libraries(InitialJointVelocityPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS InitialJointVelocityPlugin DESTINATION lib)
