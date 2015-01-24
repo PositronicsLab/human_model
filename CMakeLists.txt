@@ -60,6 +60,8 @@ set(VISUALIZE_LIBS glut osg osgDB GLU ${GLUT_LIBRARIES} ${GLU_LIBRARIES} ${OPENG
 FIND_PACKAGE( GLUT REQUIRED )
 FIND_PACKAGE( OpenGL REQUIRED )
 
+find_package(xacro REQUIRED)
+
 add_executable(human-pacer src/human_pacer.cpp)
 add_executable(combined-human-pr2-pacer src/combined_human_pr2_pacer.cpp)
 add_library(robot-controller src/robot-controller.cpp)
@@ -79,3 +81,24 @@ install(TARGETS StableControllerPlugin DESTINATION lib)
 add_library(InitialJointVelocityPlugin SHARED src/initial_joint_velocity_plugin.cpp)
 target_link_libraries(InitialJointVelocityPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS InitialJointVelocityPlugin DESTINATION lib)
+
+set(model_files "")
+
+# Xacro files
+file(GLOB model_xacro_files ${CMAKE_CURRENT_SOURCE_DIR}/models/*/*.xacro)
+
+foreach(it ${model_xacro_files})
+  get_filename_component(basepath ${it} PATH)
+  get_filename_component(basename ${it} NAME_WE)
+  
+  message(" processing world file :",${basepath}," : ",${basename})
+  
+  set(expanded_file "${basepath}/${basename}.generated.sdf")
+  message("    produce expanded file :",${expanded_file})
+  
+  xacro_add_xacro_file(${it} ${expanded_file})
+  
+  set(model_files ${model_files} ${expanded_file})
+endforeach(it)
+
+add_custom_target(media_files ALL DEPENDS ${model_files})

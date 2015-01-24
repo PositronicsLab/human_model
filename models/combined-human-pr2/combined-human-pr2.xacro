@@ -2,7 +2,7 @@
   <model name="human" xmlns:xacro="http://www.ros.org/wiki/xacro">
    <xacro:property name="armEffort" value="0" /> <!-- Standard value is 30 -->
     <xacro:property name="wristEffort" value="0" /> <!-- Standard value is 10 -->
-    <xacro:include filename="pr2-include.xacro" />
+    <xacro:include filename="../pr2/pr2.include" />
     <!-- Controller for the pr2 arm -->
     <!-- <plugin name="pr2_arm_controller" filename="libStableControllerPlugin.dylib">    </plugin>-->
 
@@ -14,7 +14,7 @@
     <xacro:property name="yoffset" value="-0.25" />
     <xacro:property name="zoffset" value="0" />
     <xacro:property name="prefix" value="" />
-    <xacro:include filename="human-model-include.xacro"/>
+    <xacro:include filename="../human/human.include"/>
     
     <!-- Virtual connecting joint -->
     <joint name="virtual_robot_human_connection" type="ball">
