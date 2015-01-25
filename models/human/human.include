@@ -955,4 +955,5 @@
         </dynamics>
       </axis2>
     </joint>
+    <plugin name="contact_sensor_plugin" filename="contactForcesPlugin.dylib"></plugin>
 </xacro:macro>
