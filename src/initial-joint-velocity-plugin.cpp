@@ -13,14 +13,14 @@
 using namespace std;
 
 #define USE_FIXED_SEED 1
-
+#define PRINT_VELOCITIES 0
 namespace gazebo {
-  class InitialJointVelocityPlugin : public WorldPlugin {
-    public: InitialJointVelocityPlugin() : WorldPlugin() {
+  class InitialJointVelocityPlugin : public ModelPlugin {
+    public: InitialJointVelocityPlugin() : ModelPlugin() {
       std::cout << "Constructing the initial velocity plugin" << std::endl;
     }
 
-    public: void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf){
+    public: void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf){
       // Open a file to store the random values
       ofstream csvFile;
       csvFile.open("joint_velocities.csv", ios::out | ios::app);
@@ -32,19 +32,19 @@ namespace gazebo {
       // not generate 1.0
       boost::mt19937 rng;
       #if(!USE_FIXED_SEED)
-      rng.seed(static_cast<unsigned int>(std::time(0)));
+        rng.seed(static_cast<unsigned int>(std::time(nullptr)));
       #else
-      rng.seed(0);
+        string scenarioNumber = std::getenv("i");
+        if(scenarioNumber != ""){
+            rng.seed(boost::lexical_cast<unsigned int>(scenarioNumber));
+        }
+        else {
+          cout << "No scenario number set. Using 0" << endl;
+          rng.seed(0);
+        }
       #endif
       boost::uniform_real<float> u(-1.0f, 1.0f);
       boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
-      
-      // Get the human
-      physics::ModelPtr human = _world->GetModel("human");
-      if(human == NULL){
-        std::cout << "Human model not defined" << std::endl;
-        return;
-      }
 
       // Now loop over joints and set an initial velocity for each.
       // We specifically look for the human joints to avoid setting a velocity
@@ -65,11 +65,13 @@ namespace gazebo {
       };
 
       for(unsigned int i = 0; i < boost::size(joints); ++i){
-        physics::JointPtr joint = human->GetJoint(joints[i]);
+        physics::JointPtr joint = _model->GetJoint(joints[i]);
         // Set a random velocity for each axis
         for(unsigned int j = 0; j < joint->GetAngleCount(); ++j){
           float random = gen();
+          #if PRINT
           std::cout << "Setting velocity for joint " << joints[i] << " axis number " << j << " to " << random << std::endl;
+          #endif
           joint->SetMaxForce(j, 5.0);
           joint->SetVelocity(j, random);
           csvFile << random << ",";
@@ -80,5 +82,5 @@ namespace gazebo {
     };
 
   };
-  GZ_REGISTER_WORLD_PLUGIN(InitialJointVelocityPlugin)
+  GZ_REGISTER_MODEL_PLUGIN(InitialJointVelocityPlugin)
 }

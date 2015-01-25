@@ -70,8 +70,9 @@ target_link_libraries(combined-human-pr2-pacer Pacer Ravelin)
 target_link_libraries(robot-controller Ravelin Opt)
 install(TARGETS human-pacer DESTINATION ${CMAKE_SOURCE_DIR}/human-pacer)
 
-add_library(ContactForcesPlugin src/contact-forces-plugin.cpp)
+add_library(ContactForcesPlugin SHARED src/contact-forces-plugin.cpp)
 target_link_libraries(ContactForcesPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${PROTOBUF_LIBRARIES} pthread)
+install(TARGETS ContactForcesPlugin DESTINATION lib)
 
 # Gazebo controller plugin
 add_library(StableControllerPlugin SHARED src/stable-controller-plugin.cpp)

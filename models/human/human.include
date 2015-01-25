@@ -955,5 +955,6 @@
         </dynamics>
       </axis2>
     </joint>
-    <plugin name="contact_sensor_plugin" filename="contactForcesPlugin.dylib"></plugin>
+    <plugin name="contact_sensor_plugin" filename="libContactForcesPlugin.dylib"></plugin>
+    <plugin name="initial_joint_velocity_plugin" filename="libInitialJointVelocityPlugin.dylib"/>
 </xacro:macro>
