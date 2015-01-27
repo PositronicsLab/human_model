@@ -13,6 +13,8 @@
 using namespace std;
 using namespace gazebo::physics;
 
+#define PRINT_DEBUG 0
+
 namespace gazebo {
    class ControllerPlugin : public ModelPlugin
    {
@@ -29,7 +31,9 @@ namespace gazebo {
 
      public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
      {
+       #if(PRINT_DEBUG)
        cout << "Initializing plugin stable controller plugin" << endl;
+       #endif
        
        // Iterate over the element children to find the joints to control
        if(!_sdf->HasElement("controlled-joint")){
@@ -40,7 +44,9 @@ namespace gazebo {
        for(sdf::ElementPtr child = _sdf->GetElement("controlled-joint"); child != NULL; child = child->GetNextElement()){
          if(child->GetName() == "controlled-joint"){
            const std::string jointName = child->GetValueString();
+           #if(PRINT_DEBUG)
            cout << "Adding controlled joint: " << jointName << endl;
+           #endif
            const physics::JointPtr joint = _parent->GetJoint(jointName);
 
            if(joint == NULL){
@@ -91,7 +97,9 @@ namespace gazebo {
      }     
    }
    ~ControllerPlugin(){
+     #if(PRINT_DEBUG)
      cout << "Destroying stable joint controller plugin" << endl;
+     #endif
      event::Events::DisconnectWorldUpdateBegin(this->connection);
    }
   };

@@ -10,6 +10,7 @@
 #include <fstream>
 
 #define PRINT_SENSORS 0
+#define PRINT_DEBUG 0
 
 using namespace std;
 
@@ -43,14 +44,21 @@ namespace gazebo {
     private: event::ConnectionPtr connection;
     private: vector<event::ConnectionPtr> sensorConnections;
     private: physics::WorldPtr world;
+    private: physics::ModelPtr model;
     
     public: ContactForcesPlugin() : ModelPlugin() {
+        #if(PRINT_DEBUG)
         cout << "Constructing the contact forces plugin" << std::endl;
+        #endif
     }
         
     public: void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf){
       world = _model->GetWorld();
+      model = _model;
+      #if(PRINT_DEBUG)
       cout << "Loading the contact forces plugin" << endl;
+      #endif
+      
       #if(PRINT_SENSORS)
       cout << "Listing all sensors: " << endl;
       vector<sensors::SensorPtr> sensors = sensors::SensorManager::Instance()->GetSensors();
@@ -127,33 +135,57 @@ namespace gazebo {
     }
     }
     
+    private: void writeHeader(ofstream& outputCSV){
+      for(unsigned int i = 0; i < boost::size(contacts); ++i){
+        outputCSV << contacts[i] << "(N), ";
+      }
+      outputCSV << "Maximum Link, Maximum Force(N), ";
+      
+      for(unsigned int i = 0; i < boost::size(contacts); ++i){
+        outputCSV << contacts[i] << "(Nm), ";
+      }
+      outputCSV << "Maximum Link, Maximum Torque(Nm), " << endl;
+    }
+    
     private: void printResults(){
             // Get the name of the folder to store the result in
             const char* resultsFolder = std::getenv("RESULTS_FOLDER");
             if(resultsFolder == nullptr){
+              cout << "Results folder not set. Using current directory." << endl;
               resultsFolder = "./";
             }
         
+            const string resultsFileName = string(resultsFolder) + "/" + "results.csv";
+            bool exists = boost::filesystem::exists(resultsFileName);
             ofstream outputCSV;
-            outputCSV.open(string(resultsFolder) + "/" + "results.csv", ios::out | ios::app);
+            outputCSV.open(resultsFileName, ios::out | ios::app);
             assert(outputCSV.is_open());
       
+            if(!exists){
+              writeHeader(outputCSV);
+            }
+        
             // Print max forces
             double overallMax = 0;
             std::string overallMaxLink;
             for(unsigned int i = 0; i < boost::size(contacts); ++i){
-                std::cout << contacts[i] << ": " << maxForces[contacts[i]] << "(N)" << std::endl;
+                #if(PRINT_SENSORS)
+                  std::cout << contacts[i] << ": " << maxForces[contacts[i]] << "(N)" << std::endl;
+                #endif
+                
                 outputCSV << maxForces[contacts[i]] << ", ";
                 if(maxForces[contacts[i]] > overallMax){
                     overallMax = maxForces[contacts[i]];
                     overallMaxLink = contacts[i];
                 }
             }
-            
-            std::cout << "Maximum force: " << std::endl;
-            std::cout << overallMaxLink << ": " << overallMax << "(N)" << std::endl;
         
-            outputCSV << overallMaxLink << ", " << overallMax;
+            #if(PRINT_SENSORS)
+              std::cout << "Maximum force: " << std::endl;
+              std::cout << overallMaxLink << ": " << overallMax << "(N)" << std::endl;
+            #endif
+        
+            outputCSV << overallMaxLink << ", " << overallMax << ", ";
         
             // Print max torques
             overallMax = 0;
@@ -165,10 +197,11 @@ namespace gazebo {
                     overallMaxLink = contacts[i];
                 }
             }
-            
+        
+            #if(PRINT_SENSORS)
             std::cout << "Maximum torque: " << std::endl;
             std::cout << overallMaxLink << ": " << overallMax << "(N)" << std::endl;
-        
+            #endif
             outputCSV << overallMaxLink << ", " << overallMax << endl;
         
             outputCSV.close();
@@ -176,8 +209,22 @@ namespace gazebo {
         
     private: void worldUpdate(){
         if(world->GetSimTime().Float() >= 2.0){
+          #if(PRINT_DEBUG)
           cout << "Scenario completed. Updating results" << endl;
+          #endif
           event::Events::DisconnectWorldUpdateBegin(this->connection);
+          
+          // Disconnect the sensors
+          for(unsigned int i = 0; i < boost::size(contacts); ++i){
+            sensors::SensorPtr sensor = sensors::SensorManager::Instance()->GetSensor(world->GetName() + "::" + model->GetScopedName()
+                                                       + "::" + contacts[i]);
+            if(sensor == nullptr){
+              cout << "Could not find sensor " << contacts[i] << endl;
+              continue;
+            }
+            sensor->SetActive(false);
+            sensor->DisconnectUpdated(sensorConnections[i]);
+          }
           sensorConnections.clear();
           printResults();
           exit(0);
