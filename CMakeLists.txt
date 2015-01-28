@@ -5,7 +5,7 @@ project(Human)
 include (CheckIncludeFiles)
 include (CheckLibraryExists)
 
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMakeModules)
+set (CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMakeModules)
 set (PROJECT_SRC_DIR .)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
@@ -13,6 +13,10 @@ Include(FindBoost)
 find_package(Boost ${MIN_BOOST_VERSION} REQUIRED system filesystem regex)
 
 find_package(Protobuf REQUIRED)
+
+find_package(orocos_kdl REQUIRED)
+find_package(Eigen3 REQUIRED)
+include_directories(${EIGEN3_INCLUDE_DIR})
 
 link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIRS})
@@ -82,6 +86,10 @@ install(TARGETS StableControllerPlugin DESTINATION lib)
 add_library(InitialJointVelocityPlugin SHARED src/initial-joint-velocity-plugin.cpp)
 target_link_libraries(InitialJointVelocityPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS InitialJointVelocityPlugin DESTINATION lib)
+
+add_library(InitialJointPositionPlugin SHARED src/initial-joint-position-plugin.cpp)
+target_link_libraries(InitialJointPositionPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${orocos_kdl_LIBRARIES} protobuf)
+install(TARGETS InitialJointPositionPlugin DESTINATION lib)
 
 set(model_files "")
 

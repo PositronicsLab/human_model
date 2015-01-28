@@ -957,4 +957,6 @@
     </joint>
     <plugin name="contact_sensor_plugin" filename="libContactForcesPlugin.dylib"></plugin>
     <plugin name="initial_joint_velocity_plugin" filename="libInitialJointVelocityPlugin.dylib"/>
+    <plugin name="initial_joint_position_plugin" filename="libInitialJointPositionPlugin.dylib"/>
 </xacro:macro>
+
