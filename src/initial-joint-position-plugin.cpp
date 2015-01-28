@@ -87,15 +87,21 @@ namespace gazebo {
             
           // Iterate over degrees of freedom
           for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
-            Joint::JointType jt = jointType(parent, i);
-            Joint kdlJoint = Joint(jt);
+            Vector axis = Vector(parent->GetLocalAxis(i).x, parent->GetLocalAxis(i).y, parent->GetLocalAxis(i).z);
+            math::Vector3 anchor = parent->GetAnchor(i);
+            Vector origin = (parent == root && i == 0) ? Vector(anchor.x, anchor.y, anchor.z) : Vector();
+            cout << "Origin: " << origin << endl;
             
+            Joint kdlJoint = Joint(parent->GetName() + axisName(jointType(parent, i)), origin, axis, Joint::RotAxis);
+            
+            cout << "Joint angle: " << parent->GetAngle(i).Radian() << endl;
             q.push_back(parent->GetAngle(i).Radian());
             
             // Construct a segment.
             bool isFinalAxis = i == parent->GetAngleCount() - 1;
-            Frame linkLength = Frame(Vector(isFinalAxis ? link->GetBoundingBox().GetXLength() : 0.0, 0.0, 0.0));
-            Segment segment = Segment(parent->GetName() + axisName(jt), kdlJoint, linkLength);
+            Frame linkLength = Frame(Vector(isFinalAxis ? link->GetBoundingBox().GetZLength() : 0.0, 0.0, 0.0));
+            cout << "Link length: " << linkLength.p << endl;
+            Segment segment = Segment(parent->GetName() + axisName(jointType(parent, i)), kdlJoint, linkLength);
             chain.addSegment(segment);
           }
           
@@ -106,8 +112,6 @@ namespace gazebo {
           }
         } while (link != endEffector);
         
-        // TODO: Set the joint offset for the base joint
-        // TODO: Use forward kinematics to check the configuration
         return chain;
     }
     
@@ -155,23 +159,28 @@ namespace gazebo {
       boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
 
       // Construct the kinematic chains
-      Chain leftArm = constructChain(model->GetJoint("left_shoulder"), model->GetLink("left_hand"));
+      vector<double> q;
+      Chain leftArm = constructChain(model->GetJoint("left_shoulder"), model->GetLink("left_hand"), q);
       
       // TODO: Move to separate function
       ChainFkSolverPos_recursive fksolver = ChainFkSolverPos_recursive(leftArm);
       
       // Create joint array
       unsigned int nj = leftArm.getNrOfJoints();
-      KDL::JntArray jointPositions = JntArray(nj);
+      assert(nj == q.size());
       
-      // TODO: Copy in current joint positions
+      KDL::JntArray jointPositions = JntArray(nj);
+      for(unsigned int i = 0; i < nj; i++){
+        jointPositions(i) = q[i];
+      }
+
       // Create the frame that will contain the results
       KDL::Frame cartPos;
       
       // Calculate forward position kinematics
       bool status = fksolver.JntToCart(jointPositions, cartPos);
       if(status >= 0){
-        std::cout << cartPos <<std::endl;
+        std::cout << cartPos.p <<std::endl;
         printf("%s \n","Succes, thanks KDL!");
        } else {
         printf("%s \n","Error: could not calculate forward kinematics :(");
