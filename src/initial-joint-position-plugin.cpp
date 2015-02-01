@@ -15,6 +15,8 @@
 #include <kdl/chainfksolverpos_recursive.hpp>
 #include <kdl/frames_io.hpp>
 #include <boost/math/constants/constants.hpp>
+#include <kdl/chainiksolvervel_pinv.hpp>
+#include <kdl/chainiksolverpos_nr.hpp>
 
 using namespace std;
 using namespace KDL;
@@ -103,6 +105,36 @@ namespace gazebo {
           }
         } while (link != endEffector);
         return q;
+    }
+    
+    private: JntArray calcInverse(Chain& chain, const vector<double> qInitD){
+      // Creation of the solvers:
+      ChainFkSolverPos_recursive fkSolver(chain);
+      ChainIkSolverVel_pinv ikVelocitySolver(chain);
+      ChainIkSolverPos_NR ikSolver(chain, fkSolver, ikVelocitySolver, 100, 1e-6);
+ 
+      JntArray q(chain.getNrOfJoints());
+      JntArray qInit(chain.getNrOfJoints());
+        
+      assert(qInitD.size() == chain.getNrOfJoints());
+      for(unsigned int i = 0; i < qInitD.size(); ++i){
+        qInit(i) = qInitD[i];
+      }
+      // Set destination frame
+      Frame dest = Frame(Vector(0.644, 0, 0));
+ 
+      int status = ikSolver.CartToJnt(qInit, dest, q);
+      if(status >= 0){
+        cout << "Solved IK!" << endl;
+        for(unsigned int i = 0; i < chain.getNrOfJoints(); ++i){
+          cout << q(i) << ", ";
+        }
+        cout << endl;
+      }
+      else {
+        cout << "IK Failed " << endl;
+      }
+      return q;
     }
     
     private: Chain constructChain(physics::JointPtr root, physics::LinkPtr endEffector){
@@ -254,6 +286,8 @@ namespace gazebo {
       physics::JointPtr leftShoulder = model->GetJoint("left_shoulder");
       Chain leftArm = constructChain(leftShoulder, leftHand);
       assert(checkFK(leftArm, leftHand, leftShoulder, true));
+      
+      calcInverse(leftArm, jointAngles(leftShoulder, leftHand));
       
       physics::LinkPtr rightHand = model->GetLink("right_hand");
       physics::JointPtr rightShoulder = model->GetJoint("right_shoulder");
