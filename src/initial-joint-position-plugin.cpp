@@ -91,7 +91,9 @@ namespace gazebo {
             
           // Iterate over degrees of freedom
           for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
-            q.push_back(parent->GetAngle(i).Radian());
+            math::Pose offset = parent->GetInitialAnchorPose();
+            // TODO: This isn't right for alternate axis joints
+            q.push_back(offset.rot.GetPitch());
           }
           
           assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
@@ -121,7 +123,17 @@ namespace gazebo {
             
             // Construct a segment.
             bool isFinalAxis = i == parent->GetAngleCount() - 1;
-            Frame linkLength = Frame(Vector(isFinalAxis ? link->GetBoundingBox().GetZLength() : 0.0, 0.0, 0.0));
+            
+            // Bounding boxes are always in the global frame. If this is a rotated box, we may not want to use
+            // the z length.
+            // TODO: Make this generally correct
+            double length;
+            if(rough_eq(abs(parent->GetInitialAnchorPose().rot.GetPitch()), boost::math::constants::pi<double>() / 2.0)){
+                length = link->GetBoundingBox().GetXLength();
+            } else {
+                length = link->GetBoundingBox().GetZLength();
+            }
+            Frame linkLength = Frame(Vector(isFinalAxis ? length : 0.0, 0.0, 0.0));
             Segment segment = Segment(parent->GetName() + axisName(jointType(parent, i)), kdlJoint, linkLength);
             chain.addSegment(segment);
           }
@@ -136,7 +148,7 @@ namespace gazebo {
         return chain;
     }
     
-    private: bool checkFK(const Chain& chain, physics::LinkPtr leaf, physics::JointPtr root) const {
+    private: bool checkFK(const Chain& chain, physics::LinkPtr leaf, physics::JointPtr root, bool flipped) const {
       // Get the current angles of all the joints
       vector<double> q = jointAngles(root, leaf);
         
@@ -151,7 +163,7 @@ namespace gazebo {
       for(unsigned int i = 0; i < nj; i++){
         jointPositions(i) = q[i];
       }
-
+      
       // Create the frame that will contain the results
       KDL::Frame cartPos;
       
@@ -161,10 +173,18 @@ namespace gazebo {
       if(status >= 0){
         // Translate to the global frame.
         math::Vector3 origin = root->GetAnchor(0);
-        Frame baseFrame = Frame(Rotation::RotY(-boost::math::constants::pi<double>() / 2.0), Vector(origin.x, origin.y, origin.z));
-        
+        // TODO: Remove flipped. Compensates for the model arms being built wrong
+        Frame baseFrame = Frame(Rotation::RotY((flipped ? -1 : 1) * boost::math::constants::pi<double>() / 2.0), Vector(origin.x, origin.y, origin.z));
+
         Vector pos = (baseFrame * cartPos).p;
-        pos = Vector(pos.x(), pos.y(), pos.z() - leaf->GetBoundingBox().GetZLength() / 2.0);
+        
+        // Compensate for the difference between center and tip of the end effector.
+        // TODO: Compensate for additional cases here
+        if(rough_eq(abs(jointPositions(nj - 1)), boost::math::constants::pi<double>() / 2.0)){
+            pos = Vector(pos.x() - leaf->GetBoundingBox().GetXLength() / 2.0, pos.y(), pos.z());
+        } else {
+            pos = Vector(pos.x(), pos.y(), pos.z() - leaf->GetBoundingBox().GetZLength() / 2.0);
+        }
         
         math::Vector3 endPos = leaf->GetBoundingBox().GetCenter();
         if(!rough_eq(pos.x(), endPos.x)){
@@ -233,8 +253,23 @@ namespace gazebo {
       physics::LinkPtr leftHand = model->GetLink("left_hand");
       physics::JointPtr leftShoulder = model->GetJoint("left_shoulder");
       Chain leftArm = constructChain(leftShoulder, leftHand);
-      assert(checkFK(leftArm, leftHand, leftShoulder));
+      assert(checkFK(leftArm, leftHand, leftShoulder, true));
+      
+      physics::LinkPtr rightHand = model->GetLink("right_hand");
+      physics::JointPtr rightShoulder = model->GetJoint("right_shoulder");
+      Chain rightArm = constructChain(rightShoulder, rightHand);
+      assert(checkFK(rightArm, rightHand, rightShoulder, true));
+
+      physics::LinkPtr leftFoot = model->GetLink("left_foot");
+      physics::JointPtr leftHip = model->GetJoint("left_hip");
+      Chain leftLeg = constructChain(leftHip, leftFoot);
+      assert(checkFK(leftLeg, leftFoot, leftHip, false));
     
+      physics::LinkPtr rightFoot = model->GetLink("right_foot");
+      physics::JointPtr rightHip = model->GetJoint("right_hip");
+      Chain rightLeg = constructChain(rightHip, rightFoot);
+      assert(checkFK(rightLeg, rightFoot, rightHip, false));
+      
       // TODO: Remaining three chains
       // TODO: Solve IK and set joint angles
       csvFile << endl;

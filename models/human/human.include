@@ -87,7 +87,7 @@
     <joint name='${prefix}right_ankle' type='revolute'>
       <parent>${prefix}right_leg</parent>
       <child>${prefix}right_foot</child>
-      <pose>0.0 0.0 0.0 0.0 1.570796327 0.0</pose>
+      <pose>0.0 0.0 0.0 0.0 -1.570796327 0.0</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
         <limit>
@@ -150,7 +150,7 @@
     <joint name='${prefix}left_ankle' type='revolute'>
       <parent>${prefix}left_leg</parent>
       <child>${prefix}left_foot</child>
-      <pose>0.0 0.0 0.0 0.0 1.570796327 0.0</pose>
+      <pose>0.0 0.0 0.0 0.0 -1.570796327 0.0</pose>
        <axis>
         <xyz>0.0 1 0.0</xyz>
         <limit>
