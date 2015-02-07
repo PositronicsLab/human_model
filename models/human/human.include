@@ -315,7 +315,7 @@
       <child>${prefix}right_thigh</child>
       <pose>0.0 0.0 0.217 0.0 0.0 0.0</pose> <!--Height leg + thigh -->
       <axis>
-        <xyz>0.0 1.0 0.0</xyz>
+        <xyz>0.0 0.0 1.0</xyz>
         <limit>
             <lower>0</lower>
             <upper>2.043780554</upper>
@@ -391,7 +391,7 @@
       <child>${prefix}left_thigh</child>
       <pose>0.0 0.0 0.217 0.0 0.0 0.0</pose> <!-- leg + thigh height -->
       <axis>
-        <xyz>0.0 1 0.0</xyz>
+        <xyz>0.0 0.0 1.0</xyz>
         <limit>
             <lower>0.0</lower>
             <upper>2.043780554</upper>
@@ -455,7 +455,7 @@
     <joint name='${prefix}lower_spine' type='revolute'>
       <parent>${prefix}trunk</parent>
       <child>${prefix}transpelvic_link</child>
-      <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+      <pose>0.0 0.0 0.0 0.0 1.657 1.657</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
         <limit>
@@ -472,7 +472,7 @@
     <joint name='${prefix}upper_spine' type='revolute'>
       <parent>${prefix}trunk</parent>
       <child>${prefix}clavicular_link</child>
-      <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+      <pose>0.0 0.0 0.0 0.0 1.657 1.657</pose>
       <axis>
         <xyz>0.0 1 0.0</xyz>
         <limit>
@@ -609,7 +609,7 @@
       <child>${prefix}right_upper_arm</child>
       <pose>0.0 0.0 -0.151 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0.0 1.0 0.0</xyz>
+        <xyz>0.0 0.0 1.0</xyz>
         <limit>
             <lower>-1.099557429</lower>
             <upper>3.371976115</upper>
@@ -686,7 +686,7 @@
       <child>${prefix}left_upper_arm</child>
       <pose>0.0 0.0 -0.151 0.0 0.0 0.0</pose>
       <axis>
-        <xyz>0.0 1.0 0.0</xyz>
+        <xyz>0.0 0.0 1.0</xyz>
         <limit>
             <lower>-1.099557429</lower>
             <upper>3.371976115</upper>
