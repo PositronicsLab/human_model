@@ -91,6 +91,10 @@ add_library(InitialJointPositionPlugin SHARED src/initial-joint-position-plugin.
 target_link_libraries(InitialJointPositionPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${orocos_kdl_LIBRARIES} protobuf)
 install(TARGETS InitialJointPositionPlugin DESTINATION lib)
 
+add_library(JointAnglesPlugin SHARED src/joint-angles-plugin.cpp)
+target_link_libraries(JointAnglesPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS JointAnglesPlugin DESTINATION lib)
+
 set(model_files "")
 
 # Xacro files

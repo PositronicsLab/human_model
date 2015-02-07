@@ -16,6 +16,7 @@
 #include <kdl/frames_io.hpp>
 #include <boost/math/constants/constants.hpp>
 #include <kdl/chainiksolvervel_pinv.hpp>
+#include <kdl/chainiksolverpos_nr_jl.hpp>
 #include <kdl/chainiksolverpos_nr.hpp>
 
 using namespace std;
@@ -93,7 +94,11 @@ namespace gazebo {
             
           // Iterate over degrees of freedom
           for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
+            math::Pose error = parent->GetAnchorErrorPose();
+            cout << "Error: " << error << endl;
             math::Pose offset = parent->GetInitialAnchorPose();
+            cout << "ANGLE: " << parent->GetAngle(i) << endl;
+
             // TODO: This isn't right for alternate axis joints
             q.push_back(offset.rot.GetPitch());
           }
@@ -107,34 +112,124 @@ namespace gazebo {
         return q;
     }
     
-    private: JntArray calcInverse(Chain& chain, const vector<double> qInitD){
-      // Creation of the solvers:
+        // TODO: Refactor by creating iterator function
+    private: vector<double> lowerLimits(physics::JointPtr root, physics::LinkPtr endEffector) const {
+        assert(root != nullptr && "Root joint is null");
+        assert(endEffector != nullptr && "End effector is null");
+        
+        vector<double> limits;
+        physics::JointPtr parent = root;
+        physics::LinkPtr link = nullptr;
+        do {
+          link = parent->GetChild();
+            
+          // Iterate over degrees of freedom
+          for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
+            limits.push_back(parent->GetLowerLimit(i).Radian());
+          }
+          
+          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
+          
+          if(link->GetChildJoints().size() > 0){
+            parent = link->GetChildJoints()[0];
+          }
+        } while (link != endEffector);
+        return limits;
+    }
+    // TODO: Refactor by creating iterator function
+    private: vector<double> upperLimits(physics::JointPtr root, physics::LinkPtr endEffector) const {
+        assert(root != nullptr && "Root joint is null");
+        assert(endEffector != nullptr && "End effector is null");
+        
+        vector<double> limits;
+        physics::JointPtr parent = root;
+        physics::LinkPtr link = nullptr;
+        do {
+          link = parent->GetChild();
+            
+          // Iterate over degrees of freedom
+          for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
+            limits.push_back(parent->GetUpperLimit(i).Radian());
+          }
+          
+          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
+          
+          if(link->GetChildJoints().size() > 0){
+            parent = link->GetChildJoints()[0];
+          }
+        } while (link != endEffector);
+        return limits;
+    }
+    
+    private: void setJointAngles(physics::JointPtr root, physics::LinkPtr endEffector, const vector<double>& angles) const {
+        cout << "Setting joint angles" << endl;
+        assert(root != nullptr && "Root joint is null");
+        assert(endEffector != nullptr && "End effector is null");
+        
+        physics::JointPtr parent = root;
+        physics::LinkPtr link = nullptr;
+        unsigned int j = 0;
+        do {
+          link = parent->GetChild();
+            
+          // Iterate over degrees of freedom
+          for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
+            cout << "Setting joint " << parent->GetName() << " to " << angles[j] << endl;
+            cout << "Lower: " << parent->GetLowerLimit(i).Radian() << " Upper: " << parent->GetUpperLimit(i).Radian() << endl;
+            if(!parent->SetPosition(i, angles[j])){
+                cout << "Failed to set position for joint: " << parent->GetName() << endl;
+            }
+            j++;
+          }
+          
+          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
+          
+          if(link->GetChildJoints().size() > 0){
+            parent = link->GetChildJoints()[0];
+          }
+        } while (link != endEffector);
+    }
+    
+    private: static JntArray toJntArray(const vector<double> values){
+      JntArray jArray(values.size());
+      for(unsigned int i = 0; i < values.size(); ++i){
+        jArray(i) = values[i];
+      }
+      return jArray;
+    }
+    
+    /**
+     * Calculate the inverse.
+     * Note: Target must be in the root link frame
+     */
+    private: vector<double> calcInverse(Chain& chain, physics::JointPtr root, physics::LinkPtr endEffector, const math::Pose target){
+    
+      // Creation of the solvers
       ChainFkSolverPos_recursive fkSolver(chain);
       ChainIkSolverVel_pinv ikVelocitySolver(chain);
-      ChainIkSolverPos_NR ikSolver(chain, fkSolver, ikVelocitySolver, 100, 1e-6);
+      
+      ChainIkSolverPos_NR_JL ikSolver(chain, toJntArray(upperLimits(root, endEffector)), toJntArray(lowerLimits(root, endEffector)),fkSolver, ikVelocitySolver, 10000, 0.25);
  
       JntArray q(chain.getNrOfJoints());
-      JntArray qInit(chain.getNrOfJoints());
         
-      assert(qInitD.size() == chain.getNrOfJoints());
-      for(unsigned int i = 0; i < qInitD.size(); ++i){
-        qInit(i) = qInitD[i];
-      }
-      // Set destination frame
-      Frame dest = Frame(Vector(0.644, 0, 0));
+      vector<double> qInit = jointAngles(root, endEffector);
+      assert(qInit.size() == chain.getNrOfJoints());
+
+      // Set destination frame. Destination frame is in the root link frame.
+      // TODO: Handle orientation of target
+      Frame dest = Frame(Vector(target.pos.x, target.pos.y, target.pos.z));
  
-      int status = ikSolver.CartToJnt(qInit, dest, q);
+      int status = ikSolver.CartToJnt(toJntArray(qInit), dest, q);
+      vector<double> angles(chain.getNrOfJoints());
       if(status >= 0){
-        cout << "Solved IK!" << endl;
         for(unsigned int i = 0; i < chain.getNrOfJoints(); ++i){
-          cout << q(i) << ", ";
+          angles[i] = q(i);
         }
-        cout << endl;
-      }
-      else {
+      } else {
         cout << "IK Failed " << endl;
+        // TODO: Better return code here?
       }
-      return q;
+      return angles;
     }
     
     private: Chain constructChain(physics::JointPtr root, physics::LinkPtr endEffector){
@@ -151,6 +246,7 @@ namespace gazebo {
           // Iterate over degrees of freedom
           for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
             Vector axis = Vector(parent->GetLocalAxis(i).x, parent->GetLocalAxis(i).y, parent->GetLocalAxis(i).z);
+            cout << "Joint Axis: " << axis << endl;
             Joint kdlJoint = Joint(parent->GetName() + axisName(jointType(parent, i)), Vector(), axis, Joint::RotAxis);
             
             // Construct a segment.
@@ -204,9 +300,16 @@ namespace gazebo {
       bool status = fksolver.JntToCart(jointPositions, cartPos);
       if(status >= 0){
         // Translate to the global frame.
-        math::Vector3 origin = root->GetAnchor(0);
+        math::Pose parentPose = root->GetParentWorldPose();
+        cout << "Parent RPY:" << parentPose.rot.GetRoll() << " " << parentPose.rot.GetPitch() << " " << parentPose.rot.GetYaw() << endl;
+        
+        parentPose = root->GetInitialAnchorPose();
+        cout << "Parent RPY:" << parentPose.rot.GetRoll() << " " << parentPose.rot.GetPitch() << " " << parentPose.rot.GetYaw() << endl;
+        
+        cout << root->GetAngle(0).Radian() << endl;
+          
         // TODO: Remove flipped. Compensates for the model arms being built wrong
-        Frame baseFrame = Frame(Rotation::RotY((flipped ? -1 : 1) * boost::math::constants::pi<double>() / 2.0), Vector(origin.x, origin.y, origin.z));
+        Frame baseFrame = Frame(Rotation::Quaternion(parentPose.rot.x, parentPose.rot.y, parentPose.rot.z, parentPose.rot.w), Vector(parentPose.pos.x, parentPose.pos.y, parentPose.pos.z));
 
         Vector pos = (baseFrame * cartPos).p;
         
@@ -235,6 +338,13 @@ namespace gazebo {
        }
        cout << "Failed to calculate FK" << endl;
        return false;
+    }
+    
+    private: math::Pose transformGlobalToJointFrame(const math::Pose& pose, const physics::JointPtr root) const {
+      // TODO: Handle orientation of joint
+      math::Pose result =  math::Pose(root->GetAnchor(0).x, root->GetAnchor(0).y, root->GetAnchor(0).z, 0, 0, 0).GetInverse() * pose;
+      cout << result << endl;
+      return result;
     }
     
     public: void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf){
@@ -280,32 +390,38 @@ namespace gazebo {
       boost::uniform_real<float> u(-1.0f, 1.0f);
       boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
 
+      // TODO: Set random RPY on trunk here
+      
       // Construct the kinematic chains
-
       physics::LinkPtr leftHand = model->GetLink("left_hand");
       physics::JointPtr leftShoulder = model->GetJoint("left_shoulder");
       Chain leftArm = constructChain(leftShoulder, leftHand);
-      assert(checkFK(leftArm, leftHand, leftShoulder, true));
+      // assert(checkFK(leftArm, leftHand, leftShoulder, true));
       
-      calcInverse(leftArm, jointAngles(leftShoulder, leftHand));
+      // TODO: Randomly generate point here within workspace.
+      math::Quaternion identity;
+      identity.SetToIdentity();
+      math::Pose leftHandPose = math::Pose(leftHand->GetWorldCoGPose().pos, identity);
+      vector<double> angles = calcInverse(leftArm, leftShoulder, leftHand, transformGlobalToJointFrame(leftHandPose, leftShoulder));
+      
+      // Now apply joint angles to a chain
+      setJointAngles(leftShoulder, leftHand, angles);
       
       physics::LinkPtr rightHand = model->GetLink("right_hand");
       physics::JointPtr rightShoulder = model->GetJoint("right_shoulder");
       Chain rightArm = constructChain(rightShoulder, rightHand);
-      assert(checkFK(rightArm, rightHand, rightShoulder, true));
+      // assert(checkFK(rightArm, rightHand, rightShoulder, true));
 
       physics::LinkPtr leftFoot = model->GetLink("left_foot");
       physics::JointPtr leftHip = model->GetJoint("left_hip");
       Chain leftLeg = constructChain(leftHip, leftFoot);
-      assert(checkFK(leftLeg, leftFoot, leftHip, false));
+      // assert(checkFK(leftLeg, leftFoot, leftHip, false));
     
       physics::LinkPtr rightFoot = model->GetLink("right_foot");
       physics::JointPtr rightHip = model->GetJoint("right_hip");
       Chain rightLeg = constructChain(rightHip, rightFoot);
-      assert(checkFK(rightLeg, rightFoot, rightHip, false));
-      
-      // TODO: Remaining three chains
-      // TODO: Solve IK and set joint angles
+      // assert(checkFK(rightLeg, rightFoot, rightHip, false));
+
       csvFile << endl;
       csvFile.close();
     }
