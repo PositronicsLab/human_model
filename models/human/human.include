@@ -955,9 +955,10 @@
         </dynamics>
       </axis2>
     </joint>
-    <plugin name="contact_sensor_plugin" filename="libContactForcesPlugin.dylib"/>
-    <plugin name="initial_joint_velocity_plugin" filename="libInitialJointVelocityPlugin.dylib"/>
-    <plugin name="initial_joint_position_plugin" filename="libInitialJointPositionPlugin.dylib"/>
-    <plugin name="joint_angles_plugin" filename="libJointAnglesPlugin.dylib"/>
+    <!-- <plugin name="contact_sensor_plugin" filename="libContactForcesPlugin.dylib"/>-->
+    <!-- <plugin name="initial_joint_velocity_plugin" filename="libInitialJointVelocityPlugin.dylib"/>-->
+    <!-- <plugin name="initial_joint_position_plugin" filename="libInitialJointPositionPlugin.dylib"/>-->
+    <plugin name="min_max_joint_position_plugin" filename="libMinMaxJointPositionPlugin.dylib" />
+    <!-- <plugin name="joint_angles_plugin" filename="libJointAnglesPlugin.dylib"/> -->
 </xacro:macro>
 

@@ -95,6 +95,10 @@ add_library(JointAnglesPlugin SHARED src/joint-angles-plugin.cpp)
 target_link_libraries(JointAnglesPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS JointAnglesPlugin DESTINATION lib)
 
+add_library(MinMaxJointPositionPlugin SHARED src/min-max-joint-position-plugin.cpp)
+target_link_libraries(MinMaxJointPositionPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS MinMaxJointPositionPlugin DESTINATION lib)
+
 set(model_files "")
 
 # Xacro files
