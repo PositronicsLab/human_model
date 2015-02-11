@@ -15,6 +15,9 @@ namespace gazebo {
 
   class MinMaxJointPositionPlugin : public ModelPlugin {
     private: unsigned int mode;
+    private: unsigned int currentJoint;
+    private: unsigned int currentSubjoint;
+    
     private: physics::ModelPtr model;
     private: unsigned int step;
     private: event::ConnectionPtr connection;
@@ -22,6 +25,9 @@ namespace gazebo {
 
     public: MinMaxJointPositionPlugin() : ModelPlugin() {
       mode = 0;
+      currentJoint = 0;
+      currentSubjoint = 0;
+      
       #if(PRINT_DEBUG)
       std::cout << "Constructing the min max joint position plugin" << std::endl;
       #endif
@@ -30,7 +36,7 @@ namespace gazebo {
     
     private: void setZeroJointAngles() {
         #if (PRINT_DEBUG)
-        cout << "Setting zero angles" << endl;
+        cout << "*** Setting zero angles ***" << endl;
         #endif
         physics::Joint_V joints = model->GetJoints();
         for(unsigned int i = 0; i < joints.size(); ++i){
@@ -46,51 +52,61 @@ namespace gazebo {
         }
     }
     
-    private: void setMaxJointAngles() {
-        #if (PRINT_DEBUG)
-        cout << "Setting max angles" << endl;
-        #endif
+    private: void setJointAngle() {
         physics::Joint_V joints = model->GetJoints();
-        for(unsigned int i = 0; i < joints.size(); ++i){
-          for(unsigned int j = 0; j < joints[i]->GetAngleCount(); ++j){
-            #if (PRINT_DEBUG)
-            cout << "Setting " << joints[i]->GetName() << ": " << joints[i]->GetUpperLimit(j).Radian() << endl;
-            #endif
-            bool success = joints[i]->SetPosition(j, joints[i]->GetUpperLimit(j).Radian());
-            if(!success){
-              cout << "Setting joint position failed" << endl;
-            }
-          }
+        
+        if(currentJoint >= joints.size()){
+          return;
         }
-    }
-    
-    private: void setMinJointAngles() {
-        #if (PRINT_DEBUG)
-        cout << "Setting min angles" << endl;
-        #endif
-        physics::Joint_V joints = model->GetJoints();
-        for(unsigned int i = 0; i < joints.size(); ++i){
-          for(unsigned int j = 0; j < joints[i]->GetAngleCount(); ++j){
+        
+        if(currentSubjoint >= joints[currentJoint]->GetAngleCount()){
+          currentSubjoint = 0;
+          currentJoint++;
+        }
+        
+        if(currentJoint >= joints.size()){
+          return;
+        }
+        
+        physics::JointPtr joint = joints[currentJoint];
+        double desiredAngle = 0;
+        if(mode == 0){
+          desiredAngle = joints[currentJoint]->GetLowerLimit(currentSubjoint).Radian();
+          #if (PRINT_DEBUG)
+          cout << "*** Setting joint " << joint->GetName() << " to min " << desiredAngle << " ***" << endl;
+          #endif
+          mode = 1;
+        }
+        else if(mode == 1){
+          desiredAngle = joints[currentJoint]->GetUpperLimit(currentSubjoint).Radian();
+          #if (PRINT_DEBUG)
+          cout << "*** Setting joint " << joint->GetName() << " to max " << desiredAngle << " ***" << endl;
+          #endif
+
+          mode = 2;
+        }
+        else {
             #if (PRINT_DEBUG)
-            cout << "Setting " << joints[i]->GetName() << ": " << joints[i]->GetLowerLimit(j).Radian() << endl;
+            cout << "*** Resetting joint " << joint->GetName() << endl;
             #endif
-            bool success = joints[i]->SetPosition(j, joints[i]->GetLowerLimit(j).Radian());
-            if(!success){
-              cout << "Setting joint position failed" << endl;
-            }
-          }
+            desiredAngle = 0;
+            mode = 3;
+        }
+          
+        
+        bool success = joints[currentJoint]->SetPosition(currentSubjoint, desiredAngle);
+        if(!success){
+          cerr << "Setting joint position failed" << endl;
+        }
+        
+        if(mode == 3){
+            currentSubjoint++;
+            mode = 0;
         }
     }
     
     private: void worldUpdate(){
-      if(model->GetWorld()->GetSimTime() > 0.002 && mode == 2){
-        setMaxJointAngles();
-        mode = 3;
-      }
-      if(model->GetWorld()->GetSimTime() > 0.001 && mode == 1){
-        setMinJointAngles();
-        mode = 2;
-      }
+      setJointAngle();
     }
     
     public: void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf){
@@ -103,7 +119,6 @@ namespace gazebo {
       connection = event::Events::ConnectWorldUpdateBegin(boost::bind(&MinMaxJointPositionPlugin::worldUpdate, this));
 
       setZeroJointAngles();
-      mode = 1;
     }
   };
   GZ_REGISTER_MODEL_PLUGIN(MinMaxJointPositionPlugin)
