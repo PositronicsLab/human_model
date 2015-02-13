@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <boost/random.hpp>
 #include <boost/generator_iterator.hpp>
+#include <boost/random/bernoulli_distribution.hpp>
 #include <iostream>
 #include <iostream>
 #include <fstream>
@@ -33,7 +34,113 @@ bool rough_eq(T lhs, T rhs, T epsilon = 0.001){
 
 namespace gazebo {
 
+  struct SetJointValue {
+      virtual void setValue(const physics::JointPtr joint, const unsigned int index, const unsigned int globalIndex) = 0;
+      
+      void operator()(physics::JointPtr root, physics::LinkPtr endEffector) {
+       assert(root != nullptr && "Root joint is null");
+        assert(endEffector != nullptr && "End effector is null");
+        
+        physics::JointPtr parent = root;
+        physics::LinkPtr link = nullptr;
+        unsigned int j = 0;
+        do {
+          link = parent->GetChild();
+            
+          // Iterate over degrees of freedom
+          for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
+            setValue(parent, i, j);
+            ++j;
+          }
+          
+          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
+          
+          if(link->GetChildJoints().size() > 0){
+            parent = link->GetChildJoints()[0];
+          }
+        } while (link != endEffector);
+      }
+    };
+    
+    struct SetJointAngles : public SetJointValue {
+      private: const vector<double>& angles;
+      public: SetJointAngles(const vector<double>& angles): angles(angles){
+      }
+      
+      public: virtual void setValue(const physics::JointPtr joint, const unsigned int index, const unsigned int globalIndex){
+        if(!joint->SetPosition(index, angles[globalIndex])){
+          cout << "Failed to set position for joint: " << joint->GetName() << endl;
+        }
+      }
+    };
+    
+    struct SetRandomAngles : public SetJointValue {
+     
+      private: boost::mt19937& rng;
+      
+      public: SetRandomAngles(boost::mt19937& rng):rng(rng){
+      }
+      
+      public: virtual void setValue(const physics::JointPtr joint, const unsigned int index, const unsigned int globalIndex){
+      
+        // Generate a random double within the allowed range
+        boost::uniform_real<double> u(joint->GetLowerLimit(index).Radian(), joint->GetUpperLimit(index).Radian());
+        boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > gen(rng, u);
+      
+        if(!joint->SetPosition(index, gen())){
+          cout << "Failed to set position for joint: " << joint->GetName() << endl;
+        }
+      }
+    };
+  
+  struct JointValues {
+      virtual double getValue(const physics::JointPtr joint, const unsigned int index) const = 0;
+      vector<double> operator()(physics::JointPtr root, physics::LinkPtr endEffector) const {
+       assert(root != nullptr && "Root joint is null");
+        assert(endEffector != nullptr && "End effector is null");
+        
+        vector<double> limits;
+        physics::JointPtr parent = root;
+        physics::LinkPtr link = nullptr;
+        do {
+          link = parent->GetChild();
+            
+          // Iterate over degrees of freedom
+          for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
+            limits.push_back(getValue(parent, i));
+          }
+          
+          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
+          
+          if(link->GetChildJoints().size() > 0){
+            parent = link->GetChildJoints()[0];
+          }
+        } while (link != endEffector);
+        return limits;
+      }
+    };
+    
+    struct GetAngles : public JointValues {
+      virtual double getValue(const physics::JointPtr joint, const unsigned int index) const {
+        // TODO: This isn't right for alternate axis joints
+        return joint->GetInitialAnchorPose().rot.GetPitch();
+      }
+    };
+    
+    struct UpperLimits : public JointValues {
+      virtual double getValue(const physics::JointPtr joint, const unsigned int index) const {
+        return joint->GetUpperLimit(index).Radian();
+      }
+    };
+    
+    struct LowerLimits : public JointValues {
+      virtual double getValue(const physics::JointPtr joint, const unsigned int index) const {
+        return joint->GetLowerLimit(index).Radian();
+      }
+    };
+    
   class InitialJointPositionPlugin : public ModelPlugin {
+    
     
     private: physics::ModelPtr model;
     
@@ -82,114 +189,6 @@ namespace gazebo {
       assert(false);
     }
     
-    private: vector<double> jointAngles(physics::JointPtr root, physics::LinkPtr endEffector) const {
-        assert(root != nullptr && "Root joint is null");
-        assert(endEffector != nullptr && "End effector is null");
-        
-        vector<double> q;
-        physics::JointPtr parent = root;
-        physics::LinkPtr link = nullptr;
-        do {
-          link = parent->GetChild();
-            
-          // Iterate over degrees of freedom
-          for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
-            math::Pose error = parent->GetAnchorErrorPose();
-            cout << "Error: " << error << endl;
-            math::Pose offset = parent->GetInitialAnchorPose();
-            cout << "ANGLE: " << parent->GetAngle(i) << endl;
-
-            // TODO: This isn't right for alternate axis joints
-            q.push_back(offset.rot.GetPitch());
-          }
-          
-          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
-          
-          if(link->GetChildJoints().size() > 0){
-            parent = link->GetChildJoints()[0];
-          }
-        } while (link != endEffector);
-        return q;
-    }
-    
-        // TODO: Refactor by creating iterator function
-    private: vector<double> lowerLimits(physics::JointPtr root, physics::LinkPtr endEffector) const {
-        assert(root != nullptr && "Root joint is null");
-        assert(endEffector != nullptr && "End effector is null");
-        
-        vector<double> limits;
-        physics::JointPtr parent = root;
-        physics::LinkPtr link = nullptr;
-        do {
-          link = parent->GetChild();
-            
-          // Iterate over degrees of freedom
-          for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
-            limits.push_back(parent->GetLowerLimit(i).Radian());
-          }
-          
-          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
-          
-          if(link->GetChildJoints().size() > 0){
-            parent = link->GetChildJoints()[0];
-          }
-        } while (link != endEffector);
-        return limits;
-    }
-    // TODO: Refactor by creating iterator function
-    private: vector<double> upperLimits(physics::JointPtr root, physics::LinkPtr endEffector) const {
-        assert(root != nullptr && "Root joint is null");
-        assert(endEffector != nullptr && "End effector is null");
-        
-        vector<double> limits;
-        physics::JointPtr parent = root;
-        physics::LinkPtr link = nullptr;
-        do {
-          link = parent->GetChild();
-            
-          // Iterate over degrees of freedom
-          for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
-            limits.push_back(parent->GetUpperLimit(i).Radian());
-          }
-          
-          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
-          
-          if(link->GetChildJoints().size() > 0){
-            parent = link->GetChildJoints()[0];
-          }
-        } while (link != endEffector);
-        return limits;
-    }
-    
-    private: void setJointAngles(physics::JointPtr root, physics::LinkPtr endEffector, const vector<double>& angles) const {
-        cout << "Setting joint angles" << endl;
-        assert(root != nullptr && "Root joint is null");
-        assert(endEffector != nullptr && "End effector is null");
-        
-        physics::JointPtr parent = root;
-        physics::LinkPtr link = nullptr;
-        unsigned int j = 0;
-        do {
-          link = parent->GetChild();
-            
-          // Iterate over degrees of freedom
-          for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
-            cout << "Setting joint " << parent->GetName() << " to " << angles[j] << endl;
-            cout << "Lower: " << parent->GetLowerLimit(i).Radian() << " Upper: " << parent->GetUpperLimit(i).Radian() << endl;
-            if(!parent->SetPosition(i, angles[j])){
-                cout << "Failed to set position for joint: " << parent->GetName() << endl;
-            }
-            j++;
-          }
-          
-          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
-          
-          if(link->GetChildJoints().size() > 0){
-            parent = link->GetChildJoints()[0];
-          }
-        } while (link != endEffector);
-    }
-    
     private: static JntArray toJntArray(const vector<double> values){
       JntArray jArray(values.size());
       for(unsigned int i = 0; i < values.size(); ++i){
@@ -208,11 +207,16 @@ namespace gazebo {
       ChainFkSolverPos_recursive fkSolver(chain);
       ChainIkSolverVel_pinv ikVelocitySolver(chain);
       
-      ChainIkSolverPos_NR_JL ikSolver(chain, toJntArray(upperLimits(root, endEffector)), toJntArray(lowerLimits(root, endEffector)),fkSolver, ikVelocitySolver, 10000, 0.25);
+      LowerLimits lowerLimits;
+      UpperLimits upperLimits;
+      
+      ChainIkSolverPos_NR_JL ikSolver(chain, toJntArray(lowerLimits(root, endEffector)), toJntArray(upperLimits(root, endEffector)),fkSolver, ikVelocitySolver, 100, 0.01);
+ 
+      // ChainIkSolverPos_NR ikSolver(chain,fkSolver, ikVelocitySolver);
  
       JntArray q(chain.getNrOfJoints());
-        
-      vector<double> qInit = jointAngles(root, endEffector);
+      GetAngles calcAngles;
+      vector<double> qInit = calcAngles(root, endEffector);
       assert(qInit.size() == chain.getNrOfJoints());
 
       // Set destination frame. Destination frame is in the root link frame.
@@ -246,7 +250,6 @@ namespace gazebo {
           // Iterate over degrees of freedom
           for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
             Vector axis = Vector(parent->GetLocalAxis(i).x, parent->GetLocalAxis(i).y, parent->GetLocalAxis(i).z);
-            cout << "Joint Axis: " << axis << endl;
             Joint kdlJoint = Joint(parent->GetName() + axisName(jointType(parent, i)), Vector(), axis, Joint::RotAxis);
             
             // Construct a segment.
@@ -261,7 +264,7 @@ namespace gazebo {
             } else {
                 length = link->GetBoundingBox().GetZLength();
             }
-            Frame linkLength = Frame(Vector(isFinalAxis ? length : 0.0, 0.0, 0.0));
+            Frame linkLength = Frame(Vector(0.0, 0.0, isFinalAxis ? -length : 0.0));
             Segment segment = Segment(parent->GetName() + axisName(jointType(parent, i)), kdlJoint, linkLength);
             chain.addSegment(segment);
           }
@@ -276,9 +279,10 @@ namespace gazebo {
         return chain;
     }
     
-    private: bool checkFK(const Chain& chain, physics::LinkPtr leaf, physics::JointPtr root, bool flipped) const {
+    private: bool checkFK(const Chain& chain, physics::LinkPtr leaf, physics::JointPtr root) const {
       // Get the current angles of all the joints
-      vector<double> q = jointAngles(root, leaf);
+      GetAngles getAngles;
+      vector<double> q = getAngles(root, leaf);
         
       // Construct the solver
       ChainFkSolverPos_recursive fksolver = ChainFkSolverPos_recursive(chain);
@@ -292,6 +296,7 @@ namespace gazebo {
         jointPositions(i) = q[i];
       }
       
+      
       // Create the frame that will contain the results
       KDL::Frame cartPos;
       
@@ -301,14 +306,7 @@ namespace gazebo {
       if(status >= 0){
         // Translate to the global frame.
         math::Pose parentPose = root->GetParentWorldPose();
-        cout << "Parent RPY:" << parentPose.rot.GetRoll() << " " << parentPose.rot.GetPitch() << " " << parentPose.rot.GetYaw() << endl;
-        
-        parentPose = root->GetInitialAnchorPose();
-        cout << "Parent RPY:" << parentPose.rot.GetRoll() << " " << parentPose.rot.GetPitch() << " " << parentPose.rot.GetYaw() << endl;
-        
-        cout << root->GetAngle(0).Radian() << endl;
           
-        // TODO: Remove flipped. Compensates for the model arms being built wrong
         Frame baseFrame = Frame(Rotation::Quaternion(parentPose.rot.x, parentPose.rot.y, parentPose.rot.z, parentPose.rot.w), Vector(parentPose.pos.x, parentPose.pos.y, parentPose.pos.z));
 
         Vector pos = (baseFrame * cartPos).p;
@@ -341,9 +339,10 @@ namespace gazebo {
     }
     
     private: math::Pose transformGlobalToJointFrame(const math::Pose& pose, const physics::JointPtr root) const {
-      // TODO: Handle orientation of joint
+
       math::Pose result =  math::Pose(root->GetAnchor(0).x, root->GetAnchor(0).y, root->GetAnchor(0).z, 0, 0, 0).GetInverse() * pose;
-      cout << result << endl;
+
+      cout << "TARGET: " << result << endl;
       return result;
     }
     
@@ -387,41 +386,58 @@ namespace gazebo {
           rng.seed(0);
         }
       #endif
-      boost::uniform_real<float> u(-1.0f, 1.0f);
-      boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
 
       // TODO: Set random RPY on trunk here
-      
-      // Construct the kinematic chains
-      physics::LinkPtr leftHand = model->GetLink("left_hand");
-      physics::JointPtr leftShoulder = model->GetJoint("left_shoulder");
-      Chain leftArm = constructChain(leftShoulder, leftHand);
-      // assert(checkFK(leftArm, leftHand, leftShoulder, true));
-      
-      // TODO: Randomly generate point here within workspace.
+      // Set random RPY on arms
+      SetRandomAngles randomAngleSetter(rng);
+      randomAngleSetter(model->GetJoint("left_shoulder"), model->GetLink("left_hand"));
+      randomAngleSetter(model->GetJoint("right_shoulder"), model->GetLink("right_hand"));
+    
+      // Now pick a leg to set randomly
+      boost::bernoulli_distribution<> randomLeg(0.5);
       math::Quaternion identity;
       identity.SetToIdentity();
-      math::Pose leftHandPose = math::Pose(leftHand->GetWorldCoGPose().pos, identity);
-      vector<double> angles = calcInverse(leftArm, leftShoulder, leftHand, transformGlobalToJointFrame(leftHandPose, leftShoulder));
       
-      // Now apply joint angles to a chain
-      setJointAngles(leftShoulder, leftHand, angles);
-      
-      physics::LinkPtr rightHand = model->GetLink("right_hand");
-      physics::JointPtr rightShoulder = model->GetJoint("right_shoulder");
-      Chain rightArm = constructChain(rightShoulder, rightHand);
-      // assert(checkFK(rightArm, rightHand, rightShoulder, true));
+      if(randomLeg(rng)){
+        // Set right leg randomly
+        randomAngleSetter(model->GetJoint("right_hip"), model->GetLink("right_foot"));
 
-      physics::LinkPtr leftFoot = model->GetLink("left_foot");
-      physics::JointPtr leftHip = model->GetJoint("left_hip");
-      Chain leftLeg = constructChain(leftHip, leftFoot);
-      // assert(checkFK(leftLeg, leftFoot, leftHip, false));
+        // Use IK for left leg
+        physics::LinkPtr leftFoot = model->GetLink("left_foot");
+        physics::JointPtr leftHip = model->GetJoint("left_hip");
+        Chain leftLeg = constructChain(leftHip, leftFoot);
+        // TODO: Fix foot height issue here
+        // assert(checkFK(leftLeg, leftFoot, leftHip));
     
-      physics::LinkPtr rightFoot = model->GetLink("right_foot");
-      physics::JointPtr rightHip = model->GetJoint("right_hip");
-      Chain rightLeg = constructChain(rightHip, rightFoot);
-      // assert(checkFK(rightLeg, rightFoot, rightHip, false));
+        math::Pose leftFootPose = math::Pose(leftFoot->GetWorldCoGPose().pos, identity);
+        vector<double> angles = calcInverse(leftLeg, leftHip, leftFoot, transformGlobalToJointFrame(leftFootPose, leftHip));
+      
+        // Now apply joint angles to a chain
+        SetJointAngles setAngles(angles);
+        setAngles(leftHip, leftFoot);
+      }
+      else {
+        // Set left leg randomly
+        randomAngleSetter(model->GetJoint("left_hip"), model->GetLink("left_foot"));
+        
+        // Use IK for right leg
+        physics::LinkPtr rightFoot = model->GetLink("right_foot");
+        physics::JointPtr rightHip = model->GetJoint("right_hip");
+        Chain rightLeg = constructChain(rightHip, rightFoot);
+        // TODO: Fix foot height issue here
+        // assert(checkFK(rightLeg, rightFoot, rightHip));
 
+        math::Pose rightFootPose = math::Pose(rightFoot->GetWorldCoGPose().pos, identity);
+        vector<double> angles = calcInverse(rightLeg, rightHip, rightFoot, transformGlobalToJointFrame(rightFootPose, rightHip));
+      
+        // Now apply joint angles to a chain
+        SetJointAngles setAngles(angles);
+        setAngles(rightHip, rightFoot);
+      }
+
+        
+
+      
       csvFile << endl;
       csvFile.close();
     }
