@@ -87,7 +87,7 @@ add_library(InitialJointVelocityPlugin SHARED src/initial-joint-velocity-plugin.
 target_link_libraries(InitialJointVelocityPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS InitialJointVelocityPlugin DESTINATION lib)
 
-add_library(InitialJointPositionPlugin SHARED src/initial-joint-position-plugin.cpp)
+add_library(InitialJointPositionPlugin SHARED src/initial-joint-position-plugin.cpp src/chainiksolverpos_nr_jl_position_only.cpp)
 target_link_libraries(InitialJointPositionPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${orocos_kdl_LIBRARIES} protobuf)
 install(TARGETS InitialJointPositionPlugin DESTINATION lib)
 

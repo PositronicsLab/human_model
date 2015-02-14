@@ -16,8 +16,8 @@
 #include <kdl/chainfksolverpos_recursive.hpp>
 #include <kdl/frames_io.hpp>
 #include <boost/math/constants/constants.hpp>
-#include <kdl/chainiksolvervel_pinv.hpp>
-#include <kdl/chainiksolverpos_nr_jl.hpp>
+#include <kdl/chainiksolvervel_wdls.hpp>
+#include "chainiksolverpos_nr_jl_position_only.hpp"
 #include <kdl/chainiksolverpos_nr.hpp>
 
 using namespace std;
@@ -205,38 +205,47 @@ namespace gazebo {
     
       // Creation of the solvers
       ChainFkSolverPos_recursive fkSolver(chain);
-      ChainIkSolverVel_pinv ikVelocitySolver(chain);
+      ChainIkSolverVel_wdls ikVelocitySolver(chain, 0.01, 1000);
+      ikVelocitySolver.setLambda(0.1);
+      // Disable weighting for orientation
+      Eigen::VectorXd weights(6);
+      weights[0] = weights[1] = weights[2] = 1.0;
+      weights[3] = weights[4] = weights[5] = 0.0;
+      ikVelocitySolver.setWeightTS(weights.asDiagonal());
+
+      LowerLimits lowerLimitsCalc;
+      UpperLimits upperLimitsCalc;
       
-      LowerLimits lowerLimits;
-      UpperLimits upperLimits;
-      
-      ChainIkSolverPos_NR_JL ikSolver(chain, toJntArray(lowerLimits(root, endEffector)), toJntArray(upperLimits(root, endEffector)),fkSolver, ikVelocitySolver, 100, 0.01);
- 
-      // ChainIkSolverPos_NR ikSolver(chain,fkSolver, ikVelocitySolver);
- 
+      const vector<double> lowerLimits = LowerLimits()(root, endEffector);
+      const vector<double> upperLimits = UpperLimits()(root, endEffector);
+
+      ChainIkSolverPos_NR_JL_PositionOnly ikSolver(chain, toJntArray(lowerLimits), toJntArray(upperLimits),fkSolver, ikVelocitySolver, 1000, 0.01);
+  
       JntArray q(chain.getNrOfJoints());
-      GetAngles calcAngles;
-      vector<double> qInit = calcAngles(root, endEffector);
-      assert(qInit.size() == chain.getNrOfJoints());
+      vector<double> qInit(chain.getNrOfJoints());
+
+        // Initialize to midpoint of joint limits
+        for(unsigned int i = 0; i < qInit.size(); ++i){
+            qInit[i] = upperLimits[i] - (upperLimits[i] - lowerLimits[i]) / 2.0;
+        }
 
       // Set destination frame. Destination frame is in the root link frame.
-      // TODO: Handle orientation of target
       Frame dest = Frame(Vector(target.pos.x, target.pos.y, target.pos.z));
  
-      int status = ikSolver.CartToJnt(toJntArray(qInit), dest, q);
+        int status = ikSolver.CartToJnt(toJntArray(qInit), dest, q);
       vector<double> angles(chain.getNrOfJoints());
       if(status >= 0){
         for(unsigned int i = 0; i < chain.getNrOfJoints(); ++i){
           angles[i] = q(i);
         }
       } else {
-        cout << "IK Failed " << endl;
+        cout << "IK Failed " << status << endl;
         // TODO: Better return code here?
       }
       return angles;
     }
     
-    private: Chain constructChain(physics::JointPtr root, physics::LinkPtr endEffector){
+   private: Chain constructChain(physics::LinkPtr trunk, physics::JointPtr root, physics::LinkPtr endEffector){
         assert(root != nullptr && "Root joint is null");
         assert(endEffector != nullptr && "End effector is null");
         
@@ -251,8 +260,10 @@ namespace gazebo {
           for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
             Vector axis = Vector(parent->GetLocalAxis(i).x, parent->GetLocalAxis(i).y, parent->GetLocalAxis(i).z);
             Joint kdlJoint = Joint(parent->GetName() + axisName(jointType(parent, i)), Vector(), axis, Joint::RotAxis);
-            
-            // Construct a segment.
+
+              cout << parent->GetWorldPose() << endl;
+
+            // For multi-DOF joints, only the final segment has length > 0
             bool isFinalAxis = i == parent->GetAngleCount() - 1;
             
             // Bounding boxes are always in the global frame. If this is a rotated box, we may not want to use
@@ -260,12 +271,18 @@ namespace gazebo {
             // TODO: Make this generally correct
             double length;
             if(rough_eq(abs(parent->GetInitialAnchorPose().rot.GetPitch()), boost::math::constants::pi<double>() / 2.0)){
-                length = link->GetBoundingBox().GetXLength();
+                length = -link->GetBoundingBox().GetXLength();
             } else {
-                length = link->GetBoundingBox().GetZLength();
+                length = -link->GetBoundingBox().GetZLength();
             }
-            Frame linkLength = Frame(Vector(0.0, 0.0, isFinalAxis ? -length : 0.0));
-            Segment segment = Segment(parent->GetName() + axisName(jointType(parent, i)), kdlJoint, linkLength);
+
+            cout << "length: " << length << endl;
+            Frame segmentVector;
+            if(isFinalAxis){
+              segmentVector = Frame(Vector(0.0, 0.0, length));
+            }
+
+            Segment segment = Segment(parent->GetName() + axisName(jointType(parent, i)), kdlJoint, segmentVector);
             chain.addSegment(segment);
           }
           
@@ -291,11 +308,7 @@ namespace gazebo {
       unsigned int nj = chain.getNrOfJoints();
       assert(nj == q.size());
       
-      KDL::JntArray jointPositions = JntArray(nj);
-      for(unsigned int i = 0; i < nj; i++){
-        jointPositions(i) = q[i];
-      }
-      
+      KDL::JntArray jointPositions = toJntArray(q);
       
       // Create the frame that will contain the results
       KDL::Frame cartPos;
@@ -397,7 +410,9 @@ namespace gazebo {
       boost::bernoulli_distribution<> randomLeg(0.5);
       math::Quaternion identity;
       identity.SetToIdentity();
-      
+
+        physics::LinkPtr trunk = model->GetLink("trunk");
+
       if(randomLeg(rng)){
         // Set right leg randomly
         randomAngleSetter(model->GetJoint("right_hip"), model->GetLink("right_foot"));
@@ -405,9 +420,8 @@ namespace gazebo {
         // Use IK for left leg
         physics::LinkPtr leftFoot = model->GetLink("left_foot");
         physics::JointPtr leftHip = model->GetJoint("left_hip");
-        Chain leftLeg = constructChain(leftHip, leftFoot);
-        // TODO: Fix foot height issue here
-        // assert(checkFK(leftLeg, leftFoot, leftHip));
+        Chain leftLeg = constructChain(trunk, leftHip, leftFoot);
+        assert(checkFK(leftLeg, leftFoot, leftHip));
     
         math::Pose leftFootPose = math::Pose(leftFoot->GetWorldCoGPose().pos, identity);
         vector<double> angles = calcInverse(leftLeg, leftHip, leftFoot, transformGlobalToJointFrame(leftFootPose, leftHip));
@@ -423,9 +437,8 @@ namespace gazebo {
         // Use IK for right leg
         physics::LinkPtr rightFoot = model->GetLink("right_foot");
         physics::JointPtr rightHip = model->GetJoint("right_hip");
-        Chain rightLeg = constructChain(rightHip, rightFoot);
-        // TODO: Fix foot height issue here
-        // assert(checkFK(rightLeg, rightFoot, rightHip));
+        Chain rightLeg = constructChain(trunk, rightHip, rightFoot);
+        assert(checkFK(rightLeg, rightFoot, rightHip));
 
         math::Pose rightFootPose = math::Pose(rightFoot->GetWorldCoGPose().pos, identity);
         vector<double> angles = calcInverse(rightLeg, rightHip, rightFoot, transformGlobalToJointFrame(rightFootPose, rightHip));

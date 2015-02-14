@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <xacro:macro xmlns:xacro="http://www.ros.org/wiki/xacro" name="human" params="xoffset yoffset zoffset"> 
     <link name='${prefix}trunk'>
-      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${1.031 + zoffset} 0.0 0.0 0.0</pose><!-- Height of leg + thigh + 0.5 * trunk-->
+      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${1.051 + zoffset} 0.0 0.0 0.0</pose><!-- Height of leg + thigh + 0.5 * trunk-->
       
       <inertial>
         <mass>37.0762</mass>
@@ -164,7 +164,7 @@
     </joint>
     
     <link name='${prefix}right_leg'>
-      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.2045 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height. -->
+      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.2245 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height. -->
       
       <inertial>
         <mass>3.4689</mass>
@@ -218,7 +218,7 @@
     </joint>
     
     <link name='${prefix}left_leg'>
-      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.2045 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height -->
+      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.2245 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is half the leg height -->
       
       <inertial>
         <mass>3.4689</mass>
@@ -273,7 +273,7 @@
     </joint>
     
     <link name='${prefix}right_thigh'>
-      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.626 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+      <pose>${0.0 + xoffset} ${-0.0855 + yoffset} ${0.646 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
       
       <inertial>
         <mass>7.46</mass>
@@ -349,7 +349,7 @@
       -->
     </joint>
     <link name='${prefix}left_thigh'>
-      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.626 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
+      <pose>${0.0 + xoffset} ${0.0855 + yoffset} ${0.646 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. X coordinate is the leg height + 0.5 * thigh height -->
       
       <inertial>
         <mass>7.46</mass>
@@ -426,7 +426,7 @@
     </joint>
     
     <link name='${prefix}transpelvic_link'>
-      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${0.843 + zoffset} 0.0 1.570796327 1.570796327</pose><!-- Height of leg + thigh, rotated to ground plane and rotated about the trunk -->
+      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${0.863 + zoffset} 0.0 1.570796327 1.570796327</pose><!-- Height of leg + thigh, rotated to ground plane and rotated about the trunk -->
       
       <!-- No inertial properties. Visualization only -->
       <collision name='collision'>
@@ -486,7 +486,7 @@
     </joint>
     
     <link name='${prefix}clavicular_link'>
-      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${1.219 + zoffset} 0.0 1.570796327 1.570796327</pose><!-- Height of leg + thigh + trunk, rotated to ground plane and rotated about the trunk -->
+      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${1.239 + zoffset} 0.0 1.570796327 1.570796327</pose><!-- Height of leg + thigh + trunk, rotated to ground plane and rotated about the trunk -->
       
       <!-- No inertial properties. Visualization only -->
       <collision name='collision'>
@@ -529,7 +529,7 @@
     </joint>
     
     <link name='${prefix}head_neck'>
-      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${1.3815 + zoffset} 0.0 0.0 0.0</pose><!-- Height of leg + thigh + trunk + 0.5 * head-neck -->
+      <pose>${0.0 + xoffset} ${0.0 + yoffset} ${1.4015 + zoffset} 0.0 0.0 0.0</pose><!-- Height of leg + thigh + trunk + 0.5 * head-neck -->
       
       <inertial>
         <mass>6.0426</mass>
@@ -567,7 +567,7 @@
     </link>
     
     <link name='${prefix}right_upper_arm'>
-      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.37 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.39 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
       
       <inertial>
         <mass>2.0888</mass>
@@ -644,7 +644,7 @@
     </joint>
     
     <link name='${prefix}left_upper_arm'>
-      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.37 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
+      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.39 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + 0.5 * upper arm -->
       
       <inertial>
         <mass>2.0888</mass>
@@ -721,7 +721,7 @@
     </joint>
     
     <link name='${prefix}right_forearm'>
-      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.657 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.677 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
       
       <inertial>
         <mass>1.1936</mass>
@@ -775,7 +775,7 @@
     </joint>
     
     <link name='${prefix}left_forearm'>
-      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.657 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
+      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.677 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + 0.5 * forearm -->
       
       <inertial>
         <mass>1.1936</mass>
@@ -829,7 +829,7 @@
     </joint>
     
     <link name='${prefix}right_hand'>
-      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.828 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+      <pose>${0.0 + xoffset} ${-0.0815 + yoffset} ${1.848 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
       
       <inertial>
         <mass>0.4476</mass>
@@ -893,7 +893,7 @@
     </joint>
     
     <link name='${prefix}left_hand'>
-      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.828 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
+      <pose>${0.0 + xoffset} ${0.0815 + yoffset} ${1.848 + zoffset} 0.0 0.0 0.0</pose><!-- Y coordinate is half the pelvic width. Z coordinate is leg + thigh + trunk + upper arm + forearm + 0.5 * hand -->
       
       <inertial>
         <mass>0.4476</mass>
