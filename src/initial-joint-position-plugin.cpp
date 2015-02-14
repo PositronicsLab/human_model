@@ -217,7 +217,10 @@ namespace gazebo {
       UpperLimits upperLimitsCalc;
       
       const vector<double> lowerLimits = LowerLimits()(root, endEffector);
+      assert(lowerLimits.size() == chain.getNrOfJoints());
+
       const vector<double> upperLimits = UpperLimits()(root, endEffector);
+      assert(upperLimits.size() == chain.getNrOfJoints());
 
       ChainIkSolverPos_NR_JL_PositionOnly ikSolver(chain, toJntArray(lowerLimits), toJntArray(upperLimits),fkSolver, ikVelocitySolver, 1000, 0.01);
   
@@ -225,6 +228,7 @@ namespace gazebo {
       vector<double> qInit(chain.getNrOfJoints());
 
         // Initialize to midpoint of joint limits
+        // TODO: Init virtual joints here
         for(unsigned int i = 0; i < qInit.size(); ++i){
             qInit[i] = upperLimits[i] - (upperLimits[i] - lowerLimits[i]) / 2.0;
         }
@@ -247,60 +251,90 @@ namespace gazebo {
     
    private: Chain constructChain(physics::LinkPtr trunk, physics::JointPtr root, physics::LinkPtr endEffector){
         assert(root != nullptr && "Root joint is null");
+        assert(trunk != nullptr && "Trunk link is null");
         assert(endEffector != nullptr && "End effector is null");
-        
+
         Chain chain;
-        
+
+       // Construct the virtual Segment for the trunk. Add two 0 length segments and one segment
+       // equal to the distance between the trunk and the root joint
+       math::Pose virtualLinkOffset = root->GetWorldPose() - trunk->GetWorldPose();
+       chain.addSegment(Segment("VirtualX", Joint("VirtualX-Joint", Vector(), Vector(1, 0, 0), Joint::RotAxis), Frame(Vector(0, 0, 0))));
+       chain.addSegment(Segment("VirtualY", Joint("VirtualY-Joint", Vector(), Vector(0, 1, 0), Joint::RotAxis), Frame(Vector(0, 0, 0))));
+       chain.addSegment(Segment("VirtualY", Joint("VirtualY-Joint", Vector(), Vector(0, 0, 1), Joint::RotAxis), Frame(Vector(virtualLinkOffset.pos.x, virtualLinkOffset.pos.y, virtualLinkOffset.pos.z))));
+
         physics::JointPtr parent = root;
-        physics::LinkPtr link = nullptr;
         do {
-          link = parent->GetChild();
-            
+          physics::LinkPtr link = parent->GetChild();
+
+          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
+
           // Iterate over degrees of freedom
-          for(unsigned int i = 0; i < parent->GetAngleCount(); ++i){
+          unsigned int angleCount = parent->GetAngleCount();
+          for(unsigned int i = 0; i < angleCount; ++i){
             Vector axis = Vector(parent->GetLocalAxis(i).x, parent->GetLocalAxis(i).y, parent->GetLocalAxis(i).z);
             Joint kdlJoint = Joint(parent->GetName() + axisName(jointType(parent, i)), Vector(), axis, Joint::RotAxis);
 
-              cout << parent->GetWorldPose() << endl;
-
             // For multi-DOF joints, only the final segment has length > 0
             bool isFinalAxis = i == parent->GetAngleCount() - 1;
-            
-            // Bounding boxes are always in the global frame. If this is a rotated box, we may not want to use
-            // the z length.
-            // TODO: Make this generally correct
-            double length;
-            if(rough_eq(abs(parent->GetInitialAnchorPose().rot.GetPitch()), boost::math::constants::pi<double>() / 2.0)){
-                length = -link->GetBoundingBox().GetXLength();
-            } else {
-                length = -link->GetBoundingBox().GetZLength();
+
+            // Determine the next joint
+            physics::JointPtr nextJoint;
+            if(link == endEffector){
+               nextJoint = nullptr;
+            }
+            else if(isFinalAxis){
+                nextJoint = link->GetChildJoints()[0];
+            }
+            else {
+               // Constructing multiple virtual joints from one multi-DOF joint
+               nextJoint = parent;
             }
 
-            cout << "length: " << length << endl;
             Frame segmentVector;
-            if(isFinalAxis){
-              segmentVector = Frame(Vector(0.0, 0.0, length));
+            if(nextJoint != nullptr){
+               // Find the distance to the next joint center
+               math::Vector3 pos = (nextJoint->GetWorldPose() - parent->GetWorldPose()).pos;
+               segmentVector.p = Vector(pos.x, pos.y, pos.z);
+            }
+            else {
+               // End effector. Use the bounding box for the size.
+               if(!isFinalAxis){
+                  segmentVector.p = Vector(0, 0, 0);
+               }
+               else {
+                  // Bounding boxes are always in the global frame. If this is a rotated box, we may not want to use
+                  // the z length.
+                  // TODO: Make this generally correct.
+                  double length;
+                  if(rough_eq(abs(parent->GetInitialAnchorPose().rot.GetPitch()), boost::math::constants::pi<double>() / 2.0)){
+                     length = -link->GetBoundingBox().GetXLength();
+                  } else {
+                     length = -link->GetBoundingBox().GetZLength();
+                  }
+                  segmentVector = Frame(Vector(0.0, 0.0, length));
+               }
             }
 
             Segment segment = Segment(parent->GetName() + axisName(jointType(parent, i)), kdlJoint, segmentVector);
             chain.addSegment(segment);
+            parent = nextJoint;
           }
-          
-          assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
-          
-          if(link->GetChildJoints().size() > 0){
-            parent = link->GetChildJoints()[0];
-          }
-        } while (link != endEffector);
-        
+        } while (parent != nullptr);
         return chain;
     }
     
-    private: bool checkFK(const Chain& chain, physics::LinkPtr leaf, physics::JointPtr root) const {
+  private: bool checkFK(const Chain& chain, physics::LinkPtr trunk, physics::LinkPtr leaf, physics::JointPtr root) const {
       // Get the current angles of all the joints
       GetAngles getAngles;
       vector<double> q = getAngles(root, leaf);
-        
+
+      // Add zeros for the virtual joints
+      // TODO: Handle cases where the trunk is not oriented normally?
+      for(unsigned int i = 0; i < 3; ++i){
+         q.insert(q.begin(), 0.0);
+      }
+
       // Construct the solver
       ChainFkSolverPos_recursive fksolver = ChainFkSolverPos_recursive(chain);
       
@@ -318,30 +352,28 @@ namespace gazebo {
       bool status = fksolver.JntToCart(jointPositions, cartPos);
       if(status >= 0){
         // Translate to the global frame.
-        math::Pose parentPose = root->GetParentWorldPose();
-          
-        Frame baseFrame = Frame(Rotation::Quaternion(parentPose.rot.x, parentPose.rot.y, parentPose.rot.z, parentPose.rot.w), Vector(parentPose.pos.x, parentPose.pos.y, parentPose.pos.z));
-
-        Vector pos = (baseFrame * cartPos).p;
+         math::Quaternion q;
+         q.SetToIdentity();
+         math::Vector3 pos = (trunk->GetWorldPose() + math::Pose(math::Vector3(cartPos.p.x(), cartPos.p.y(), cartPos.p.z()), q)).pos;
         
         // Compensate for the difference between center and tip of the end effector.
         // TODO: Compensate for additional cases here
         if(rough_eq(abs(jointPositions(nj - 1)), boost::math::constants::pi<double>() / 2.0)){
-            pos = Vector(pos.x() - leaf->GetBoundingBox().GetXLength() / 2.0, pos.y(), pos.z());
+           pos = math::Vector3(pos.x - leaf->GetBoundingBox().GetXLength() / 2.0, pos.y, pos.z);
         } else {
-            pos = Vector(pos.x(), pos.y(), pos.z() - leaf->GetBoundingBox().GetZLength() / 2.0);
+           pos = math::Vector3(pos.x, pos.y, pos.z - leaf->GetBoundingBox().GetZLength() / 2.0);
         }
         
         math::Vector3 endPos = leaf->GetBoundingBox().GetCenter();
-        if(!rough_eq(pos.x(), endPos.x)){
+        if(!rough_eq(pos.x, endPos.x)){
           cout << "X values did not match: " << pos << " " << endPos << endl;
           return false;
         }
-        if(!rough_eq(pos.y(), endPos.y)){
+        if(!rough_eq(pos.y, endPos.y)){
           cout << "Y values did not match: " << pos << " " << endPos << endl;
           return false;
         }
-        if(!rough_eq(pos.z(), endPos.z)){
+        if(!rough_eq(pos.z, endPos.z)){
           cout << "Z values did not match: " << pos << " " << endPos << endl;
           return false;
         }
@@ -351,12 +383,8 @@ namespace gazebo {
        return false;
     }
     
-    private: math::Pose transformGlobalToJointFrame(const math::Pose& pose, const physics::JointPtr root) const {
-
-      math::Pose result =  math::Pose(root->GetAnchor(0).x, root->GetAnchor(0).y, root->GetAnchor(0).z, 0, 0, 0).GetInverse() * pose;
-
-      cout << "TARGET: " << result << endl;
-      return result;
+    private: math::Pose transformGlobalToJointFrame(const math::Pose& pose, const physics::LinkPtr root) const {
+      return root->GetWorldPose().GetInverse() * pose;
     }
     
     public: void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf){
@@ -421,10 +449,10 @@ namespace gazebo {
         physics::LinkPtr leftFoot = model->GetLink("left_foot");
         physics::JointPtr leftHip = model->GetJoint("left_hip");
         Chain leftLeg = constructChain(trunk, leftHip, leftFoot);
-        assert(checkFK(leftLeg, leftFoot, leftHip));
+        assert(checkFK(leftLeg, trunk, leftFoot, leftHip));
     
         math::Pose leftFootPose = math::Pose(leftFoot->GetWorldCoGPose().pos, identity);
-        vector<double> angles = calcInverse(leftLeg, leftHip, leftFoot, transformGlobalToJointFrame(leftFootPose, leftHip));
+        vector<double> angles = calcInverse(leftLeg, leftHip, leftFoot, transformGlobalToJointFrame(leftFootPose, trunk));
       
         // Now apply joint angles to a chain
         SetJointAngles setAngles(angles);
@@ -438,10 +466,10 @@ namespace gazebo {
         physics::LinkPtr rightFoot = model->GetLink("right_foot");
         physics::JointPtr rightHip = model->GetJoint("right_hip");
         Chain rightLeg = constructChain(trunk, rightHip, rightFoot);
-        assert(checkFK(rightLeg, rightFoot, rightHip));
+        assert(checkFK(rightLeg, trunk, rightFoot, rightHip));
 
         math::Pose rightFootPose = math::Pose(rightFoot->GetWorldCoGPose().pos, identity);
-        vector<double> angles = calcInverse(rightLeg, rightHip, rightFoot, transformGlobalToJointFrame(rightFootPose, rightHip));
+        vector<double> angles = calcInverse(rightLeg, rightHip, rightFoot, transformGlobalToJointFrame(rightFootPose, trunk));
       
         // Now apply joint angles to a chain
         SetJointAngles setAngles(angles);
