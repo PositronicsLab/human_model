@@ -30,9 +30,8 @@ using namespace KDL;
 #define PRINT_POSITIONS 0
 #define PRINT_DEBUG 1
 
-// TODO: Reduce default
 template <class T>
-bool rough_eq(T lhs, T rhs, T epsilon = 0.025){
+bool rough_eq(T lhs, T rhs, T epsilon = 0.01){
   return fabs(lhs - rhs) < epsilon;
 }
 
@@ -209,7 +208,16 @@ namespace gazebo {
      }
      return values;
   }
-    
+
+  private: static vector<double> prependRPY(math::Pose& pose, const vector<double>& angles) {
+     vector<double> updatedAngles = angles;
+     // Reverse order due to inserting at the beginning each time
+     updatedAngles.insert(updatedAngles.begin(), pose.rot.GetYaw());
+     updatedAngles.insert(updatedAngles.begin(), pose.rot.GetPitch());
+     updatedAngles.insert(updatedAngles.begin(), pose.rot.GetRoll());
+     return updatedAngles;
+  }
+
     /**
      * Calculate the inverse.
      * Note: Target must be in the root link frame
@@ -231,18 +239,10 @@ namespace gazebo {
       UpperLimits upperLimitsCalc;
 
       math::Pose trunkPose = trunk->GetWorldPose();
-      vector<double> lowerLimits = LowerLimits()(root, endEffector);
-
-      // Reverse order due to inserting at the beginning each time
-      lowerLimits.insert(lowerLimits.begin(), trunkPose.rot.GetYaw());
-      lowerLimits.insert(lowerLimits.begin(), trunkPose.rot.GetPitch());
-      lowerLimits.insert(lowerLimits.begin(), trunkPose.rot.GetRoll());
+      vector<double> lowerLimits = prependRPY(trunkPose, LowerLimits()(root, endEffector));
       assert(lowerLimits.size() == chain.getNrOfJoints());
 
-      vector<double> upperLimits = UpperLimits()(root, endEffector);
-      upperLimits.insert(upperLimits.begin(), trunkPose.rot.GetYaw());
-      upperLimits.insert(upperLimits.begin(), trunkPose.rot.GetPitch());
-      upperLimits.insert(upperLimits.begin(), trunkPose.rot.GetRoll());
+      vector<double> upperLimits = prependRPY(trunkPose, UpperLimits()(root, endEffector));
       assert(upperLimits.size() == chain.getNrOfJoints());
 
       ChainIkSolverPos_NR_JL_PositionOnly ikSolver(chain, toJntArray(lowerLimits), toJntArray(upperLimits),fkSolver, ikVelocitySolver, 1000, 0.001);
@@ -266,8 +266,7 @@ namespace gazebo {
         for(unsigned int i = VIRTUAL_JOINTS; i < chain.getNrOfJoints(); ++i){
           angles.push_back(q(i));
         }
-         // TODO: Reenable
-         // assert(checkFK(chain, trunk, endEffector, angles));
+         assert(checkFK(chain, trunk, endEffector, angles));
       } else {
         cerr << "IK Failed with status: " << status << endl;
       }
@@ -283,7 +282,7 @@ namespace gazebo {
 
        // Construct the virtual Segment for the trunk. Add two 0 length segments and one segment
        // equal to the distance between the trunk and the root joint
-       math::Pose virtualLinkOffset = root->GetWorldPose() - trunk->GetWorldPose();
+      math::Pose virtualLinkOffset = root->GetWorldPose() - trunk->GetWorldPose();
       chain.addSegment(Segment("VirtualX", Joint("VirtualX-Joint", Joint::RotX), Frame(Vector(0, 0, 0))));
       chain.addSegment(Segment("VirtualY", Joint("VirtualY-Joint", Joint::RotY), Frame(Vector(0, 0, 0))));
       chain.addSegment(Segment("VirtualY", Joint("VirtualY-Joint", Joint::RotZ), Frame(Vector(virtualLinkOffset.pos.x, virtualLinkOffset.pos.y, virtualLinkOffset.pos.z))));
@@ -355,20 +354,13 @@ namespace gazebo {
     
   private: bool checkFK(const Chain& chain, physics::LinkPtr trunk, physics::LinkPtr leaf, const vector<double> qIn) const {
 
-     // Add virtual joint
-     math::Pose trunkPose = trunk->GetWorldPose();
-
-     vector<double> q = qIn;
-
-     // Reverse order due to inserting at the beginning each time
-     q.insert(q.begin(), trunkPose.rot.GetYaw());
-     q.insert(q.begin(), trunkPose.rot.GetPitch());
-     q.insert(q.begin(), trunkPose.rot.GetRoll());
-
       // Construct the solver
       ChainFkSolverPos_recursive fksolver = ChainFkSolverPos_recursive(chain);
       
       // Create joint array
+      // Add virtual joint
+      math::Pose trunkPose = trunk->GetWorldPose();
+      vector<double> q = prependRPY(trunkPose, qIn);
       unsigned int nj = chain.getNrOfJoints();
       assert(nj == q.size());
       
@@ -464,7 +456,6 @@ namespace gazebo {
      for(unsigned int i = 0; i < boxes.size(); ++i){
         for(unsigned int j = i + 1; j < boxes.size(); ++j){
            if(boxes[i].overlap(boxes[j])){
-              // TODO: Check self-collision setting
               if(!(isChildOf(model->GetLinks()[i], model->GetLinks()[j]) || isChildOf(model->GetLinks()[j], model->GetLinks()[i]))){
                  cout << "Collision between: " << model->GetLinks()[i]->GetName() << " and " << model->GetLinks()[j]->GetName() << endl;
                  return true;
@@ -572,9 +563,8 @@ namespace gazebo {
           assert(trunk->GetWorldPose().pos == trunkPose);
           assert(transformGlobalToFixedTrunkFrame(trunk->GetWorldPose(), trunk).pos == math::Vector3(0, 0, 0));
 
-          // TODO: Reenable when frames are correct
-          // assert(checkFK(leftLeg, trunk, leftFoot, getAngles(leftHip, leftFoot)));
-          // assert(checkFK(rightLeg, trunk, rightFoot, getAngles(rightHip, rightFoot)));
+          assert(checkFK(leftLeg, trunk, leftFoot, getAngles(leftHip, leftFoot)));
+          assert(checkFK(rightLeg, trunk, rightFoot, getAngles(rightHip, rightFoot)));
 
           // Set random RPY on arms
           SetRandomAngles randomAngleSetter(rng);
