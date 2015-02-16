@@ -30,6 +30,9 @@ using namespace KDL;
 #define PRINT_POSITIONS 0
 #define PRINT_DEBUG 1
 
+/**
+ * Determine if two values are approximately equal with respect to epsilon
+ */
 template <class T>
 bool rough_eq(T lhs, T rhs, T epsilon = 0.01){
   return fabs(lhs - rhs) < epsilon;
@@ -179,7 +182,10 @@ namespace gazebo {
             }
             return jointType;
     }
-    
+
+     /**
+      * Get a readable name of an axis
+      */
     private: string axisName(const Joint::JointType jointType){
       if(jointType == Joint::JointType::RotX){
         return "X";
@@ -192,7 +198,10 @@ namespace gazebo {
       }
       assert(false);
     }
-    
+
+     /**
+      * Convert a vector of joint angles to a JntArray
+      */
     private: static JntArray toJntArray(const vector<double> values){
       JntArray jArray(values.size());
       for(unsigned int i = 0; i < values.size(); ++i){
@@ -201,6 +210,9 @@ namespace gazebo {
       return jArray;
     }
 
+     /**
+      * Convert a JntArray to a vector joint angles
+      */
   private: static vector<double> toVector(const JntArray jntArray){
      vector<double> values(jntArray.rows());
      for(unsigned int i = 0; i < jntArray.rows(); ++i){
@@ -209,6 +221,9 @@ namespace gazebo {
      return values;
   }
 
+     /**
+      * Prepend the roll pitch yaw angles of a pose to a joint angle list
+      */
   private: static vector<double> prependRPY(math::Pose& pose, const vector<double>& angles) {
      vector<double> updatedAngles = angles;
      // Reverse order due to inserting at the beginning each time
@@ -352,6 +367,9 @@ namespace gazebo {
         return chain;
     }
 
+     /**
+      * Convert a kdl frame to a gazebo pose
+      */
   private: static math::Pose frameToPose(const KDL::Frame& frame){
      double x, y, z, w;
      frame.M.GetQuaternion(x, y, z, w);
@@ -429,22 +447,32 @@ namespace gazebo {
        return pose - trunkPose;
     }
 
+     /**
+      * Convert a gazebo pose to a fcl Transform 3f
+      */
   private: fcl::Transform3f poseToTransform(const math::Pose& pose){
      fcl::Quaternion3f q(pose.rot.x, pose.rot.y, pose.rot.z, pose.rot.w);
      fcl::Vec3f t(pose.pos.x, pose.pos.y, pose.pos.z);
      return fcl::Transform3f(q, t);
   }
 
-  private: bool isChildOf(const physics::LinkPtr parent, const physics::LinkPtr child) const {
-     physics::Link_V children = parent->GetChildJointsLinks();
+     /**
+      * Determine whether two links have a parent child relationship in either direction
+      */
+  private: bool isChildOf(const physics::LinkPtr a, const physics::LinkPtr b) const {
+     physics::Link_V children = a->GetChildJointsLinks();
      for(unsigned int i = 0; i < children.size(); ++i){
-        if(children[i]->GetId() == child->GetId()){
+        if(children[i]->GetId() == b->GetId()){
            return true;
         }
      }
      return false;
   }
 
+     /**
+      * Determine if a model has an internal collision or collides with the ground. Contact link
+      * is exempted from ground collision detection
+      */
   private: bool hasCollision(physics::ModelPtr model, physics::LinkPtr contactLink){
      vector<fcl::AABB> boxes;
      for(unsigned int i = 0; i < model->GetLinks().size(); ++i){
