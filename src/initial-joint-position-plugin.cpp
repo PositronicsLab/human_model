@@ -423,7 +423,7 @@ namespace gazebo {
        return false;
     }
     
-    private: math::Pose transformGlobalToJointFrame(const math::Pose& pose, const physics::LinkPtr root) const {
+    private: math::Pose transformGlobalToFixedTrunkFrame(const math::Pose& pose, const physics::LinkPtr root) const {
        // We want to transform into the center of the trunk frame, but not the orientation of the trunk
        // frame because that is how the kinematic chain is rooted.
        math::Pose trunkPose = root->GetWorldPose();
@@ -449,7 +449,7 @@ namespace gazebo {
      return false;
   }
 
-  private: bool hasCollision(physics::ModelPtr model){
+  private: bool hasCollision(physics::ModelPtr model, physics::LinkPtr contactLink){
      vector<fcl::AABB> boxes;
      for(unsigned int i = 0; i < model->GetLinks().size(); ++i){
         // Use model bounding box, not link, which includes children
@@ -474,12 +474,11 @@ namespace gazebo {
      }
 
      // Now check for ground collision
-     // TODO: Allow contact with foot
      fcl::Halfspace groundPlaneSpace = fcl::Halfspace(fcl::Vec3f(0, 0, 1), 0.0);
      fcl::AABB groundPlane;
      fcl::computeBV(groundPlaneSpace, fcl::Transform3f(), groundPlane);
      for(unsigned int i = 0; i < boxes.size(); ++i){
-        if(boxes[i].overlap(groundPlane)){
+        if(contactLink->GetId() != model->GetLinks()[i]->GetId() && boxes[i].overlap(groundPlane)){
            cout << "Collision between: " << model->GetLinks()[i]->GetName() << " and ground plane" << endl;
            return true;
         }
@@ -567,11 +566,11 @@ namespace gazebo {
           double yaw = yawGenerator();
 
           math::Vector3 trunkPose = trunk->GetWorldPose().pos;
-          model->SetLinkWorldPose(math::Pose(math::Vector3(trunk->GetWorldPose().pos), math::Quaternion(roll, pitch, yaw)), trunk);
+          // model->SetLinkWorldPose(math::Pose(math::Vector3(trunk->GetWorldPose().pos), math::Quaternion(roll, pitch, yaw)), trunk);
 
           // Confirmation cartesian position did not change
           assert(trunk->GetWorldPose().pos == trunkPose);
-          assert(transformGlobalToJointFrame(trunk->GetWorldPose(), trunk).pos == math::Vector3(0, 0, 0));
+          assert(transformGlobalToFixedTrunkFrame(trunk->GetWorldPose(), trunk).pos == math::Vector3(0, 0, 0));
 
           // TODO: Reenable when frames are correct
           // assert(checkFK(leftLeg, trunk, leftFoot, getAngles(leftHip, leftFoot)));
@@ -584,15 +583,17 @@ namespace gazebo {
     
           // Now pick a leg to set randomly
           boost::bernoulli_distribution<> randomLeg(0.5);
+          physics::LinkPtr contactLink;
           if(randomLeg(rng)){
              // Set right leg randomly
              randomAngleSetter(model->GetJoint("right_hip"), model->GetLink("right_foot"));
 
              // Select the position equal to the current planar position of the foot at zero height
              // TODO: Compensate for difference between foot center and tip
+             contactLink = leftFoot;
              math::Pose leftFootPose = math::Pose(leftFoot->GetWorldPose().pos, identity);
              leftFootPose.pos.z = 0;
-             vector<double> angles = calcInverse(leftLeg, trunk, leftHip, leftFoot, transformGlobalToJointFrame(leftFootPose, trunk));
+             vector<double> angles = calcInverse(leftLeg, trunk, leftHip, leftFoot, transformGlobalToFixedTrunkFrame(leftFootPose, trunk));
 
              // Check for IK failure
              if(angles.size() == 0){
@@ -613,9 +614,10 @@ namespace gazebo {
              // Select the position equal to the current planar position of the foot at zero height
              // TODO: Compensate for difference between foot center and tip
              // TODO: Make function to get foot tip location
+             contactLink = rightFoot;
              rightFootPose.pos.z = 0;
 
-             vector<double> angles = calcInverse(rightLeg, trunk, rightHip, rightFoot, transformGlobalToJointFrame(rightFootPose, trunk));
+             vector<double> angles = calcInverse(rightLeg, trunk, rightHip, rightFoot, transformGlobalToFixedTrunkFrame(rightFootPose, trunk));
 
              // Check for IK failure
              if(angles.size() == 0){
@@ -629,7 +631,7 @@ namespace gazebo {
           }
 
           // Check for intersection
-          if(hasCollision(model)){
+          if(hasCollision(model, contactLink)){
              cout << "Model has collision" << endl;
           }
           else {
