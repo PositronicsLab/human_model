@@ -19,6 +19,9 @@
 #include <kdl/chainiksolvervel_wdls.hpp>
 #include "chainiksolverpos_nr_jl_position_only.hpp"
 #include <kdl/chainiksolverpos_nr.hpp>
+#include <fcl/BV/BV.h>
+#include <fcl/shape/geometric_shapes.h>
+#include <fcl/shape/geometric_shapes_utility.h>
 
 using namespace std;
 using namespace KDL;
@@ -263,7 +266,8 @@ namespace gazebo {
         for(unsigned int i = VIRTUAL_JOINTS; i < chain.getNrOfJoints(); ++i){
           angles.push_back(q(i));
         }
-         assert(checkFK(chain, trunk, endEffector, angles));
+         // TODO: Reenable
+         // assert(checkFK(chain, trunk, endEffector, angles));
       } else {
         cerr << "IK Failed with status: " << status << endl;
       }
@@ -428,7 +432,62 @@ namespace gazebo {
        trunkPose.rot = identity;
        return pose - trunkPose;
     }
-    
+
+  private: fcl::Transform3f poseToTransform(const math::Pose& pose){
+     fcl::Quaternion3f q(pose.rot.x, pose.rot.y, pose.rot.z, pose.rot.w);
+     fcl::Vec3f t(pose.pos.x, pose.pos.y, pose.pos.z);
+     return fcl::Transform3f(q, t);
+  }
+
+  private: bool isChildOf(const physics::LinkPtr parent, const physics::LinkPtr child) const {
+     physics::Link_V children = parent->GetChildJointsLinks();
+     for(unsigned int i = 0; i < children.size(); ++i){
+        if(children[i]->GetId() == child->GetId()){
+           return true;
+        }
+     }
+     return false;
+  }
+
+  private: bool hasCollision(physics::ModelPtr model){
+     vector<fcl::AABB> boxes;
+     for(unsigned int i = 0; i < model->GetLinks().size(); ++i){
+        // Use model bounding box, not link, which includes children
+        fcl::Box boxModel(model->GetLinks()[i]->GetModel()->GetBoundingBox().GetXLength(), model->GetLinks()[i]->GetModel()->GetBoundingBox().GetYLength(), model->GetLinks()[i]->GetModel()->GetBoundingBox().GetZLength());
+        fcl::AABB box;
+        fcl::computeBV(boxModel, poseToTransform(model->GetLinks()[i]->GetWorldPose()), box);
+        boxes.push_back(box);
+     }
+
+     assert(boxes.size() == model->GetLinks().size());
+
+     for(unsigned int i = 0; i < boxes.size(); ++i){
+        for(unsigned int j = i + 1; j < boxes.size(); ++j){
+           if(boxes[i].overlap(boxes[j])){
+              // TODO: Check self-collision setting
+              if(!(isChildOf(model->GetLinks()[i], model->GetLinks()[j]) || isChildOf(model->GetLinks()[j], model->GetLinks()[i]))){
+                 cout << "Collision between: " << model->GetLinks()[i]->GetName() << " and " << model->GetLinks()[j]->GetName() << endl;
+                 return true;
+              }
+           }
+        }
+     }
+
+     // Now check for ground collision
+     // TODO: Allow contact with foot
+     fcl::Halfspace groundPlaneSpace = fcl::Halfspace(fcl::Vec3f(0, 0, 1), 0.0);
+     fcl::AABB groundPlane;
+     fcl::computeBV(groundPlaneSpace, fcl::Transform3f(), groundPlane);
+     for(unsigned int i = 0; i < boxes.size(); ++i){
+        if(boxes[i].overlap(groundPlane)){
+           cout << "Collision between: " << model->GetLinks()[i]->GetName() << " and ground plane" << endl;
+           return true;
+        }
+     }
+
+     return false;
+  }
+
     public: void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf){
       model = _model;
       
@@ -478,79 +537,105 @@ namespace gazebo {
        physics::LinkPtr rightFoot = model->GetLink("right_foot");
        physics::JointPtr rightHip = model->GetJoint("right_hip");
        Chain rightLeg = constructChain(trunk, rightHip, rightFoot);
-       math::Pose rightFootPose = math::Pose(rightFoot->GetWorldCoGPose().pos, identity);
+       math::Pose rightFootPose = math::Pose(rightFoot->GetWorldPose().pos, identity);
 
        // Use IK for left leg
        physics::LinkPtr leftFoot = model->GetLink("left_foot");
        physics::JointPtr leftHip = model->GetJoint("left_hip");
        Chain leftLeg = constructChain(trunk, leftHip, leftFoot);
-       math::Pose leftFootPose = math::Pose(leftFoot->GetWorldCoGPose().pos, identity);
+       math::Pose leftFootPose = math::Pose(leftFoot->GetWorldPose().pos, identity);
 
        GetAngles getAngles;
        assert(checkFK(leftLeg, trunk, leftFoot, getAngles(leftHip, leftFoot)));
        assert(checkFK(rightLeg, trunk, rightFoot, getAngles(rightHip, rightFoot)));
 
-      // Limit pitch and roll to pi/4 but allow any yaw.
-      boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > pitchRollGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>() / 4.0, boost::math::constants::pi<double>() / 4.0));
+       // Limit pitch and roll to pi/4 but allow any yaw.
+       boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > pitchRollGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>() / 8.0, boost::math::constants::pi<double>() / 8.0));
 
-      boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > yawGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>(), boost::math::constants::pi<double>()));
+       boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > yawGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>(), boost::math::constants::pi<double>()));
 
-       double roll = pitchRollGenerator();
-       double pitch = pitchRollGenerator();
-       double yaw = yawGenerator();
+       bool foundLegalConfig = false;
+       while (!foundLegalConfig){
 
-       math::Vector3 trunkPose = trunk->GetWorldPose().pos;
-       model->SetLinkWorldPose(math::Pose(math::Vector3(trunk->GetWorldPose().pos), math::Quaternion(roll, pitch, yaw)), trunk);
+          // Reset configuration to base
+          model->SetLinkWorldPose(math::Pose(math::Vector3(trunk->GetWorldPose().pos), math::Quaternion(0, 0, 0)), trunk);
 
-       // Confirmation cartesian position did not change
-       assert(trunk->GetWorldPose().pos == trunkPose);
-       assert(transformGlobalToJointFrame(trunk->GetWorldPose(), trunk).pos == math::Vector3(0, 0, 0));
+          // TODO: Reset joint angles?
 
-       // TODO: Reenable when frames are correct
-       // assert(checkFK(leftLeg, trunk, leftFoot, getAngles(leftHip, leftFoot)));
-       // assert(checkFK(rightLeg, trunk, rightFoot, getAngles(rightHip, rightFoot)));
+          double roll = pitchRollGenerator();
+          double pitch = pitchRollGenerator();
+          double yaw = yawGenerator();
 
-      // Set random RPY on arms
-      SetRandomAngles randomAngleSetter(rng);
-      randomAngleSetter(model->GetJoint("left_shoulder"), model->GetLink("left_hand"));
-      randomAngleSetter(model->GetJoint("right_shoulder"), model->GetLink("right_hand"));
+          math::Vector3 trunkPose = trunk->GetWorldPose().pos;
+          model->SetLinkWorldPose(math::Pose(math::Vector3(trunk->GetWorldPose().pos), math::Quaternion(roll, pitch, yaw)), trunk);
+
+          // Confirmation cartesian position did not change
+          assert(trunk->GetWorldPose().pos == trunkPose);
+          assert(transformGlobalToJointFrame(trunk->GetWorldPose(), trunk).pos == math::Vector3(0, 0, 0));
+
+          // TODO: Reenable when frames are correct
+          // assert(checkFK(leftLeg, trunk, leftFoot, getAngles(leftHip, leftFoot)));
+          // assert(checkFK(rightLeg, trunk, rightFoot, getAngles(rightHip, rightFoot)));
+
+          // Set random RPY on arms
+          SetRandomAngles randomAngleSetter(rng);
+          randomAngleSetter(model->GetJoint("left_shoulder"), model->GetLink("left_hand"));
+          randomAngleSetter(model->GetJoint("right_shoulder"), model->GetLink("right_hand"));
     
-      // Now pick a leg to set randomly
-      boost::bernoulli_distribution<> randomLeg(0.5);
-      if(randomLeg(rng)){
-        // Set right leg randomly
-        randomAngleSetter(model->GetJoint("right_hip"), model->GetLink("right_foot"));
+          // Now pick a leg to set randomly
+          boost::bernoulli_distribution<> randomLeg(0.5);
+          if(randomLeg(rng)){
+             // Set right leg randomly
+             randomAngleSetter(model->GetJoint("right_hip"), model->GetLink("right_foot"));
 
-         // Select the position equal to the current planar position of the foot at zero height
-         // TODO: Compensate for difference between foot center and tip
-         math::Pose leftFootPose = math::Pose(leftFoot->GetWorldCoGPose().pos, identity);
-         leftFootPose.pos.z = 0;
-        vector<double> angles = calcInverse(leftLeg, trunk, leftHip, leftFoot, transformGlobalToJointFrame(leftFootPose, trunk));
+             // Select the position equal to the current planar position of the foot at zero height
+             // TODO: Compensate for difference between foot center and tip
+             math::Pose leftFootPose = math::Pose(leftFoot->GetWorldPose().pos, identity);
+             leftFootPose.pos.z = 0;
+             vector<double> angles = calcInverse(leftLeg, trunk, leftHip, leftFoot, transformGlobalToJointFrame(leftFootPose, trunk));
+
+             // Check for IK failure
+             if(angles.size() == 0){
+                // Next config
+                continue;
+             }
       
-        // Now apply joint angles to a chain
-        SetJointAngles setAngles(angles);
-        setAngles(leftHip, leftFoot);
-      }
-      else {
-        // Set left leg randomly
-        randomAngleSetter(model->GetJoint("left_hip"), model->GetLink("left_foot"));
+             // Now apply joint angles to a chain
+             SetJointAngles setAngles(angles);
+             setAngles(leftHip, leftFoot);
+          }
+          else {
+             // Set left leg randomly
+             randomAngleSetter(model->GetJoint("left_hip"), model->GetLink("left_foot"));
 
-        // Use IK for right leg
+             // Use IK for right leg
 
-         // Select the position equal to the current planar position of the foot at zero height
-         // TODO: Compensate for difference between foot center and tip
-         // TODO: Make function to get foot tip location
-         rightFootPose.pos.z = 0;
+             // Select the position equal to the current planar position of the foot at zero height
+             // TODO: Compensate for difference between foot center and tip
+             // TODO: Make function to get foot tip location
+             rightFootPose.pos.z = 0;
 
-        vector<double> angles = calcInverse(rightLeg, trunk, rightHip, rightFoot, transformGlobalToJointFrame(rightFootPose, trunk));
-      
-        // Now apply joint angles to a chain
-        SetJointAngles setAngles(angles);
-        setAngles(rightHip, rightFoot);
-      }
+             vector<double> angles = calcInverse(rightLeg, trunk, rightHip, rightFoot, transformGlobalToJointFrame(rightFootPose, trunk));
 
-        
+             // Check for IK failure
+             if(angles.size() == 0){
+                // Next config
+                continue;
+             }
 
+             // Now apply joint angles to a chain
+             SetJointAngles setAngles(angles);
+             setAngles(rightHip, rightFoot);
+          }
+
+          // Check for intersection
+          if(hasCollision(model)){
+             cout << "Model has collision" << endl;
+          }
+          else {
+             foundLegalConfig = true;
+          }
+       }
       
       csvFile << endl;
       csvFile.close();
