@@ -351,7 +351,13 @@ namespace gazebo {
         } while (parent != nullptr);
         return chain;
     }
-    
+
+  private: static math::Pose frameToPose(const KDL::Frame& frame){
+     double x, y, z, w;
+     frame.M.GetQuaternion(x, y, z, w);
+     return math::Pose(math::Vector3(frame.p.x(), frame.p.y(), frame.p.z()), math::Quaternion(x, y, z, w));
+  }
+
   private: bool checkFK(const Chain& chain, physics::LinkPtr trunk, physics::LinkPtr leaf, const vector<double> qIn) const {
 
       // Construct the solver
@@ -378,9 +384,7 @@ namespace gazebo {
          trunkPose.rot = identity;
 
          // Translate to the global frame.
-         double x, y, z, w;
-         cartPos.M.GetQuaternion(x, y, z, w);
-         math::Pose endEffectorPoseInTrunkFrame = math::Pose(math::Vector3(cartPos.p.x(), cartPos.p.y(), cartPos.p.z()), math::Quaternion(x, y, z, w)) * trunkPose;
+         math::Pose endEffectorPoseInTrunkFrame = frameToPose(cartPos) * trunkPose;
 
          math::Vector3 pos = endEffectorPoseInTrunkFrame.pos;
 
