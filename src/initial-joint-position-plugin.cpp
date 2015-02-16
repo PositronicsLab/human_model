@@ -27,12 +27,14 @@ using namespace KDL;
 #define PRINT_POSITIONS 0
 #define PRINT_DEBUG 1
 
+// TODO: Reduce default
 template <class T>
-bool rough_eq(T lhs, T rhs, T epsilon = 0.001){
+bool rough_eq(T lhs, T rhs, T epsilon = 0.025){
   return fabs(lhs - rhs) < epsilon;
 }
 
 namespace gazebo {
+  const unsigned int VIRTUAL_JOINTS = 3;
 
   struct SetJointValue {
       virtual void setValue(const physics::JointPtr joint, const unsigned int index, const unsigned int globalIndex) = 0;
@@ -196,17 +198,26 @@ namespace gazebo {
       }
       return jArray;
     }
+
+  private: static vector<double> toVector(const JntArray jntArray){
+     vector<double> values(jntArray.rows());
+     for(unsigned int i = 0; i < jntArray.rows(); ++i){
+        values.push_back(jntArray(i));
+     }
+     return values;
+  }
     
     /**
      * Calculate the inverse.
      * Note: Target must be in the root link frame
      */
-    private: vector<double> calcInverse(Chain& chain, physics::JointPtr root, physics::LinkPtr endEffector, const math::Pose target){
-    
+  private: vector<double> calcInverse(Chain& chain, physics::LinkPtr trunk, physics::JointPtr root, physics::LinkPtr endEffector, const math::Pose target){
+
       // Creation of the solvers
       ChainFkSolverPos_recursive fkSolver(chain);
-      ChainIkSolverVel_wdls ikVelocitySolver(chain, 0.01, 1000);
+      ChainIkSolverVel_wdls ikVelocitySolver(chain, 0.001, 1000);
       ikVelocitySolver.setLambda(0.1);
+
       // Disable weighting for orientation
       Eigen::VectorXd weights(6);
       weights[0] = weights[1] = weights[2] = 1.0;
@@ -215,36 +226,46 @@ namespace gazebo {
 
       LowerLimits lowerLimitsCalc;
       UpperLimits upperLimitsCalc;
-      
-      const vector<double> lowerLimits = LowerLimits()(root, endEffector);
+
+      math::Pose trunkPose = trunk->GetWorldPose();
+      vector<double> lowerLimits = LowerLimits()(root, endEffector);
+
+      // Reverse order due to inserting at the beginning each time
+      lowerLimits.insert(lowerLimits.begin(), trunkPose.rot.GetYaw());
+      lowerLimits.insert(lowerLimits.begin(), trunkPose.rot.GetPitch());
+      lowerLimits.insert(lowerLimits.begin(), trunkPose.rot.GetRoll());
       assert(lowerLimits.size() == chain.getNrOfJoints());
 
-      const vector<double> upperLimits = UpperLimits()(root, endEffector);
+      vector<double> upperLimits = UpperLimits()(root, endEffector);
+      upperLimits.insert(upperLimits.begin(), trunkPose.rot.GetYaw());
+      upperLimits.insert(upperLimits.begin(), trunkPose.rot.GetPitch());
+      upperLimits.insert(upperLimits.begin(), trunkPose.rot.GetRoll());
       assert(upperLimits.size() == chain.getNrOfJoints());
 
-      ChainIkSolverPos_NR_JL_PositionOnly ikSolver(chain, toJntArray(lowerLimits), toJntArray(upperLimits),fkSolver, ikVelocitySolver, 1000, 0.01);
+      ChainIkSolverPos_NR_JL_PositionOnly ikSolver(chain, toJntArray(lowerLimits), toJntArray(upperLimits),fkSolver, ikVelocitySolver, 1000, 0.001);
   
       JntArray q(chain.getNrOfJoints());
       vector<double> qInit(chain.getNrOfJoints());
 
-        // Initialize to midpoint of joint limits
-        // TODO: Init virtual joints here
+        // Initialize to midpoint of joint limits. Upper limits and lower limits account for virtual
+        // joints
         for(unsigned int i = 0; i < qInit.size(); ++i){
             qInit[i] = upperLimits[i] - (upperLimits[i] - lowerLimits[i]) / 2.0;
         }
 
-      // Set destination frame. Destination frame is in the root link frame.
+      // Set destination frame. Destination frame is in the trunk link frame.
       Frame dest = Frame(Vector(target.pos.x, target.pos.y, target.pos.z));
  
-        int status = ikSolver.CartToJnt(toJntArray(qInit), dest, q);
-      vector<double> angles(chain.getNrOfJoints());
+      int status = ikSolver.CartToJnt(toJntArray(qInit), dest, q);
+      vector<double> angles;
       if(status >= 0){
-        for(unsigned int i = 0; i < chain.getNrOfJoints(); ++i){
-          angles[i] = q(i);
+         // Ignore virtual joints
+        for(unsigned int i = VIRTUAL_JOINTS; i < chain.getNrOfJoints(); ++i){
+          angles.push_back(q(i));
         }
+         assert(checkFK(chain, trunk, endEffector, angles));
       } else {
-        cout << "IK Failed " << status << endl;
-        // TODO: Better return code here?
+        cerr << "IK Failed with status: " << status << endl;
       }
       return angles;
     }
@@ -306,13 +327,17 @@ namespace gazebo {
                   // Bounding boxes are always in the global frame. If this is a rotated box, we may not want to use
                   // the z length.
                   // TODO: Make this generally correct.
-                  double length;
+                  double length, depth;
                   if(rough_eq(abs(parent->GetInitialAnchorPose().rot.GetPitch()), boost::math::constants::pi<double>() / 2.0)){
                      length = -link->GetBoundingBox().GetXLength();
+                     depth = -link->GetBoundingBox().GetZLength() / 2.0;
                   } else {
                      length = -link->GetBoundingBox().GetZLength();
+                     depth = -link->GetBoundingBox().GetXLength() / 2.0;
                   }
-                  segmentVector = Frame(Vector(0.0, 0.0, length));
+                  // Length compensates for the model being 3d and having a non-zero cylinder radius,
+                  // but the KDL model has 0 radius links.
+                  segmentVector = Frame(Vector(depth, 0.0, length));
                }
             }
 
@@ -324,16 +349,17 @@ namespace gazebo {
         return chain;
     }
     
-  private: bool checkFK(const Chain& chain, physics::LinkPtr trunk, physics::LinkPtr leaf, physics::JointPtr root) const {
-      // Get the current angles of all the joints
-      GetAngles getAngles;
-      vector<double> q = getAngles(root, leaf);
+  private: bool checkFK(const Chain& chain, physics::LinkPtr trunk, physics::LinkPtr leaf, const vector<double> qIn) const {
 
-      // Add zeros for the virtual joints
-      // TODO: Handle cases where the trunk is not oriented normally?
-      for(unsigned int i = 0; i < 3; ++i){
-         q.insert(q.begin(), 0.0);
-      }
+     // Add virtual joint
+     math::Pose trunkPose = trunk->GetWorldPose();
+
+     vector<double> q = qIn;
+
+     // Reverse order due to inserting at the beginning each time
+     q.insert(q.begin(), trunkPose.rot.GetYaw());
+     q.insert(q.begin(), trunkPose.rot.GetPitch());
+     q.insert(q.begin(), trunkPose.rot.GetRoll());
 
       // Construct the solver
       ChainFkSolverPos_recursive fksolver = ChainFkSolverPos_recursive(chain);
@@ -348,33 +374,43 @@ namespace gazebo {
       KDL::Frame cartPos;
       
       // Calculate forward position kinematics
-      // Note: FK is in local coordinates
+      // Position is in a coordinate system defined by the center of the trunk with no rotation.
       bool status = fksolver.JntToCart(jointPositions, cartPos);
       if(status >= 0){
-        // Translate to the global frame.
-         math::Quaternion q;
-         q.SetToIdentity();
-         math::Vector3 pos = (trunk->GetWorldPose() + math::Pose(math::Vector3(cartPos.p.x(), cartPos.p.y(), cartPos.p.z()), q)).pos;
-        
+         math::Quaternion identity = math::Quaternion();
+         identity.SetToIdentity();
+         trunkPose.rot = identity;
+
+         // Translate to the global frame.
+         double x, y, z, w;
+         cartPos.M.GetQuaternion(x, y, z, w);
+         math::Pose endEffectorPoseInTrunkFrame = math::Pose(math::Vector3(cartPos.p.x(), cartPos.p.y(), cartPos.p.z()), math::Quaternion(x, y, z, w)) * trunkPose;
+
+         math::Vector3 pos = endEffectorPoseInTrunkFrame.pos;
+
+         // Determine the offset in the foot frame
         // Compensate for the difference between center and tip of the end effector.
         // TODO: Compensate for additional cases here
+         math::Vector3 tipInFootFrame;
         if(rough_eq(abs(jointPositions(nj - 1)), boost::math::constants::pi<double>() / 2.0)){
-           pos = math::Vector3(pos.x - leaf->GetBoundingBox().GetXLength() / 2.0, pos.y, pos.z);
+           tipInFootFrame = math::Vector3(leaf->GetBoundingBox().GetZLength() / 2.0, 0.0, leaf->GetBoundingBox().GetXLength() / 2.0);
         } else {
-           pos = math::Vector3(pos.x, pos.y, pos.z - leaf->GetBoundingBox().GetZLength() / 2.0);
+           tipInFootFrame = math::Vector3(leaf->GetBoundingBox().GetXLength() / 2.0, 0.0, leaf->GetBoundingBox().GetZLength() / 2.0);
         }
-        
-        math::Vector3 endPos = leaf->GetBoundingBox().GetCenter();
-        if(!rough_eq(pos.x, endPos.x)){
-          cout << "X values did not match: " << pos << " " << endPos << endl;
+
+        // Translate to the offset to the world frame
+        math::Pose tipInWorldFrame =  math::Pose(tipInFootFrame, identity) + leaf->GetWorldPose();
+
+         if(!rough_eq(pos.x, tipInWorldFrame.pos.x)){
+          cout << "X values did not match: " << pos << " " << tipInWorldFrame.pos << endl;
           return false;
         }
-        if(!rough_eq(pos.y, endPos.y)){
-          cout << "Y values did not match: " << pos << " " << endPos << endl;
+        if(!rough_eq(pos.y, tipInWorldFrame.pos.y)){
+          cout << "Y values did not match: " << pos << " " << tipInWorldFrame.pos << endl;
           return false;
         }
-        if(!rough_eq(pos.z, endPos.z)){
-          cout << "Z values did not match: " << pos << " " << endPos << endl;
+        if(!rough_eq(pos.z, tipInWorldFrame.pos.z)){
+          cout << "Z values did not match: " << pos << " " << tipInWorldFrame.pos << endl;
           return false;
         }
         return true;
@@ -384,7 +420,13 @@ namespace gazebo {
     }
     
     private: math::Pose transformGlobalToJointFrame(const math::Pose& pose, const physics::LinkPtr root) const {
-      return root->GetWorldPose().GetInverse() * pose;
+       // We want to transform into the center of the trunk frame, but not the orientation of the trunk
+       // frame because that is how the kinematic chain is rooted.
+       math::Pose trunkPose = root->GetWorldPose();
+       math::Quaternion identity = math::Quaternion();
+       identity.SetToIdentity();
+       trunkPose.rot = identity;
+       return pose - trunkPose;
     }
     
     public: void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf){
@@ -427,8 +469,47 @@ namespace gazebo {
           rng.seed(0);
         }
       #endif
+       math::Quaternion identity;
+       identity.SetToIdentity();
 
-      // TODO: Set random RPY on trunk here
+       physics::LinkPtr trunk = model->GetLink("trunk");
+
+       // Create the IK chains. Must be done prior to setting rpy on trunk.
+       physics::LinkPtr rightFoot = model->GetLink("right_foot");
+       physics::JointPtr rightHip = model->GetJoint("right_hip");
+       Chain rightLeg = constructChain(trunk, rightHip, rightFoot);
+       math::Pose rightFootPose = math::Pose(rightFoot->GetWorldCoGPose().pos, identity);
+
+       // Use IK for left leg
+       physics::LinkPtr leftFoot = model->GetLink("left_foot");
+       physics::JointPtr leftHip = model->GetJoint("left_hip");
+       Chain leftLeg = constructChain(trunk, leftHip, leftFoot);
+       math::Pose leftFootPose = math::Pose(leftFoot->GetWorldCoGPose().pos, identity);
+
+       GetAngles getAngles;
+       assert(checkFK(leftLeg, trunk, leftFoot, getAngles(leftHip, leftFoot)));
+       assert(checkFK(rightLeg, trunk, rightFoot, getAngles(rightHip, rightFoot)));
+
+      // Limit pitch and roll to pi/4 but allow any yaw.
+      boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > pitchRollGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>() / 4.0, boost::math::constants::pi<double>() / 4.0));
+
+      boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > yawGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>(), boost::math::constants::pi<double>()));
+
+       double roll = pitchRollGenerator();
+       double pitch = pitchRollGenerator();
+       double yaw = yawGenerator();
+
+       math::Vector3 trunkPose = trunk->GetWorldPose().pos;
+       model->SetLinkWorldPose(math::Pose(math::Vector3(trunk->GetWorldPose().pos), math::Quaternion(roll, pitch, yaw)), trunk);
+
+       // Confirmation cartesian position did not change
+       assert(trunk->GetWorldPose().pos == trunkPose);
+       assert(transformGlobalToJointFrame(trunk->GetWorldPose(), trunk).pos == math::Vector3(0, 0, 0));
+
+       // TODO: Reenable when frames are correct
+       // assert(checkFK(leftLeg, trunk, leftFoot, getAngles(leftHip, leftFoot)));
+       // assert(checkFK(rightLeg, trunk, rightFoot, getAngles(rightHip, rightFoot)));
+
       // Set random RPY on arms
       SetRandomAngles randomAngleSetter(rng);
       randomAngleSetter(model->GetJoint("left_shoulder"), model->GetLink("left_hand"));
@@ -436,23 +517,15 @@ namespace gazebo {
     
       // Now pick a leg to set randomly
       boost::bernoulli_distribution<> randomLeg(0.5);
-      math::Quaternion identity;
-      identity.SetToIdentity();
-
-        physics::LinkPtr trunk = model->GetLink("trunk");
-
       if(randomLeg(rng)){
         // Set right leg randomly
         randomAngleSetter(model->GetJoint("right_hip"), model->GetLink("right_foot"));
 
-        // Use IK for left leg
-        physics::LinkPtr leftFoot = model->GetLink("left_foot");
-        physics::JointPtr leftHip = model->GetJoint("left_hip");
-        Chain leftLeg = constructChain(trunk, leftHip, leftFoot);
-        assert(checkFK(leftLeg, trunk, leftFoot, leftHip));
-    
-        math::Pose leftFootPose = math::Pose(leftFoot->GetWorldCoGPose().pos, identity);
-        vector<double> angles = calcInverse(leftLeg, leftHip, leftFoot, transformGlobalToJointFrame(leftFootPose, trunk));
+         // Select the position equal to the current planar position of the foot at zero height
+         // TODO: Compensate for difference between foot center and tip
+         math::Pose leftFootPose = math::Pose(leftFoot->GetWorldCoGPose().pos, identity);
+         leftFootPose.pos.z = 0;
+        vector<double> angles = calcInverse(leftLeg, trunk, leftHip, leftFoot, transformGlobalToJointFrame(leftFootPose, trunk));
       
         // Now apply joint angles to a chain
         SetJointAngles setAngles(angles);
@@ -461,15 +534,15 @@ namespace gazebo {
       else {
         // Set left leg randomly
         randomAngleSetter(model->GetJoint("left_hip"), model->GetLink("left_foot"));
-        
-        // Use IK for right leg
-        physics::LinkPtr rightFoot = model->GetLink("right_foot");
-        physics::JointPtr rightHip = model->GetJoint("right_hip");
-        Chain rightLeg = constructChain(trunk, rightHip, rightFoot);
-        assert(checkFK(rightLeg, trunk, rightFoot, rightHip));
 
-        math::Pose rightFootPose = math::Pose(rightFoot->GetWorldCoGPose().pos, identity);
-        vector<double> angles = calcInverse(rightLeg, rightHip, rightFoot, transformGlobalToJointFrame(rightFootPose, trunk));
+        // Use IK for right leg
+
+         // Select the position equal to the current planar position of the foot at zero height
+         // TODO: Compensate for difference between foot center and tip
+         // TODO: Make function to get foot tip location
+         rightFootPose.pos.z = 0;
+
+        vector<double> angles = calcInverse(rightLeg, trunk, rightHip, rightFoot, transformGlobalToJointFrame(rightFootPose, trunk));
       
         // Now apply joint angles to a chain
         SetJointAngles setAngles(angles);
