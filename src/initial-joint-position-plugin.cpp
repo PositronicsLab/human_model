@@ -284,9 +284,9 @@ namespace gazebo {
        // Construct the virtual Segment for the trunk. Add two 0 length segments and one segment
        // equal to the distance between the trunk and the root joint
        math::Pose virtualLinkOffset = root->GetWorldPose() - trunk->GetWorldPose();
-       chain.addSegment(Segment("VirtualX", Joint("VirtualX-Joint", Vector(), Vector(1, 0, 0), Joint::RotAxis), Frame(Vector(0, 0, 0))));
-       chain.addSegment(Segment("VirtualY", Joint("VirtualY-Joint", Vector(), Vector(0, 1, 0), Joint::RotAxis), Frame(Vector(0, 0, 0))));
-       chain.addSegment(Segment("VirtualY", Joint("VirtualY-Joint", Vector(), Vector(0, 0, 1), Joint::RotAxis), Frame(Vector(virtualLinkOffset.pos.x, virtualLinkOffset.pos.y, virtualLinkOffset.pos.z))));
+      chain.addSegment(Segment("VirtualX", Joint("VirtualX-Joint", Joint::RotX), Frame(Vector(0, 0, 0))));
+      chain.addSegment(Segment("VirtualY", Joint("VirtualY-Joint", Joint::RotY), Frame(Vector(0, 0, 0))));
+      chain.addSegment(Segment("VirtualY", Joint("VirtualY-Joint", Joint::RotZ), Frame(Vector(virtualLinkOffset.pos.x, virtualLinkOffset.pos.y, virtualLinkOffset.pos.z))));
 
         physics::JointPtr parent = root;
         do {
