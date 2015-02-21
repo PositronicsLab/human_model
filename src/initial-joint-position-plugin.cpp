@@ -22,6 +22,7 @@
 #include <fcl/BV/BV.h>
 #include <fcl/shape/geometric_shapes.h>
 #include <fcl/shape/geometric_shapes_utility.h>
+#include <map>
 
 using namespace std;
 using namespace KDL;
@@ -515,41 +516,68 @@ private:
         return false;
     }
 
+private:
+   static vector<physics::LinkPtr> allChildJoints(physics::LinkPtr root){
+      // Find all the joints.
+      vector<physics::LinkPtr> childJoints;
+      vector<physics::LinkPtr> linksToSearch;
+      linksToSearch.push_back(root);
+
+      while(!linksToSearch.empty()){
+         physics::LinkPtr curr = linksToSearch.back();
+         linksToSearch.pop_back();
+         childJoints.push_back(curr);
+         vector<physics::LinkPtr> currChildJoints = curr->GetChildJointsLinks();
+         linksToSearch.insert(linksToSearch.begin(), currChildJoints.begin(), currChildJoints.end());
+      }
+      return childJoints;
+   }
+
     /**
      * Determine if a model has an internal collision or collides with the ground. Contact link
      * is exempted from ground collision detection
      */
 private:
-    bool hasCollision(physics::ModelPtr model, physics::LinkPtr contactLink) {
-        vector<fcl::AABB> boxes;
+   bool hasCollision(physics::ModelPtr model, physics::LinkPtr trunk, physics::LinkPtr contactLink) {
+        map<physics::LinkPtr, fcl::AABB> boxes;
+
         for(unsigned int i = 0; i < model->GetLinks().size(); ++i) {
             // Use model bounding box, not link, which includes children
             fcl::Box boxModel(model->GetLinks()[i]->GetModel()->GetBoundingBox().GetXLength(), model->GetLinks()[i]->GetModel()->GetBoundingBox().GetYLength(), model->GetLinks()[i]->GetModel()->GetBoundingBox().GetZLength());
             fcl::AABB box;
             fcl::computeBV(boxModel, poseToTransform(model->GetLinks()[i]->GetWorldPose()), box);
-            boxes.push_back(box);
+            boxes[model->GetLinks()[i]] = box;
         }
 
         assert(boxes.size() == model->GetLinks().size());
 
-        for(unsigned int i = 0; i < boxes.size(); ++i) {
-            for(unsigned int j = i + 1; j < boxes.size(); ++j) {
-                if(boxes[i].overlap(boxes[j])) {
-                    if(!(isChildOf(model->GetLinks()[i], model->GetLinks()[j]) || isChildOf(model->GetLinks()[j], model->GetLinks()[i]))) {
-                        cout << "Collision between: " << model->GetLinks()[i]->GetName() << " and " << model->GetLinks()[j]->GetName() << endl;
+
+      // Check for collisions between the human joints and all other joints, but not self-collisions between
+      // the robots joints
+        vector<physics::LinkPtr> humanJoints = allChildJoints(trunk);
+        for(unsigned int i = 0; i < humanJoints.size(); ++i) {
+            for(unsigned int j = i + 1; j < model->GetLinks().size(); ++j) {
+               // Ignore self-collision
+               if(humanJoints[i]->GetId() == model->GetLinks()[j]->GetId()){
+                  continue;
+               }
+
+                if(boxes[humanJoints[i]].overlap(boxes[model->GetLinks()[j]])) {
+                    if(!(isChildOf(humanJoints[i], model->GetLinks()[j]) || isChildOf(model->GetLinks()[j], humanJoints[i]))) {
+                        cout << "Collision between: " << humanJoints[i]->GetName() << " and " << model->GetLinks()[j]->GetName() << endl;
                         return true;
                     }
                 }
             }
         }
 
-        // Now check for ground collision
+        // Now check for ground collision with only the human joints
         fcl::Halfspace groundPlaneSpace = fcl::Halfspace(fcl::Vec3f(0, 0, 1), 0.0);
         fcl::AABB groundPlane;
         fcl::computeBV(groundPlaneSpace, fcl::Transform3f(), groundPlane);
-        for(unsigned int i = 0; i < boxes.size(); ++i) {
-            if(contactLink->GetId() != model->GetLinks()[i]->GetId() && boxes[i].overlap(groundPlane)) {
-                cout << "Collision between: " << model->GetLinks()[i]->GetName() << " and ground plane" << endl;
+        for(unsigned int i = 0; i < humanJoints.size(); ++i) {
+            if(contactLink->GetId() != humanJoints[i]->GetId() && boxes[humanJoints[i]].overlap(groundPlane)) {
+                cout << "Collision between: " << humanJoints[i]->GetName() << " and ground plane" << endl;
                 return true;
             }
         }
@@ -692,8 +720,8 @@ public:
             }
 
             // Check for intersection
-            if(hasCollision(model, contactLink)) {
-                cout << "Model has collision" << endl;
+            if(hasCollision(model, model->GetLink("trunk"), contactLink)) {
+                cout << "Human has self or ground collision" << endl;
             }
             else {
                 foundLegalConfig = true;
