@@ -15,6 +15,7 @@
    <xacro:include filename="../human/human.include"/>
     
    <!-- Virtual connecting joint -->
-   <xacro:include filename="../combined-human-pr2/connecting-joint.include" /> 
+   <!-- Joint is added dynamically -->
+   <!-- <xacro:include filename="../combined-human-pr2/connecting-joint.include" />-->
   </model>
 </sdf>

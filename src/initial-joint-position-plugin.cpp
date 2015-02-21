@@ -1,4 +1,5 @@
 #include <gazebo/gazebo.hh>
+#include <gazebo/physics/physics.hh>
 #include <gazebo/common/common.hh>
 #include <gazebo/physics/model.hh>
 #include <gazebo/physics/joint.hh>
@@ -657,7 +658,7 @@ public:
            double yaw = yawGenerator();
 
             math::Vector3 trunkPose = trunk->GetWorldPose().pos;
-            model->SetLinkWorldPose(math::Pose(math::Vector3(trunk->GetWorldPose().pos), math::Quaternion(roll, pitch, yaw)), trunk);
+            trunk->SetWorldPose(math::Pose(trunkPose, math::Quaternion(roll, pitch, yaw)), true, false);
 
             // Confirmation cartesian position did not change
             assert(trunk->GetWorldPose().pos == trunkPose);
@@ -727,6 +728,21 @@ public:
                 foundLegalConfig = true;
             }
         }
+
+       // Setup the virtual joint if needed
+       physics::LinkPtr parent = model->GetLink("r_wrist_roll_link");
+       if(parent){
+          cout << "Connecting virtual joint" << endl;
+          physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint("ball", model);
+          physics::LinkPtr child = model->GetLink("left_thigh");
+          joint->Attach(parent, child);
+
+          joint->Load(parent, child, math::Pose(math::Vector3(0, 0, 0.145), math::Quaternion()));
+          joint->SetAxis(0, math::Vector3(0, 1, 0));
+          joint->SetAxis(1, math::Vector3(0, 0, 1));
+          joint->SetName("virtual_robot_human_connection");
+          joint->Init();
+       }
 
         csvFile << endl;
         csvFile.close();
