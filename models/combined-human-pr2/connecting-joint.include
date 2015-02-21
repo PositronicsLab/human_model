@@ -1,6 +1,6 @@
 <sdf version="1.5">
     <!-- Virtual connecting joint -->
-    <joint name="virtual_robot_human_connection" type="ball">
+    <joint name="virtual_robot_human_connection" type="universal">
       <parent>r_wrist_roll_link</parent>
       <child>${prefix}left_thigh</child>
       <pose>0 0 0.145 0.0 0.0 0.0</pose><!-- Connect at point at robot hand height on thigh -->

@@ -733,7 +733,7 @@ public:
        physics::LinkPtr parent = model->GetLink("r_wrist_roll_link");
        if(parent){
           cout << "Connecting virtual joint" << endl;
-          physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint("ball", model);
+          physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint("universal", model);
           physics::LinkPtr child = model->GetLink("left_thigh");
           joint->Attach(parent, child);
 
@@ -741,6 +741,9 @@ public:
           joint->SetAxis(0, math::Vector3(0, 1, 0));
           joint->SetAxis(1, math::Vector3(0, 0, 1));
           joint->SetName("virtual_robot_human_connection");
+
+          // TODO: Set additional parameters here
+          // joint->SetAttribute("stop_cfm",0, this->stop_cfm);
           joint->Init();
        }
 
