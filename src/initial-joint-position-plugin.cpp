@@ -518,20 +518,22 @@ private:
     }
 
 private:
-   static vector<physics::LinkPtr> allChildJoints(physics::LinkPtr root){
+   static vector<physics::LinkPtr> allChildLinks(physics::LinkPtr root){
+
       // Find all the joints.
-      vector<physics::LinkPtr> childJoints;
+      vector<physics::LinkPtr> childLinks;
       vector<physics::LinkPtr> linksToSearch;
       linksToSearch.push_back(root);
 
       while(!linksToSearch.empty()){
          physics::LinkPtr curr = linksToSearch.back();
          linksToSearch.pop_back();
-         childJoints.push_back(curr);
+         childLinks.push_back(curr);
          vector<physics::LinkPtr> currChildJoints = curr->GetChildJointsLinks();
          linksToSearch.insert(linksToSearch.begin(), currChildJoints.begin(), currChildJoints.end());
       }
-      return childJoints;
+
+      return childLinks;
    }
 
     /**
@@ -555,7 +557,7 @@ private:
 
       // Check for collisions between the human joints and all other joints, but not self-collisions between
       // the robots joints
-        vector<physics::LinkPtr> humanJoints = allChildJoints(trunk);
+        vector<physics::LinkPtr> humanJoints = allChildLinks(trunk);
         for(unsigned int i = 0; i < humanJoints.size(); ++i) {
             for(unsigned int j = i + 1; j < model->GetLinks().size(); ++j) {
                // Ignore self-collision
@@ -585,6 +587,31 @@ private:
 
         return false;
     }
+
+private:
+   void setWorldPoseIncludingChildren(physics::LinkPtr root, math::Pose pose){
+      // Save the model pose
+      math::Pose modelPose = model->GetWorldPose();
+
+      // Set the model to the desired pose
+      model->SetLinkWorldPose(pose, root);
+
+
+      // Record all the poses in the world frame
+      vector<physics::LinkPtr> allLinks = allChildLinks(root);
+      vector<math::Pose> poses;
+      for(unsigned int i = 0; i < allLinks.size(); ++i){
+         poses.push_back(allLinks[i]->GetWorldPose());
+      }
+
+      // Restore the model pose
+      model->SetWorldPose(modelPose);
+
+      // Now set the poses for all the links
+      for(unsigned int i = 0; i < allLinks.size(); ++i){
+         allLinks[i]->SetWorldPose(poses[i]);
+      }
+   }
 
 public:
     void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
@@ -657,11 +684,12 @@ public:
            double pitch = pitchRollGenerator();
            double yaw = yawGenerator();
 
-            math::Vector3 trunkPose = trunk->GetWorldPose().pos;
-            trunk->SetWorldPose(math::Pose(trunkPose, math::Quaternion(roll, pitch, yaw)), true, false);
+            math::Vector3 trunkPosition = trunk->GetWorldPose().pos;
+           // TODO: This does not actually work
+            setWorldPoseIncludingChildren(trunk, math::Pose(trunkPosition, math::Quaternion(roll, pitch, yaw)));
 
             // Confirmation cartesian position did not change
-            assert(trunk->GetWorldPose().pos == trunkPose);
+            assert(trunk->GetWorldPose().pos == trunkPosition);
 
            // TODO: Reenable
            // assert(checkFK(leftLeg, trunk, leftFoot, leftHip, getAngles(leftHip, leftFoot)));
@@ -745,6 +773,7 @@ public:
           // TODO: Set additional parameters here
           // joint->SetAttribute("stop_cfm",0, this->stop_cfm);
           joint->Init();
+          cout << "Error pose: " << joint->GetAnchorErrorPose() << endl;
        }
 
         csvFile << endl;
