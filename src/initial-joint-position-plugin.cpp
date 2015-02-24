@@ -758,7 +758,7 @@ public:
         }
 
        // Setup the virtual joint if needed
-       physics::LinkPtr parent = model->GetLink("r_wrist_roll_link");
+       physics::LinkPtr parent = model->GetLink("r_gripper_r_finger_tip_link");
        if(parent){
           cout << "Connecting virtual joint" << endl;
           physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint("universal", model);
@@ -773,7 +773,8 @@ public:
           // TODO: Set additional parameters here
           // joint->SetAttribute("stop_cfm",0, this->stop_cfm);
           joint->Init();
-          cout << "Error pose: " << joint->GetAnchorErrorPose() << endl;
+          cout << "Parent anchor world pose: " << joint->GetParentWorldPose().pos << endl;
+          cout << "Parent pose: " << parent->GetWorldPose().pos << endl;
        }
 
         csvFile << endl;

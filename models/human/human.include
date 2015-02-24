@@ -611,7 +611,7 @@
       <axis>
         <xyz>0.0 1.0 0.0</xyz>
         <limit>
-            <lower>-1.099557429</lower>
+            <lower>-0.230383461</lower>
             <upper>3.141592654</upper><!-- Gazebo fails setting joints to values greater than pi 3.371976115 -->
         </limit>
         <dynamics>
@@ -688,7 +688,7 @@
       <axis>
         <xyz>0.0 1.0 0.0</xyz>
         <limit>
-            <lower>-1.099557429</lower>
+            <lower>-0.230383461</lower>
             <upper>3.141592654</upper><!-- Gazebo fails setting joints to values greater than pi 3.371976115 -->
         </limit>
         <dynamics>
@@ -957,8 +957,8 @@
     </joint>
     <!-- <plugin name="contact_sensor_plugin" filename="libContactForcesPlugin.dylib"/>-->
     <!-- <plugin name="initial_joint_velocity_plugin" filename="libInitialJointVelocityPlugin.dylib"/>-->
-    <plugin name="initial_joint_position_plugin" filename="libInitialJointPositionPlugin.dylib"/>
-    <!-- <plugin name="min_max_joint_position_plugin" filename="libMinMaxJointPositionPlugin.dylib" /> -->
+    <!-- <plugin name="initial_joint_position_plugin" filename="libInitialJointPositionPlugin.dylib"/>-->
+    <plugin name="min_max_joint_position_plugin" filename="libMinMaxJointPositionPlugin.dylib" />
     <!-- <plugin name="joint_angles_plugin" filename="libJointAnglesPlugin.dylib"/> -->
 </xacro:macro>
 
