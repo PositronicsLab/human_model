@@ -682,8 +682,7 @@ public:
             double yaw = yawGenerator();
 
             math::Vector3 trunkPosition = trunk->GetWorldPose().pos;
-            // TODO: This does not actually work
-            setWorldPoseIncludingChildren(trunk, math::Pose(trunkPosition, math::Quaternion(roll, pitch, yaw)));
+           // setWorldPoseIncludingChildren(trunk, math::Pose(trunkPosition, math::Quaternion(roll, pitch, yaw)));
 
             // Confirmation cartesian position did not change
             assert(trunk->GetWorldPose().pos == trunkPosition);
