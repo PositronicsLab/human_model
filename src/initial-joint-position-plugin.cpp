@@ -66,8 +66,6 @@ public:
                 ++j;
             }
 
-            assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
-
             if(link->GetChildJoints().size() > 0) {
                 parent = link->GetChildJoints()[0];
             }
@@ -137,10 +135,9 @@ struct JointValues {
                 limits.push_back(getValue(parent, i));
             }
 
-            assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
-
             if(link->GetChildJoints().size() > 0) {
-                parent = link->GetChildJoints()[0];
+               assert(link->GetChildJoints().size() == 1 || link == endEffector);
+               parent = link->GetChildJoints()[0];
             }
         } while (link != endEffector);
         return limits;
@@ -252,11 +249,11 @@ private:
      * Note: Target must be in the root link frame
      */
 private:
-    vector<double> calcInverse(Chain& chain, physics::LinkPtr trunk, physics::JointPtr root, physics::LinkPtr endEffector, const math::Pose target) {
+    vector<double> calcInverse(Chain& chain, physics::JointPtr root, physics::LinkPtr endEffector, const math::Pose target) {
 
         // Creation of the solvers
         ChainFkSolverPos_recursive fkSolver(chain);
-        ChainIkSolverVel_wdls ikVelocitySolver(chain, 0.00001, 1000);
+        ChainIkSolverVel_wdls ikVelocitySolver(chain, 0.01, 1000);
         ikVelocitySolver.setLambda(0.1);
 
         // Disable weighting for orientation
@@ -315,8 +312,6 @@ private:
         do {
             physics::LinkPtr link = parent->GetChild();
 
-            assert(link->GetChildJoints().size() == 1 || (link->GetChildJoints().size() == 0 && link == endEffector));
-
             // Iterate over degrees of freedom
             unsigned int angleCount = parent->GetAngleCount();
             for(unsigned int i = 0; i < angleCount; ++i) {
@@ -329,7 +324,13 @@ private:
                 // Determine the next joint
                 physics::JointPtr nextJoint;
                 if(link == endEffector) {
-                    nextJoint = nullptr;
+                   // TODO: This would be wrong for multi-DOF final joints before the EE
+                   if(link->GetChildJoints().size() > 0){
+                      nextJoint = link->GetChildJoints()[0];
+                   }
+                   else {
+                     nextJoint = nullptr;
+                   }
                 }
                 else if(isFinalAxis) {
                     nextJoint = link->GetChildJoints()[0];
@@ -371,7 +372,13 @@ private:
 
                 Segment segment = Segment(parent->GetName() + axisName(jointType(parent, i)), kdlJoint, segmentVector);
                 chain.addSegment(segment);
-                parent = nextJoint;
+
+               if(link != endEffector){
+                 parent = nextJoint;
+               }
+               else {
+                  parent = nullptr;
+               }
             }
         } while (parent != nullptr);
         return chain;
@@ -388,9 +395,7 @@ private:
     }
 
 private:
-    bool checkFK(const Chain& chain, const physics::LinkPtr trunk, physics::LinkPtr leaf, physics::JointPtr root, const vector<double> q) const {
-
-        assert(trunk != nullptr);
+    bool checkFK(const Chain& chain, physics::LinkPtr leaf, physics::JointPtr root, const vector<double> q) const {
         assert(leaf != nullptr);
         assert(root != nullptr);
 
@@ -413,6 +418,9 @@ private:
             // Translate to the global frame.
             math::Pose endEffectorPoseInGlobalFrame = transformFrameToGlobal(frameToPose(cartPos), root);
 
+           math::Pose tipInWorldFrame;
+
+           if(leaf->GetChildJoints().size() == 0){
             // Extract the width and height of the foot from the model
             const sdf::ElementPtr cylinder = leaf->GetModel()->GetSDF()->GetElement("link")->GetElement("collision")->GetElement("geometry")->GetElement("cylinder");
 
@@ -422,10 +430,14 @@ private:
             double length = 0.082;
             double height = 0.04;
 
-            math::Vector3 tipInFootFrame(height / 2.0, 0.0, length / 2.0);
+            math::Vector3 tipInEEFrame(height / 2.0, 0.0, length / 2.0);
 
             // Translate to the offset to the world frame
-            math::Pose tipInWorldFrame =  math::Pose(tipInFootFrame, identityQuaternion()) + leaf->GetWorldPose();
+            tipInWorldFrame =  math::Pose(tipInEEFrame, identityQuaternion()) + leaf->GetWorldPose();
+           }
+           else {
+              tipInWorldFrame = leaf->GetChildJoints()[0]->GetWorldPose();
+           }
 
             if(!rough_eq(endEffectorPoseInGlobalFrame.pos.x, tipInWorldFrame.pos.x)) {
                 cout << "X values did not match. Actual: " << endEffectorPoseInGlobalFrame.pos << " Expected: " << tipInWorldFrame.pos << endl;
@@ -512,12 +524,22 @@ private:
         return childLinks;
     }
 
+private:
+   static bool containsLink(const vector<physics::LinkPtr> links, physics::LinkPtr target) {
+      for (unsigned int i = 0; i < links.size(); ++i){
+         if(target->GetId() == links[i]->GetId()){
+            return true;
+         }
+      }
+      return false;
+   }
+
     /**
      * Determine if a model has an internal collision or collides with the ground. Contact link
      * is exempted from ground collision detection
      */
 private:
-    bool hasCollision(physics::ModelPtr model, physics::LinkPtr trunk, physics::LinkPtr contactLink) {
+   bool hasCollision(physics::ModelPtr model, physics::LinkPtr trunk, physics::LinkPtr contactLink, const vector<physics::LinkPtr>& robotEndEffectors) {
         map<physics::LinkPtr, fcl::AABB> boxes;
 
         for(unsigned int i = 0; i < model->GetLinks().size(); ++i) {
@@ -534,6 +556,18 @@ private:
         // Check for collisions between the human joints and all other joints, but not self-collisions between
         // the robots joints
         vector<physics::LinkPtr> humanJoints = allChildLinks(trunk);
+
+      // Find all links that are part of the robot end effectors
+      vector<physics::LinkPtr> eeLinks;
+      for (unsigned int i = 0; i < robotEndEffectors.size(); ++i){
+         if(robotEndEffectors[i] == nullptr){
+            continue;
+         }
+         vector<physics::LinkPtr> currLinks = allChildLinks(robotEndEffectors[i]);
+         // There are duplicates here, but that is fine
+         eeLinks.insert(eeLinks.begin(), currLinks.begin(), currLinks.end());
+      }
+
         for(unsigned int i = 0; i < humanJoints.size(); ++i) {
             for(unsigned int j = i + 1; j < model->GetLinks().size(); ++j) {
                 // Ignore self-collision
@@ -542,7 +576,7 @@ private:
                 }
 
                 if(boxes[humanJoints[i]].overlap(boxes[model->GetLinks()[j]])) {
-                    if(!(isChildOf(humanJoints[i], model->GetLinks()[j]) || isChildOf(model->GetLinks()[j], humanJoints[i]))) {
+                    if(!(containsLink(eeLinks, model->GetLinks()[j]) || isChildOf(humanJoints[i], model->GetLinks()[j]) || isChildOf(model->GetLinks()[j], humanJoints[i]))) {
                         cout << "Collision between: " << humanJoints[i]->GetName() << " and " << model->GetLinks()[j]->GetName() << endl;
                         return true;
                     }
@@ -595,6 +629,39 @@ private:
         cout << v[i] << ", ";
       }
       cout << endl;
+   }
+
+private:
+   bool moveRobotArm(){
+#if(PRINT_DEBUG)
+      cout << "Performing IK on robot right arm" << endl;
+#endif
+
+      // Create the IK chains.
+      physics::LinkPtr endEffector = model->GetLink("r_wrist_roll_link");
+      physics::JointPtr root = model->GetJoint("r_shoulder_pan_joint");
+
+      // Check if this is a human only scenario
+      if(endEffector == nullptr) {
+         return true;
+      }
+      assert(root != nullptr);
+      Chain chain = constructChain(root, endEffector);
+      GetAngles getAngles;
+
+      assert(checkFK(chain, endEffector, root, getAngles(root, endEffector)));
+
+      vector<double> angles = calcInverse(chain, root, endEffector, transformGlobalToJoint(model->GetJoint("left_hip")->GetWorldPose(), root));
+
+      // Check for IK failure
+      if(angles.size() == 0) {
+         return false;
+      }
+
+      // Now apply joint angles to a chain
+      SetJointAngles setAngles(angles);
+      setAngles(root, endEffector);
+      return true;
    }
 public:
     void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
@@ -652,8 +719,8 @@ public:
 
         GetAngles getAngles;
 
-        assert(checkFK(leftLeg, trunk, leftFoot, leftHip, getAngles(leftHip, leftFoot)));
-        assert(checkFK(rightLeg, trunk, rightFoot, rightHip, getAngles(rightHip, rightFoot)));
+        assert(checkFK(leftLeg, leftFoot, leftHip, getAngles(leftHip, leftFoot)));
+        assert(checkFK(rightLeg, rightFoot, rightHip, getAngles(rightHip, rightFoot)));
 
         // Limit pitch and roll to pi/4 but allow any yaw.
         boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > pitchRollGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>() / 4.0, boost::math::constants::pi<double>() / 8.0));
@@ -689,8 +756,8 @@ public:
             rightLeg = constructChain(rightHip, rightFoot);
 
             // Now check that FK still is correct
-            assert(checkFK(leftLeg, trunk, leftFoot, leftHip, getAngles(leftHip, leftFoot)));
-            assert(checkFK(rightLeg, trunk, rightFoot, rightHip, getAngles(rightHip, rightFoot)));
+            assert(checkFK(leftLeg, leftFoot, leftHip, getAngles(leftHip, leftFoot)));
+            assert(checkFK(rightLeg, rightFoot, rightHip, getAngles(rightHip, rightFoot)));
 
             // Set random RPY on arms
             SetRandomAngles randomAngleSetter(rng);
@@ -708,7 +775,7 @@ public:
                 // TODO: Compensate for difference between foot center and tip
                 contactLink = leftFoot;
                 leftFootPose.pos.z = 0;
-                vector<double> angles = calcInverse(leftLeg, trunk, leftHip, leftFoot, transformGlobalToJoint(leftFootPose, leftHip));
+                vector<double> angles = calcInverse(leftLeg, leftHip, leftFoot, transformGlobalToJoint(leftFootPose, leftHip));
                 // Check for IK failure
                 if(angles.size() == 0) {
                     // Next config
@@ -731,7 +798,7 @@ public:
                 contactLink = rightFoot;
                 rightFootPose.pos.z = 0;
 
-                vector<double> angles = calcInverse(rightLeg, trunk, rightHip, rightFoot, transformGlobalToJoint(rightFootPose, rightHip));
+                vector<double> angles = calcInverse(rightLeg, rightHip, rightFoot, transformGlobalToJoint(rightFootPose, rightHip));
 
                 // Check for IK failure
                 if(angles.size() == 0) {
@@ -744,11 +811,17 @@ public:
                 setAngles(rightHip, rightFoot);
             }
 
+           // PR2 model is strange and it is difficult to find all the parts of the end effector
+           vector<physics::LinkPtr> endEffectors;
+           endEffectors.push_back(model->GetLink("r_gripper_l_parallel_link"));
+           endEffectors.push_back(model->GetLink("r_wrist_roll_link"));
+           endEffectors.push_back(model->GetLink("r_gripper_r_parallel_link"));
+
             // Check for intersection
-            if(hasCollision(model, trunk, contactLink)) {
+            if(hasCollision(model, trunk, contactLink,endEffectors)) {
                 cout << "Human has self or ground collision" << endl;
             }
-            else {
+            else if(moveRobotArm()){
                 foundLegalConfig = true;
            }
         }
