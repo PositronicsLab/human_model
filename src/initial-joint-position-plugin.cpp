@@ -162,6 +162,21 @@ struct LowerLimits : public JointValues {
     }
 };
 
+   static const std::string joints[] = {
+      "left_ankle",
+      "right_ankle",
+      "left_knee",
+      "right_knee",
+      "left_hip",
+      "right_hip",
+      "left_shoulder",
+      "right_shoulder",
+      "left_elbow",
+      "right_elbow",
+      "left_wrist",
+      "right_wrist"
+   };
+
 class InitialJointPositionPlugin : public ModelPlugin {
 
 
@@ -177,8 +192,13 @@ public:
 
 private:
     void writeHeader(ofstream& file) {
-        // TODO
-        file << endl;
+       for (unsigned int i = 0; i < boost::size(joints); ++i) {
+          physics::JointPtr currJoint = model->GetJoint(joints[i]);
+          for (unsigned int j = 0; j < currJoint->GetAngleCount(); ++j) {
+             file << joints[i] << "(" << j << "),";
+          }
+       }
+       file << endl;
     }
 
     /**
@@ -843,6 +863,14 @@ public:
             // joint->SetAttribute("stop_cfm",0, this->stop_cfm);
             joint->Init();
         }
+
+       // Write all joint angles
+       for (unsigned int i = 0; i < boost::size(joints); ++i) {
+          physics::JointPtr currJoint = model->GetJoint(joints[i]);
+          for (unsigned int j = 0; j < currJoint->GetAngleCount(); ++j) {
+             csvFile << model->GetJoint(joints[i])->GetAngle(j).Radian() << ",";
+          }
+       }
 
         csvFile << endl;
         csvFile.close();
