@@ -32,24 +32,89 @@ using namespace KDL;
 #define PRINT_POSITIONS 0
 #define PRINT_DEBUG 1
 
-static const int FIXED_SEED = 4;
+static const int FIXED_SEED = 0;
 
 /**
  * Determine if two values are approximately equal with respect to epsilon
  */
 template <class T>
-bool rough_eq(T lhs, T rhs, T epsilon = 0.01) {
+bool rough_eq(T lhs, T rhs, double epsilon = 0.01) {
     return fabs(lhs - rhs) < epsilon;
 }
 
+bool vector_rough_eq(const vector<double>& lhs, const vector<double>& rhs, double epsilon = 0.01) {
+   if(lhs.size() != rhs.size()) {
+      return false;
+   }
+
+   for (unsigned int i = 0; i < lhs.size(); ++i) {
+      if(!rough_eq(lhs[i], rhs[i], epsilon)){
+         return false;
+      }
+   }
+   return true;
+}
+
+bool pos_rough_eq(const gazebo::math::Vector3& lhs, const gazebo::math::Vector3& rhs){
+   if(!(rough_eq(lhs.x, rhs.x) && rough_eq(lhs.y, rhs.y) && rough_eq(lhs.z, rhs.z))){
+      cout << lhs << " " << rhs << endl;
+      return false;
+   }
+      return true;
+}
+
 namespace gazebo {
+
+   struct JointValues {
+      virtual double getValue(const physics::JointPtr joint, const unsigned int index) const = 0;
+      vector<double> operator()(physics::JointPtr root, physics::LinkPtr endEffector) const {
+         assert(root != nullptr && "Root joint is null");
+         assert(endEffector != nullptr && "End effector is null");
+
+         vector<double> limits;
+         physics::JointPtr parent = root;
+         physics::LinkPtr link = nullptr;
+         do {
+            link = parent->GetChild();
+
+            // Iterate over degrees of freedom
+            for(unsigned int i = 0; i < parent->GetAngleCount(); ++i) {
+               limits.push_back(getValue(parent, i));
+            }
+
+            if(link->GetChildJoints().size() > 0) {
+               assert(link->GetChildJoints().size() == 1 || link == endEffector);
+               parent = link->GetChildJoints()[0];
+            }
+         } while (link != endEffector);
+         return limits;
+      }
+   };
+
+   struct GetAngles : public JointValues {
+      virtual double getValue(const physics::JointPtr joint, const unsigned int index) const {
+         return joint->GetAngle(index).Radian();
+      }
+   };
+
+   struct UpperLimits : public JointValues {
+      virtual double getValue(const physics::JointPtr joint, const unsigned int index) const {
+         return joint->GetUpperLimit(index).Radian();
+      }
+   };
+
+   struct LowerLimits : public JointValues {
+      virtual double getValue(const physics::JointPtr joint, const unsigned int index) const {
+         return joint->GetLowerLimit(index).Radian();
+      }
+   };
 
 struct SetJointValue {
 protected:
     virtual void setValue(const physics::JointPtr joint, const unsigned int index, const unsigned int globalIndex) = 0;
 
 public:
-    virtual void finished(unsigned int j) = 0;
+    virtual void finished(unsigned int j, physics::JointPtr root, physics::LinkPtr endEffector) = 0;
     void operator()(physics::JointPtr root, physics::LinkPtr endEffector) {
         assert(root != nullptr && "Root joint is null");
         assert(endEffector != nullptr && "End effector is null");
@@ -70,7 +135,7 @@ public:
                 parent = link->GetChildJoints()[0];
             }
         } while (link != endEffector);
-        finished(j);
+        finished(j, root, endEffector);
     }
 };
 
@@ -83,14 +148,22 @@ public:
 
 protected:
     virtual void setValue(const physics::JointPtr joint, const unsigned int index, const unsigned int globalIndex) {
+       // Check that the value is in bounds
+       assert(angles[globalIndex] <= joint->GetUpperLimit(index).Radian() && angles[globalIndex] >= joint->GetLowerLimit(index).Radian());
+
         if(!joint->SetPosition(index, angles[globalIndex])) {
             cout << "Failed to set position for joint: " << joint->GetName() << endl;
         }
+
+       // Confirm the value was set properly
+       assert(rough_eq(joint->GetAngle(index).Radian(), angles[globalIndex]));
     }
 
 protected:
-    virtual void finished(unsigned int j) {
+    virtual void finished(unsigned int j, physics::JointPtr root, physics::LinkPtr endEffector) {
         assert(j == angles.size());
+        // Confirm the angles were set properly
+       assert(vector_rough_eq(angles, GetAngles()(root, endEffector)));
     }
 };
 
@@ -115,51 +188,7 @@ protected:
         }
     }
 protected:
-    virtual void finished(unsigned int j) {}
-};
-
-struct JointValues {
-    virtual double getValue(const physics::JointPtr joint, const unsigned int index) const = 0;
-    vector<double> operator()(physics::JointPtr root, physics::LinkPtr endEffector) const {
-        assert(root != nullptr && "Root joint is null");
-        assert(endEffector != nullptr && "End effector is null");
-
-        vector<double> limits;
-        physics::JointPtr parent = root;
-        physics::LinkPtr link = nullptr;
-        do {
-            link = parent->GetChild();
-
-            // Iterate over degrees of freedom
-            for(unsigned int i = 0; i < parent->GetAngleCount(); ++i) {
-                limits.push_back(getValue(parent, i));
-            }
-
-            if(link->GetChildJoints().size() > 0) {
-               assert(link->GetChildJoints().size() == 1 || link == endEffector);
-               parent = link->GetChildJoints()[0];
-            }
-        } while (link != endEffector);
-        return limits;
-    }
-};
-
-struct GetAngles : public JointValues {
-    virtual double getValue(const physics::JointPtr joint, const unsigned int index) const {
-        return joint->GetAngle(index).Radian();
-    }
-};
-
-struct UpperLimits : public JointValues {
-    virtual double getValue(const physics::JointPtr joint, const unsigned int index) const {
-        return joint->GetUpperLimit(index).Radian();
-    }
-};
-
-struct LowerLimits : public JointValues {
-    virtual double getValue(const physics::JointPtr joint, const unsigned int index) const {
-        return joint->GetLowerLimit(index).Radian();
-    }
+    virtual void finished(unsigned int j, physics::JointPtr root, physics::LinkPtr endEffector) {}
 };
 
    static const std::string joints[] = {
@@ -202,45 +231,6 @@ private:
     }
 
     /**
-     * Determine the joint type in KDL depending on the axis.
-     */
-private:
-    Joint::JointType jointType(const physics::JointPtr joint, const int axis) {
-        math::Vector3 localAxis = joint->GetLocalAxis(axis);
-        Joint::JointType jointType;
-        if(fabs(localAxis.x) == 1.0) {
-            jointType = Joint::RotX;
-        }
-        else if(fabs(localAxis.y) == 1.0) {
-            jointType = Joint::RotY;
-        }
-        else if(fabs(localAxis.z) == 1.0) {
-            jointType = Joint::RotZ;
-        }
-        else {
-            assert(false);
-        }
-        return jointType;
-    }
-
-    /**
-     * Get a readable name of an axis
-     */
-private:
-    string axisName(const Joint::JointType jointType) {
-        if(jointType == Joint::JointType::RotX) {
-            return "X";
-        }
-        if(jointType == Joint::RotY) {
-            return "Y";
-        }
-        if(jointType == Joint::RotZ) {
-            return "Z";
-        }
-        assert(false);
-    }
-
-    /**
      * Convert a vector of joint angles to a JntArray
      */
 private:
@@ -270,10 +260,12 @@ private:
      */
 private:
     vector<double> calcInverse(Chain& chain, physics::JointPtr root, physics::LinkPtr endEffector, const math::Pose target) {
-
+#if(PRINT_DEBUG)
+       cout << "Search for IK solution for link: " << endEffector->GetName() << " for position: " << target.pos << " in world frame: " << transformFrameToGlobal(target, root).pos << endl;
+#endif
         // Creation of the solvers
         ChainFkSolverPos_recursive fkSolver(chain);
-        ChainIkSolverVel_wdls ikVelocitySolver(chain, 0.01, 1000);
+        ChainIkSolverVel_wdls ikVelocitySolver(chain, 0.0001, 1000);
         ikVelocitySolver.setLambda(0.1);
 
         // Disable weighting for orientation
@@ -319,7 +311,7 @@ private:
     /**
      * Construct a kinematic chain from the root to the end effector with a virtual joint equivalent to the RPY of the trunk
      */
-   Chain constructChain(physics::JointPtr root, physics::LinkPtr endEffector) {
+   Chain constructChain(physics::JointPtr root, physics::LinkPtr endEffector, bool globalAxis) {
         assert(root != nullptr && "Root joint is null");
         assert(endEffector != nullptr && "End effector is null");
 
@@ -335,8 +327,8 @@ private:
             // Iterate over degrees of freedom
             unsigned int angleCount = parent->GetAngleCount();
             for(unsigned int i = 0; i < angleCount; ++i) {
-                Vector axis = Vector(parent->GetLocalAxis(i).x, parent->GetLocalAxis(i).y, parent->GetLocalAxis(i).z);
-                Joint kdlJoint = Joint(parent->GetName() + axisName(jointType(parent, i)), Vector(), axis, Joint::RotAxis);
+               Vector axis = Vector(globalAxis ? parent->GetGlobalAxis(i).x : parent->GetLocalAxis(i).x, globalAxis ? parent->GetGlobalAxis(i).y : parent->GetLocalAxis(i).x, globalAxis ? parent->GetGlobalAxis(i).z : parent->GetLocalAxis(i).z);
+               Joint kdlJoint = Joint(parent->GetName() + "_" + boost::lexical_cast<string>(i), Vector(), axis, Joint::RotAxis);
 
                 // For multi-DOF joints, only the final segment has length > 0
                 bool isFinalAxis = i == parent->GetAngleCount() - 1;
@@ -390,7 +382,7 @@ private:
                     }
                 }
 
-                Segment segment = Segment(parent->GetName() + axisName(jointType(parent, i)), kdlJoint, segmentVector);
+               Segment segment = Segment(parent->GetName() + "_" + boost::lexical_cast<string>(i), kdlJoint, segmentVector);
                 chain.addSegment(segment);
 
                if(link != endEffector){
@@ -415,7 +407,21 @@ private:
     }
 
 private:
-    bool checkFK(const Chain& chain, physics::LinkPtr leaf, physics::JointPtr root, const vector<double> q) const {
+   math::Pose getCenterToTip(physics::LinkPtr leaf) const {
+      // Extract the width and height of the foot from the model
+      const sdf::ElementPtr cylinder = leaf->GetModel()->GetSDF()->GetElement("link")->GetElement("collision")->GetElement("geometry")->GetElement("cylinder");
+
+      // TODO: Search through XML to find this
+      // double length = cylinder->GetElement("length")->GetValueDouble();
+      // double radius = cylinder->GetElement("radius")->GetValueDouble();
+      double length = 0.082;
+      double height = 0.04;
+
+      math::Vector3 tipInEEFrame(height / 2.0, 0.0, length / 2.0);
+      return math::Pose(tipInEEFrame, identityQuaternion());
+   }
+
+   bool checkFK(const Chain& chain, physics::LinkPtr leaf, physics::JointPtr root, const vector<double> q, math::Pose targetPose, bool isPoseTip) const {
         assert(leaf != nullptr);
         assert(root != nullptr);
 
@@ -440,23 +446,14 @@ private:
 
            math::Pose tipInWorldFrame;
 
-           if(leaf->GetChildJoints().size() == 0){
-            // Extract the width and height of the foot from the model
-            const sdf::ElementPtr cylinder = leaf->GetModel()->GetSDF()->GetElement("link")->GetElement("collision")->GetElement("geometry")->GetElement("cylinder");
+           if(!isPoseTip && leaf->GetChildJoints().size() == 0){
 
-            // TODO: Search through XML to find this
-            // double length = cylinder->GetElement("length")->GetValueDouble();
-            // double radius = cylinder->GetElement("radius")->GetValueDouble();
-            double length = 0.082;
-            double height = 0.04;
-
-            math::Vector3 tipInEEFrame(height / 2.0, 0.0, length / 2.0);
 
             // Translate to the offset to the world frame
-            tipInWorldFrame =  math::Pose(tipInEEFrame, identityQuaternion()) + leaf->GetWorldPose();
+            tipInWorldFrame = getCenterToTip(leaf) + targetPose;
            }
            else {
-              tipInWorldFrame = leaf->GetChildJoints()[0]->GetWorldPose();
+              tipInWorldFrame = targetPose;
            }
 
             if(!rough_eq(endEffectorPoseInGlobalFrame.pos.x, tipInWorldFrame.pos.x)) {
@@ -653,10 +650,6 @@ private:
 
 private:
    bool moveRobotArm(){
-#if(PRINT_DEBUG)
-      cout << "Performing IK on robot right arm" << endl;
-#endif
-
       // Create the IK chains.
       physics::LinkPtr endEffector = model->GetLink("r_wrist_roll_link");
       physics::JointPtr root = model->GetJoint("r_shoulder_pan_joint");
@@ -665,11 +658,16 @@ private:
       if(endEffector == nullptr) {
          return true;
       }
+
+#if(PRINT_DEBUG)
+      cout << "Performing IK on robot right arm" << endl;
+#endif
+
       assert(root != nullptr);
-      Chain chain = constructChain(root, endEffector);
+      Chain chain = constructChain(root, endEffector, false);
       GetAngles getAngles;
 
-      assert(checkFK(chain, endEffector, root, getAngles(root, endEffector)));
+      assert(checkFK(chain, endEffector, root, getAngles(root, endEffector), endEffector->GetChildJoints()[0]->GetWorldPose(), true));
 
       vector<double> angles = calcInverse(chain, root, endEffector, transformGlobalToJoint(model->GetJoint("left_hip")->GetWorldPose(), root));
 
@@ -678,9 +676,15 @@ private:
          return false;
       }
 
+      assert(checkFK(chain, endEffector, root, angles, model->GetJoint("left_hip")->GetWorldPose(), true));
+
       // Now apply joint angles to a chain
       SetJointAngles setAngles(angles);
       setAngles(root, endEffector);
+      assert(checkFK(chain, endEffector, root, getAngles(root, endEffector), model->GetJoint("left_hip")->GetWorldPose(), true));
+
+      // Check whether the target posed was reached
+      assert(pos_rough_eq(model->GetJoint("left_hip")->GetWorldPose().pos, endEffector->GetWorldPose().pos));
       return true;
    }
 public:
@@ -729,18 +733,18 @@ public:
         // Create the IK chains.
         physics::LinkPtr leftFoot = model->GetLink("left_foot");
         physics::JointPtr leftHip = model->GetJoint("left_hip");
-        Chain leftLeg = constructChain(leftHip, leftFoot);
+        Chain leftLeg = constructChain(leftHip, leftFoot, true);
         math::Pose leftFootPose = math::Pose(leftFoot->GetWorldPose().pos, identityQuaternion());
 
         physics::LinkPtr rightFoot = model->GetLink("right_foot");
         physics::JointPtr rightHip = model->GetJoint("right_hip");
-        Chain rightLeg = constructChain(rightHip, rightFoot);
+        Chain rightLeg = constructChain(rightHip, rightFoot, true);
         math::Pose rightFootPose = math::Pose(rightFoot->GetWorldPose().pos, identityQuaternion());
 
         GetAngles getAngles;
 
-        assert(checkFK(leftLeg, leftFoot, leftHip, getAngles(leftHip, leftFoot)));
-        assert(checkFK(rightLeg, rightFoot, rightHip, getAngles(rightHip, rightFoot)));
+        assert(checkFK(leftLeg, leftFoot, leftHip, getAngles(leftHip, leftFoot), leftFoot->GetWorldPose(), false));
+        assert(checkFK(rightLeg, rightFoot, rightHip, getAngles(rightHip, rightFoot), rightFoot->GetWorldPose(), false));
 
         // Limit pitch and roll to pi/4 but allow any yaw.
         boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > pitchRollGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>() / 4.0, boost::math::constants::pi<double>() / 8.0));
@@ -772,12 +776,12 @@ public:
             assert(trunk->GetWorldPose().rot == math::Quaternion(roll, pitch, yaw));
 
             // Reconstruct kinematic chains with new orientation
-            leftLeg = constructChain(leftHip, leftFoot);
-            rightLeg = constructChain(rightHip, rightFoot);
+            leftLeg = constructChain(leftHip, leftFoot, true);
+            rightLeg = constructChain(rightHip, rightFoot, true);
 
             // Now check that FK still is correct
-            assert(checkFK(leftLeg, leftFoot, leftHip, getAngles(leftHip, leftFoot)));
-            assert(checkFK(rightLeg, rightFoot, rightHip, getAngles(rightHip, rightFoot)));
+            assert(checkFK(leftLeg, leftFoot, leftHip, getAngles(leftHip, leftFoot), leftFoot->GetWorldPose(), false));
+            assert(checkFK(rightLeg, rightFoot, rightHip, getAngles(rightHip, rightFoot), rightFoot->GetWorldPose(), false));
 
             // Set random RPY on arms
             SetRandomAngles randomAngleSetter(rng);
@@ -802,9 +806,16 @@ public:
                     continue;
                 }
 
+               // Cannot easily check FK here because the calculation of the tip from the centroid
+               // relies on the current pose.
+
                 // Now apply joint angles to a chain
                 SetJointAngles setAngles(angles);
                 setAngles(leftHip, leftFoot);
+                assert(checkFK(leftLeg, leftFoot, leftHip, getAngles(leftHip, leftFoot), leftFootPose, true));
+
+                // Check whether the target posed was reached
+                assert(pos_rough_eq(leftFootPose.pos, (getCenterToTip(leftFoot) + leftFoot->GetWorldPose()).pos));
             }
             else {
                 // Set left leg randomly
@@ -829,6 +840,10 @@ public:
                 // Now apply joint angles to a chain
                 SetJointAngles setAngles(angles);
                 setAngles(rightHip, rightFoot);
+                assert(checkFK(rightLeg, rightFoot, rightHip, getAngles(rightHip, rightFoot), rightFootPose, true));
+
+                // Check whether the target posed was reached
+                assert(pos_rough_eq(rightFootPose.pos, (getCenterToTip(rightFoot) + rightFoot->GetWorldPose()).pos));
             }
 
            // PR2 model is strange and it is difficult to find all the parts of the end effector
@@ -849,7 +864,9 @@ public:
         // Setup the virtual joint if needed
         physics::LinkPtr parent = model->GetLink("r_gripper_r_finger_tip_link");
         if(parent) {
+#if(PRINT_DEBUG)
             cout << "Connecting virtual joint" << endl;
+#endif
             physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint("universal", model);
             physics::LinkPtr child = model->GetLink("left_thigh");
             joint->Attach(parent, child);
