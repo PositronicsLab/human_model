@@ -28,7 +28,7 @@
 using namespace std;
 using namespace KDL;
 
-#define USE_FIXED_SEED 0
+#define USE_FIXED_SEED 1
 #define PRINT_POSITIONS 0
 #define PRINT_DEBUG 1
 
@@ -875,6 +875,9 @@ public:
             }
             else if(moveRobotArm(robotArmChain)){
                 foundLegalConfig = true;
+#if(PRINT_DEBUG)
+               cout << "Found a legal configuration" << endl;
+#endif
            }
         }
 
