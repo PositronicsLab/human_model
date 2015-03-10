@@ -80,7 +80,7 @@ install(TARGETS ContactForcesPlugin DESTINATION lib)
 
 # Gazebo controller plugin
 add_library(StableControllerPlugin SHARED src/stable-controller-plugin.cpp)
-target_link_libraries(StableControllerPlugin Moby Ravelin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf SDFormat)
+target_link_libraries(StableControllerPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf SDFormat)
 install(TARGETS StableControllerPlugin DESTINATION lib)
 
 add_library(InitialJointVelocityPlugin SHARED src/initial-joint-velocity-plugin.cpp)

@@ -16,7 +16,7 @@ using namespace gazebo::physics;
 #define PRINT_DEBUG 0
 
 namespace gazebo {
-   class ControllerPlugin : public ModelPlugin
+   class StableControllerPlugin : public ModelPlugin
    {
      private: physics::ModelPtr model;
      private: event::ConnectionPtr connection;
@@ -28,6 +28,12 @@ namespace gazebo {
      private: std::vector<physics::JointPtr> joints;
      
      private: common::Time prevUpdateTime;
+
+     public: StableControllerPlugin() : ModelPlugin() {
+#if(PRINT_DEBUG)
+      cout << "Constructing the controller plugin" << std::endl;
+#endif
+   }
 
      public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
      {
@@ -64,7 +70,7 @@ namespace gazebo {
        totalEfforts.resize(jointPIDs.size());
        this->model = _parent;
        
-       connection = event::Events::ConnectWorldUpdateBegin(boost::bind(&ControllerPlugin::updateController, this));
+       connection = event::Events::ConnectWorldUpdateBegin(boost::bind(&StableControllerPlugin::updateController, this));
      }
     
 
@@ -90,13 +96,16 @@ namespace gazebo {
           // compute the effort via the PID, which you will apply on the joint
           totalEfforts[index] += jointPIDs[index]->Update(posErr, stepTime);
 
+#if(PRINT_DEBUG)
+  cout << "Applying " << totalEfforts[index] << " to joint " << joints[i]->GetName() << endl;
+#endif
           // apply the force on the joint
           joints[i]->SetForce(j, totalEfforts[index]);
           index++;
        }
      }     
    }
-   ~ControllerPlugin(){
+   ~StableControllerPlugin(){
      #if(PRINT_DEBUG)
      cout << "Destroying stable joint controller plugin" << endl;
      #endif
@@ -105,5 +114,5 @@ namespace gazebo {
   };
 
    // Register this plugin with the simulator
-   GZ_REGISTER_MODEL_PLUGIN(ControllerPlugin)
+   GZ_REGISTER_MODEL_PLUGIN(StableControllerPlugin);
  }
