@@ -29,8 +29,7 @@ using namespace std;
 using namespace KDL;
 
 #define USE_FIXED_SEED 1
-#define PRINT_POSITIONS 0
-#define PRINT_DEBUG 1
+#define PRINT_DEBUG 0
 
 static const int FIXED_SEED = 0;
 
@@ -57,6 +56,18 @@ bool vector_rough_eq(const vector<double>& lhs, const vector<double>& rhs, doubl
 
 bool pos_rough_eq(const gazebo::math::Vector3& lhs, const gazebo::math::Vector3& rhs){
    return rough_eq(lhs.x, rhs.x) && rough_eq(lhs.y, rhs.y) && rough_eq(lhs.z, rhs.z);
+}
+
+// Normalize an angle into the range [-pi, pi]
+template <class T>
+double normalize_range(T angle) {
+   if (angle >= boost::math::constants::pi<double>()) {
+      return angle - 2 * boost::math::constants::pi<double>();
+   }
+   if (angle <= -boost::math::constants::pi<double>()) {
+      return angle + 2 * boost::math::constants::pi<double>();
+   }
+   return angle;
 }
 
 namespace gazebo {
@@ -152,14 +163,12 @@ protected:
         }
 
        // Confirm the value was set properly
-       assert(rough_eq(joint->GetAngle(index).Radian(), angles[globalIndex]));
+       assert(rough_eq(normalize_range(joint->GetAngle(index).Radian()), normalize_range(angles[globalIndex])));
     }
 
 protected:
     virtual void finished(unsigned int j, physics::JointPtr root, physics::LinkPtr endEffector) {
         assert(j == angles.size());
-        // Confirm the angles were set properly
-       assert(vector_rough_eq(angles, GetAngles()(root, endEffector)));
     }
 };
 
@@ -298,7 +307,9 @@ private:
         if(status >= 0) {
             angles = toVector(q);
         } else {
+#if(PRINT_DEBUG)
             cerr << "IK Failed with status: " << status << endl;
+#endif
         }
         return angles;
     }
@@ -590,7 +601,9 @@ private:
 
                 if(boxes[humanJoints[i]].overlap(boxes[model->GetLinks()[j]])) {
                     if(!(containsLink(eeLinks, model->GetLinks()[j]) || isChildOf(humanJoints[i], model->GetLinks()[j]) || isChildOf(model->GetLinks()[j], humanJoints[i]))) {
+#if(PRINT_DEBUG)
                         cout << "Collision between: " << humanJoints[i]->GetName() << " and " << model->GetLinks()[j]->GetName() << endl;
+#endif
                         return true;
                     }
                 }
@@ -603,7 +616,9 @@ private:
         fcl::computeBV(groundPlaneSpace, fcl::Transform3f(), groundPlane);
         for(unsigned int i = 0; i < humanJoints.size(); ++i) {
             if(contactLink->GetId() != humanJoints[i]->GetId() && boxes[humanJoints[i]].overlap(groundPlane)) {
+#if(PRINT_DEBUG)
                 cout << "Collision between: " << humanJoints[i]->GetName() << " and ground plane" << endl;
+#endif
                 return true;
             }
         }
@@ -871,7 +886,9 @@ public:
 
             // Check for intersection
             if(hasCollision(model, trunk, contactLink,endEffectors)) {
+#if(PRINT_DEBUG)
                 cout << "Human has self or ground collision" << endl;
+#endif
             }
             else if(moveRobotArm(robotArmChain)){
                 foundLegalConfig = true;

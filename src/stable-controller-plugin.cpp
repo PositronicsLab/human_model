@@ -31,9 +31,9 @@ namespace gazebo {
 
      public: StableControllerPlugin() : ModelPlugin() {
 #if(PRINT_DEBUG)
-      cout << "Constructing the controller plugin" << std::endl;
+        cout << "Constructing the controller plugin" << std::endl;
 #endif
-   }
+     }
 
      public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
      {

@@ -190,7 +190,9 @@ namespace gazebo {
             // Print max torques
             overallMax = 0;
             for(unsigned int i = 0; i < boost::size(contacts); ++i){
+                #if(PRINT_SENSORS)
                 std::cout << contacts[i] << ": " << maxTorques[contacts[i]] << "(N)" << std::endl;
+                #endif
                 outputCSV << maxTorques[contacts[i]] << ", ";
                 if(maxTorques[contacts[i]] > overallMax){
                     overallMax = maxTorques[contacts[i]];
@@ -213,7 +215,7 @@ namespace gazebo {
           cout << "Scenario completed. Updating results" << endl;
           #endif
           event::Events::DisconnectWorldUpdateBegin(this->connection);
-          
+
           // Disconnect the sensors
           for(unsigned int i = 0; i < boost::size(contacts); ++i){
             sensors::SensorPtr sensor = sensors::SensorManager::Instance()->GetSensor(world->GetName() + "::" + model->GetScopedName()
