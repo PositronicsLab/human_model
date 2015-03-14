@@ -107,7 +107,7 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>1</self_collide>
     </link>
     <link name='bl_caster_rotation_link'>
       <pose>-0.2246 0.2246 0.0792 0 -0 0</pose>
@@ -1010,7 +1010,7 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>1</self_collide>
       <sensor name='torso_lift_contact_sensor' type='contact'>
         <contact>
           <collision>torso_lift_link_geom</collision>
@@ -1364,7 +1364,7 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>1</self_collide>
     </link>
     <joint name='l_shoulder_lift_joint' type='revolute'>
       <child>l_shoulder_lift_link</child>
@@ -1557,7 +1557,7 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>1</self_collide>
     </link>
     <joint name='l_elbow_flex_joint' type='revolute'>
       <child>l_elbow_flex_link</child>
@@ -1679,7 +1679,7 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>1</self_collide>
     </link>
     <joint name='l_forearm_roll_joint' type='revolute'>
       <child>l_forearm_roll_link</child>
@@ -1752,7 +1752,7 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>1</self_collide>
     </link>
     <joint name='l_wrist_flex_joint' type='revolute'>
       <child>l_wrist_flex_link</child>
@@ -2526,7 +2526,7 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>1</self_collide>
     </link>
     <joint name='r_shoulder_lift_joint' type='revolute'>
       <child>r_shoulder_lift_link</child>
@@ -2719,7 +2719,7 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>1</self_collide>
     </link>
     <joint name='r_elbow_flex_joint' type='revolute'>
       <child>r_elbow_flex_link</child>
@@ -2841,7 +2841,7 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>1</self_collide>
     </link>
     <joint name='r_forearm_roll_joint' type='revolute'>
       <child>r_forearm_roll_link</child>
@@ -2914,7 +2914,7 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <self_collide>0</self_collide>
+      <self_collide>1</self_collide>
     </link>
     <joint name='r_wrist_flex_joint' type='revolute'>
       <child>r_wrist_flex_link</child>
