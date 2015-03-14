@@ -9,11 +9,12 @@
 #include <gazebo/common/common.hh>
 #include <stdio.h>
 #include <gazebo/common/PID.hh>
+#include <math.h>
 
 using namespace std;
 using namespace gazebo::physics;
 
-#define PRINT_DEBUG 0
+#define PRINT_DEBUG 1
 
 namespace gazebo {
    class StableControllerPlugin : public ModelPlugin
@@ -24,7 +25,6 @@ namespace gazebo {
      // One per joint
      private: std::vector<boost::shared_ptr<common::PID> > jointPIDs;
      private: std::vector<math::Angle> targetAngles;
-     private: std::vector<double> totalEfforts;
      private: std::vector<physics::JointPtr> joints;
      
      private: common::Time prevUpdateTime;
@@ -63,11 +63,14 @@ namespace gazebo {
            joints.push_back(joint);
            for(unsigned int j = 0; j < joint->GetAngleCount(); ++j){
              targetAngles.push_back(joint->GetAngle(j));
-             jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(2.0, 0.0, 1.0, 10)));
+              if (joint->GetEffortLimit(j) != -1) {
+                jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(2.0, 0.0, 1.0, 10, 0, joint->GetEffortLimit(0), -joint->GetEffortLimit(0))));
+              } else {
+                jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(2.0, 0.0, 1.0, 10, 0)));
+              }
            }
          }    
        }
-       totalEfforts.resize(jointPIDs.size());
        this->model = _parent;
        
        connection = event::Events::ConnectWorldUpdateBegin(boost::bind(&StableControllerPlugin::updateController, this));
@@ -81,7 +84,9 @@ namespace gazebo {
        common::Time currTime = this->model->GetWorld()->GetSimTime();
        common::Time stepTime = currTime - this->prevUpdateTime;
        this->prevUpdateTime = currTime;
-
+#if(PRINT_DEBUG)
+        cout << "Step time: " << stepTime << endl;
+#endif
        int index = 0;
        for(unsigned int i = 0; i < joints.size(); ++i){
          const physics::JointPtr joint = joints[i];
@@ -92,15 +97,21 @@ namespace gazebo {
 
           // calculate the error between the current position and the target one
           double posErr = posCurr - posTarget;
-
+#if(PRINT_DEBUG)
+            cout << "Error for joint " << joints[i]->GetName() << " is: " << posErr << endl;
+#endif
           // compute the effort via the PID, which you will apply on the joint
-          totalEfforts[index] += jointPIDs[index]->Update(posErr, stepTime);
+          double incrementalEffort = jointPIDs[index]->Update(posErr, stepTime);
+#if(PRINT_DEBUG)
+            cout << "Applying incremental effort " << incrementalEffort << " to joint " << joints[i]->GetName() << endl;
+#endif
+            assert(!isnan(incrementalEffort));
 
 #if(PRINT_DEBUG)
-  cout << "Applying " << totalEfforts[index] << " to joint " << joints[i]->GetName() << endl;
+  cout << "Applying " << incrementalEffort << " to joint " << joints[i]->GetName() << endl;
 #endif
           // apply the force on the joint
-          joints[i]->SetForce(j, totalEfforts[index]);
+          joints[i]->SetForce(j, incrementalEffort);
           index++;
        }
      }     
