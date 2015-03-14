@@ -46,7 +46,6 @@ namespace gazebo {
       // Iterate over model joints and print them
       const physics::Joint_V joints = model->GetJoints();
       for(unsigned int i = 0; i < joints.size(); ++i){
-        cout << joints[i]->GetName() << ": Error: " << joints[i]->GetInitialAnchorPose() << endl;
         for(unsigned int j = 0; j < joints[i]->GetAngleCount(); ++j){
           cout << "   " << joints[i]->GetAngle(j) << endl;
         }
