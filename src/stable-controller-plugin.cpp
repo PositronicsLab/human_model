@@ -26,7 +26,7 @@ namespace gazebo {
      private: std::vector<boost::shared_ptr<common::PID> > jointPIDs;
      private: std::vector<math::Angle> targetAngles;
      private: std::vector<physics::JointPtr> joints;
-     
+     private: std::vector<double> totalForce;
      private: common::Time prevUpdateTime;
 
      public: StableControllerPlugin() : ModelPlugin() {
@@ -64,22 +64,21 @@ namespace gazebo {
            for(unsigned int j = 0; j < joint->GetAngleCount(); ++j){
              targetAngles.push_back(joint->GetAngle(j));
               if (joint->GetEffortLimit(j) != -1) {
-                jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(2.0, 0.0, 1.0, 10, 0, joint->GetEffortLimit(0), -joint->GetEffortLimit(0))));
+                jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(1.0, 0.5, 0.5, 10, 0, joint->GetEffortLimit(0), -joint->GetEffortLimit(0))));
               } else {
-                jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(2.0, 0.0, 1.0, 10, 0)));
+                jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(1.0, 0.5, 0.5, 10, 0)));
               }
            }
          }    
        }
        this->model = _parent;
-       
+       totalForce.resize(jointPIDs.size());
        connection = event::Events::ConnectWorldUpdateBegin(boost::bind(&StableControllerPlugin::updateController, this));
      }
     
 
      // Inspired by: http://answers.gazebosim.org/question/2341/set-and-get-position-of-gazebo-model-using-ros/
      private: void updateController(){
-
        // compute the steptime for the PID
        common::Time currTime = this->model->GetWorld()->GetSimTime();
        common::Time stepTime = currTime - this->prevUpdateTime;
@@ -103,15 +102,15 @@ namespace gazebo {
           // compute the effort via the PID, which you will apply on the joint
           double incrementalEffort = jointPIDs[index]->Update(posErr, stepTime);
 #if(PRINT_DEBUG)
-            cout << "Applying incremental effort " << incrementalEffort << " to joint " << joints[i]->GetName() << endl;
+            cout << "Adding incremental effort " << incrementalEffort << " to joint " << joints[i]->GetName() << endl;
 #endif
             assert(!isnan(incrementalEffort));
-
+            totalForce[index] += incrementalEffort;
 #if(PRINT_DEBUG)
-  cout << "Applying " << incrementalEffort << " to joint " << joints[i]->GetName() << endl;
+  cout << "Applying " << totalForce[index] << " to joint " << joints[i]->GetName() << endl;
 #endif
           // apply the force on the joint
-          joints[i]->SetForce(j, incrementalEffort);
+          joints[i]->SetForce(j, totalForce[index]);
           index++;
        }
      }     

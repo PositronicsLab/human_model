@@ -75,6 +75,10 @@ namespace gazebo {
     }
 
     private: void worldUpdate(){
+       if(this->model->GetWorld()->GetSimTime().nsec % 10000000 != 0){
+          return;
+       }
+       
       csvFile << world->GetSimTime() << ", ";
       // Iterate over model joints and print them
       for (unsigned int i = 0; i < boost::size(joints); ++i) {
