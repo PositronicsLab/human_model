@@ -960,6 +960,6 @@
     <plugin name="initial_joint_position_plugin" filename="libInitialJointPositionPlugin.dylib"/>
     <!-- <plugin name="min_max_joint_position_plugin" filename="libMinMaxJointPositionPlugin.dylib" /> -->
     <!-- <plugin name="joint_angles_plugin" filename="libJointAnglesPlugin.dylib"/> -->
-    <plugin name="joint_forces_plugin" filename="libJointForcesPlugin.dylib"/>
+    <!-- <plugin name="joint_forces_plugin" filename="libJointForcesPlugin.dylib"/> -->
 </xacro:macro>
 

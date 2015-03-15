@@ -103,6 +103,10 @@ add_library(MinMaxJointPositionPlugin SHARED src/min-max-joint-position-plugin.c
 target_link_libraries(MinMaxJointPositionPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS MinMaxJointPositionPlugin DESTINATION lib)
 
+add_library(ArmCalibrationPlugin SHARED src/arm-calibration-plugin.cpp)
+target_link_libraries(ArmCalibrationPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS ArmCalibrationPlugin DESTINATION lib)
+
 set(model_files "")
 
 # Xacro files

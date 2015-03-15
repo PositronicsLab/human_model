@@ -1,0 +1,43 @@
+<sdf version="1.5">
+  <model name="human" xmlns:xacro="http://www.ros.org/wiki/xacro">
+   <xacro:property name="armEffort" value="30" /> <!-- Standard value is 30 -->
+   <xacro:property name="wristEffort" value="10" /> <!-- Standard value is 10 -->
+   <xacro:include filename="../pr2/pr2.include" />
+
+   <!-- Add a weight to the pr2 arm -->
+    <link name='weight'>
+       <!-- Pose of end of r_wrist_roll_link -->
+       <pose>0.84791 -0.188 0.790675 0.0 0.0 0.0</pose>
+
+       <inertial>
+          <mass>3</mass>
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
+       </inertial>
+       <collision name='collision'>
+          <geometry>
+             <box>
+                <size>0.01 0.01 0.01</size>
+             </box>
+          </geometry>
+       </collision>
+       <visual name='visual'>
+          <geometry>
+             <box>
+                <size>0.1 0.1 0.1</size>
+             </box>
+          </geometry>
+       </visual>
+       <self_collide>0</self_collide>
+    </link>
+   <joint name='weight_connector' type='revolute'>
+     <parent>r_wrist_roll_link</parent>
+     <child>weight</child>
+     <axis>
+        <xyz>0.0 1 0.0</xyz>
+      </axis>
+   </joint>
+
+   <plugin name="calibration_plugin" filename="libArmCalibrationPlugin.dylib"/>  
+   <plugin name="joint_forces_plugin" filename="libJointForcesPlugin.dylib"/>
+  </model>
+</sdf>
