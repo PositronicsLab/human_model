@@ -14,7 +14,7 @@
 using namespace std;
 
 #define USE_FIXED_SEED 1
-#define PRINT_VELOCITIES 1
+#define PRINT_VELOCITIES 0
 #define PRINT_DEBUG 0
 
 namespace gazebo {
