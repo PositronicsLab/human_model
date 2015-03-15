@@ -2,6 +2,7 @@
 #include <gazebo/common/common.hh>
 #include <gazebo/physics/model.hh>
 #include <gazebo/physics/joint.hh>
+#include <gazebo/physics/link.hh>
 #include <gazebo/physics/world.hh>
 #include <stdio.h>
 #include <boost/random.hpp>
@@ -13,7 +14,7 @@
 using namespace std;
 
 #define USE_FIXED_SEED 1
-#define PRINT_VELOCITIES 0
+#define PRINT_VELOCITIES 1
 #define PRINT_DEBUG 0
 
 namespace gazebo {
@@ -44,6 +45,7 @@ namespace gazebo {
       for(unsigned int i = 0; i < boost::size(joints); ++i){
         file << joints[i] << ", ";
       }
+      file << "Trunk Linear X, Trunk Linear Y, Trunk Linear Z, Trunk Angular X, Trunk Angular Y, Trunk Angular Z";
       file << endl;
     }
     
@@ -104,6 +106,19 @@ namespace gazebo {
           csvFile << random << ",";
         }
       }
+
+       // Set the angular and linear velocity for the trunk.
+       physics::LinkPtr trunk = _model->GetLink("trunk");
+       math::Vector3 linear = math::Vector3(gen(), gen(), gen());
+       math::Vector3 angular = math::Vector3(gen(), gen(), gen());
+
+#if(PRINT_VELOCITIES)
+       cout << "Setting linear velocity for trunk to: " << linear.x << ", " << linear.y << ", " << linear.z << endl;
+       cout << "Setting angular velocity for trunk to: " << angular.x << ", " << angular.y << ", " << angular.z << endl;
+#endif
+       csvFile << linear.x << ", " << linear.y << ", " << linear.z << ", " << angular.x << ", " << angular.y << ", " << angular.z;
+       trunk->SetLinearVel(linear);
+       trunk->SetAngularVel(angular);
       csvFile << endl;
       csvFile.close();
     }

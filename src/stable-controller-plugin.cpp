@@ -14,7 +14,7 @@
 using namespace std;
 using namespace gazebo::physics;
 
-#define PRINT_DEBUG 1
+#define PRINT_DEBUG 0
 
 namespace gazebo {
    class StableControllerPlugin : public ModelPlugin
