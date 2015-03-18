@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <gazebo/common/PID.hh>
 #include <math.h>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/math/constants/constants.hpp>
 
 using namespace std;
 using namespace gazebo::physics;
@@ -96,8 +98,18 @@ namespace gazebo {
 
           // calculate the error between the current position and the target one
           double posErr = posCurr - posTarget;
+          if (boost::algorithm::ends_with(joint->GetName(), "roll_joint")) {
+            if (fabs(posErr > boost::math::constants::pi<double>())) {
+               if (posErr < 0) {
+                  posErr = 2 * boost::math::constants::pi<double>() + posErr;
+               }
+               else {
+                  posErr = posErr - 2 * boost::math::constants::pi<double>();
+               }
+            }
+          }
 #if(PRINT_DEBUG)
-            cout << "Error for joint " << joints[i]->GetName() << " is: " << posErr << endl;
+            cout << "Error for joint " << joints[i]->GetName() << " with current value: " << posCurr << " is: " << posErr << endl;
 #endif
           // compute the effort via the PID, which you will apply on the joint
           double incrementalEffort = jointPIDs[index]->Update(posErr, stepTime);
