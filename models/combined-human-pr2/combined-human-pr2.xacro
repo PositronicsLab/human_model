@@ -5,17 +5,13 @@
    <xacro:include filename="../pr2/pr2.include" />
 
     <!-- TODO: Get these working -->
-    <xacro:property name="xoffset" value="0.939280" />
-    <xacro:property name="yoffset" value="-0.25" />
+    <xacro:property name="xoffset" value="0.739280" />
+    <xacro:property name="yoffset" value="0" />
     <xacro:property name="zoffset" value="0" />
 
     <xacro:property name="prefix" value="" />
 
    <!-- Human -->
    <xacro:include filename="../human/human.include"/>
-    
-   <!-- Virtual connecting joint -->
-   <!-- Joint is added dynamically -->
-   <!-- <xacro:include filename="../combined-human-pr2/connecting-joint.include" />-->
   </model>
 </sdf>
