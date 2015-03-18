@@ -30,6 +30,7 @@ using namespace KDL;
 
 #define USE_FIXED_SEED 1
 #define PRINT_DEBUG 0
+#define ENABLE_SECOND_ARM 1
 
 static const int FIXED_SEED = 0;
 
@@ -659,10 +660,10 @@ private:
       cout << endl;
    }
 
-private: Chain constructRobotArmChain() {
+private: Chain constructRobotArmChain(const string rootName, const string endEffectorName) {
    // Create the IK chains.
-   physics::LinkPtr endEffector = model->GetLink("r_wrist_roll_link");
-   physics::JointPtr root = model->GetJoint("r_shoulder_pan_joint");
+   physics::LinkPtr endEffector = model->GetLink(endEffectorName);
+   physics::JointPtr root = model->GetJoint(rootName);
 
    // Check if this is a human only scenario
    if(endEffector == nullptr) {
@@ -680,9 +681,9 @@ private: Chain constructRobotArmChain() {
 }
 
 private:
-   bool moveRobotArm(Chain& chain){
-      physics::LinkPtr endEffector = model->GetLink("r_wrist_roll_link");
-      physics::JointPtr root = model->GetJoint("r_shoulder_pan_joint");
+   bool moveRobotArm(Chain& chain, const string rootName, const string endEffectorName, const string target){
+      physics::LinkPtr endEffector = model->GetLink(endEffectorName);
+      physics::JointPtr root = model->GetJoint(rootName);
 
       // Check if this is a human only scenario
       if(endEffector == nullptr) {
@@ -690,16 +691,16 @@ private:
       }
 
 #if(PRINT_DEBUG)
-      cout << "Performing IK on robot right arm" << endl;
+      cout << "Performing IK on robot arm starting at " << rootName << " to " << endEffectorName << endl;
 #endif
-      vector<double> angles = calcInverse(chain, root, endEffector, transformGlobalToJoint(model->GetJoint("left_hip")->GetWorldPose(), root));
+      vector<double> angles = calcInverse(chain, root, endEffector, transformGlobalToJoint(model->GetJoint(target)->GetWorldPose(), root));
 
       // Check for IK failure
       if(angles.size() == 0) {
          return false;
       }
 
-      assert(checkFK(chain, endEffector, root, angles, model->GetJoint("left_hip")->GetWorldPose(), true));
+      assert(checkFK(chain, endEffector, root, angles, model->GetJoint(target)->GetWorldPose(), true));
 
 #if(PRINT_DEBUG)
       cout << "Moving robot arm to angles: ";
@@ -709,13 +710,36 @@ private:
       // Now apply joint angles to a chain
       SetJointAngles setAngles(angles);
       setAngles(root, endEffector);
-      assert(checkFK(chain, endEffector, root, GetAngles()(root, endEffector), model->GetJoint("left_hip")->GetWorldPose(), true));
+      assert(checkFK(chain, endEffector, root, GetAngles()(root, endEffector), model->GetJoint(target)->GetWorldPose(), true));
 
       // Check whether the target posed was reached
       // TODO: Determine why this check is failing.
       // assert(pos_rough_eq(model->GetJoint("left_hip")->GetWorldPose().pos, endEffector->GetWorldPose().pos));
       return true;
    }
+
+private: void connectVirtualJoint(const string& parentName, const string& childName) {
+   // Setup the virtual joint if needed
+   physics::LinkPtr parent = model->GetLink(parentName);
+   if(parent) {
+#if(PRINT_DEBUG)
+      cout << "Connecting virtual joint" << endl;
+#endif
+      physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint("universal", model);
+      physics::LinkPtr child = model->GetLink(childName);
+      joint->Attach(parent, child);
+
+      joint->Load(parent, child, math::Pose(math::Vector3(0, 0, 0.145), math::Quaternion()));
+      joint->SetAxis(0, math::Vector3(0, 1, 0));
+      joint->SetAxis(1, math::Vector3(0, 0, 1));
+      joint->SetName("virtual_robot_human_connection_" + childName);
+
+      // TODO: Set additional parameters here
+      // joint->SetAttribute("stop_cfm",0, this->stop_cfm);
+      joint->Init();
+   }
+}
+
 public:
     void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
         model = _model;
@@ -776,7 +800,10 @@ public:
         assert(checkFK(rightLeg, rightFoot, rightHip, getAngles(rightHip, rightFoot), rightFoot->GetWorldPose(), false));
 
        // Construct the arm chain ahead of time to ensure links are in base positions
-        Chain robotArmChain = constructRobotArmChain();
+#if(ENABLE_SECOND_ARM)
+        Chain lRobotArmChain = constructRobotArmChain("r_shoulder_pan_joint", "r_wrist_roll_link");
+#endif
+        Chain rRobotArmChain = constructRobotArmChain("l_shoulder_pan_joint", "l_wrist_roll_link");
 
         // Limit pitch and roll to pi/4 but allow any yaw.
         boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > pitchRollGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>() / 4.0, boost::math::constants::pi<double>() / 8.0));
@@ -883,6 +910,9 @@ public:
            endEffectors.push_back(model->GetLink("r_gripper_l_parallel_link"));
            endEffectors.push_back(model->GetLink("r_wrist_roll_link"));
            endEffectors.push_back(model->GetLink("r_gripper_r_parallel_link"));
+           endEffectors.push_back(model->GetLink("l_gripper_l_parallel_link"));
+           endEffectors.push_back(model->GetLink("l_wrist_roll_link"));
+           endEffectors.push_back(model->GetLink("l_gripper_r_parallel_link"));
 
             // Check for intersection
             if(hasCollision(model, trunk, contactLink,endEffectors)) {
@@ -890,7 +920,11 @@ public:
                 cout << "Human has self or ground collision" << endl;
 #endif
             }
-            else if(moveRobotArm(robotArmChain)){
+            else if(moveRobotArm(rRobotArmChain, "r_shoulder_pan_joint" , "r_wrist_roll_link", "right_hip")
+#if(ENABLE_SECOND_ARM)
+                  && moveRobotArm(lRobotArmChain, "l_shoulder_pan_joint" , "l_wrist_roll_link", "left_hip")
+#endif
+               ){
                 foundLegalConfig = true;
 #if(PRINT_DEBUG)
                cout << "Found a legal configuration" << endl;
@@ -898,25 +932,11 @@ public:
            }
         }
 
-        // Setup the virtual joint if needed
-        physics::LinkPtr parent = model->GetLink("r_gripper_r_finger_tip_link");
-        if(parent) {
-#if(PRINT_DEBUG)
-            cout << "Connecting virtual joint" << endl;
+        // Setup the virtual joints if needed
+#if(ENABLE_SECOND_ARM)
+       connectVirtualJoint("l_gripper_r_finger_link", "left_thigh");
 #endif
-            physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint("universal", model);
-            physics::LinkPtr child = model->GetLink("left_thigh");
-            joint->Attach(parent, child);
-
-            joint->Load(parent, child, math::Pose(math::Vector3(0, 0, 0.145), math::Quaternion()));
-            joint->SetAxis(0, math::Vector3(0, 1, 0));
-            joint->SetAxis(1, math::Vector3(0, 0, 1));
-            joint->SetName("virtual_robot_human_connection");
-
-            // TODO: Set additional parameters here
-            // joint->SetAttribute("stop_cfm",0, this->stop_cfm);
-            joint->Init();
-        }
+       connectVirtualJoint("r_gripper_r_finger_link", "right_thigh");
 
        // Write all joint angles
        for (unsigned int i = 0; i < boost::size(joints); ++i) {
