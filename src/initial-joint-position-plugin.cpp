@@ -227,6 +227,7 @@ public:
 
 private:
     void writeHeader(ofstream& file) {
+       file << "Left Arm, Right Arm,";
        for (unsigned int i = 0; i < boost::size(joints); ++i) {
           physics::JointPtr currJoint = model->GetJoint(joints[i]);
           for (unsigned int j = 0; j < currJoint->GetAngleCount(); ++j) {
@@ -814,6 +815,8 @@ public:
        SetJointAngles setInitialLeftAngles(getAngles(leftHip, leftFoot));
        SetJointAngles setInitialRightAngles(getAngles(rightHip, rightFoot));
 
+        bool leftArmMoved = false;
+        bool rightArmMoved = false;
         bool foundLegalConfig = false;
         while (!foundLegalConfig) {
 
@@ -920,24 +923,30 @@ public:
                 cout << "Human has self or ground collision" << endl;
 #endif
             }
-            else if(moveRobotArm(rRobotArmChain, "r_shoulder_pan_joint" , "r_wrist_roll_link", "right_hip")
+            else {
+               rightArmMoved = moveRobotArm(rRobotArmChain, "r_shoulder_pan_joint" , "r_wrist_roll_link", "right_hip");
+
 #if(ENABLE_SECOND_ARM)
-                  && moveRobotArm(lRobotArmChain, "l_shoulder_pan_joint" , "l_wrist_roll_link", "left_hip")
+               leftArmMoved = moveRobotArm(lRobotArmChain, "l_shoulder_pan_joint" , "l_wrist_roll_link", "left_hip");
 #endif
-               ){
-                foundLegalConfig = true;
+               if(leftArmMoved || rightArmMoved) {
+                  foundLegalConfig = true;
 #if(PRINT_DEBUG)
-               cout << "Found a legal configuration" << endl;
+                  cout << "Found a legal configuration" << endl;
 #endif
+               }
            }
         }
 
         // Setup the virtual joints if needed
-#if(ENABLE_SECOND_ARM)
-       connectVirtualJoint("l_gripper_r_finger_link", "left_thigh");
-#endif
-       connectVirtualJoint("r_gripper_r_finger_link", "right_thigh");
+       if(leftArmMoved){
+          connectVirtualJoint("l_gripper_r_finger_link", "left_thigh");
+       }
+       if(rightArmMoved){
+          connectVirtualJoint("r_gripper_r_finger_link", "right_thigh");
+       }
 
+       csvFile << leftArmMoved << "," << rightArmMoved << ",";
        // Write all joint angles
        for (unsigned int i = 0; i < boost::size(joints); ++i) {
           physics::JointPtr currJoint = model->GetJoint(joints[i]);
