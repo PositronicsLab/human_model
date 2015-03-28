@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 #define PRINT_SENSORS 0
 #define PRINT_DEBUG 0
@@ -15,7 +16,9 @@
 using namespace std;
 
 namespace gazebo {
-    
+    //! Standard number of ms for HIC calculation
+    static const unsigned int VELOCITY_HISTORY_MAX = 15;
+
     static const std::string contacts[] = {
         "trunk::trunk_contact",
         "right_foot::right_foot_contact",
@@ -45,11 +48,16 @@ namespace gazebo {
     private: vector<event::ConnectionPtr> sensorConnections;
     private: physics::WorldPtr world;
     private: physics::ModelPtr model;
-    
+    private: vector<math::Vector3> headLinearVelocity;
+    private: vector<math::Vector3> headAngularVelocity;
+    private: double maximumHic;
+    private: common::Time maximumHicTime;
+
     public: ContactForcesPlugin() : ModelPlugin() {
         #if(PRINT_DEBUG)
         cout << "Constructing the contact forces plugin" << std::endl;
         #endif
+        maximumHic = 0;
     }
         
     public: void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf){
@@ -139,7 +147,7 @@ namespace gazebo {
       for(unsigned int i = 0; i < boost::size(contacts); ++i){
         outputCSV << contacts[i] << "(N), ";
       }
-      outputCSV << "Maximum Link, Maximum Force(N), ";
+      outputCSV << "Maximum Link, Maximum Force(N), HIC, HIC Time, ";
       
       for(unsigned int i = 0; i < boost::size(contacts); ++i){
         outputCSV << contacts[i] << "(Nm), ";
@@ -186,7 +194,10 @@ namespace gazebo {
             #endif
         
             outputCSV << overallMaxLink << ", " << overallMax << ", ";
-        
+
+            // Print HIC
+            outputCSV << maximumHic << ", " << maximumHicTime << ", ";
+
             // Print max torques
             overallMax = 0;
             for(unsigned int i = 0; i < boost::size(contacts); ++i){
@@ -208,8 +219,56 @@ namespace gazebo {
         
             outputCSV.close();
         }
-        
+
+    private: void updateMaximumHic() {
+       // Get the current velocity for the head link.
+       physics::LinkPtr head = model->GetLink("head_neck");
+       assert(head);
+
+       headLinearVelocity.push_back(head->GetWorldLinearVel());
+       if(headLinearVelocity.size() > VELOCITY_HISTORY_MAX) {
+          headLinearVelocity.erase(headLinearVelocity.begin(), headLinearVelocity.begin() + 1);
+       }
+       headAngularVelocity.push_back(head->GetWorldAngularVel());
+       if(headAngularVelocity.size() > VELOCITY_HISTORY_MAX) {
+          headAngularVelocity.erase(headAngularVelocity.begin(), headAngularVelocity.begin() + 1);
+       }
+       assert(headLinearVelocity.size() <= VELOCITY_HISTORY_MAX);
+       assert(headAngularVelocity.size() <= VELOCITY_HISTORY_MAX);
+       assert(headLinearVelocity.size() == headAngularVelocity.size());
+
+       // Now search for maximum value across all size dimensions
+       for (unsigned int i = 0; i < headLinearVelocity.size(); ++i) {
+          for (unsigned int j = i + 1; j < headLinearVelocity.size(); ++j) {
+            vector<double> results;
+             results.push_back(hic(i, j, headLinearVelocity[i].x, headLinearVelocity[j].x));
+             results.push_back(hic(i, j, headLinearVelocity[i].y, headLinearVelocity[j].y));
+             results.push_back(hic(i, j, headLinearVelocity[i].z, headLinearVelocity[j].z));
+             results.push_back(hic(i, j, headAngularVelocity[i].x, headAngularVelocity[j].x));
+             results.push_back(hic(i, j, headAngularVelocity[i].y, headAngularVelocity[j].y));
+             results.push_back(hic(i, j, headAngularVelocity[i].z, headAngularVelocity[j].z));
+             double hicCurrMax = *std::max_element(results.begin(), results.end());
+             if (hicCurrMax > maximumHic) {
+                maximumHic = hicCurrMax;
+                maximumHicTime = world->GetSimTime();
+             }
+          }
+       }
+    }
+
+    private: static double hic(const unsigned int timeI, const unsigned int timeJ, const double velocityI, const double velocityJ){
+       return pow(((abs(velocityJ - velocityI)) / (timeJ - timeI) ), 2.5) * (timeJ - timeI);
+    }
+
     private: void worldUpdate(){
+       // Update HIC once per millisecond
+       if(world->GetSimTime().nsec % 1000 == 0) {
+          #if(PRINT_DEBUG)
+          cout << "Updating HIC" << endl;
+          #endif
+          updateMaximumHic();
+       }
+
         if(world->GetSimTime().Float() >= 2.0){
           #if(PRINT_DEBUG)
           cout << "Scenario completed. Updating results" << endl;
