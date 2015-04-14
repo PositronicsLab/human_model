@@ -10,7 +10,7 @@
        <pose>0.84791 -0.188 0.790675 0.0 0.0 0.0</pose>
 
        <inertial>
-          <mass>3</mass>
+          <mass>4.0</mass> <!-- Max design support weight of arm -->
           <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
        </inertial>
        <collision name='collision'>

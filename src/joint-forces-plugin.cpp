@@ -61,6 +61,7 @@ namespace gazebo {
         
     public: ~JointForcesPlugin(){
       event::Events::DisconnectWorldUpdateBegin(this->connection);
+      csvFile.close();
     }
 
     void writeHeader(ofstream& file) {
@@ -79,7 +80,7 @@ namespace gazebo {
           return;
        }
        
-      csvFile << world->GetSimTime() << ", ";
+      csvFile << world->GetSimTime().Float() << ", ";
       // Iterate over model joints and print them
       for (unsigned int i = 0; i < boost::size(joints); ++i) {
         physics::JointPtr currJoint = model->GetJoint(joints[i]);

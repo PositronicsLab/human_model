@@ -49,7 +49,6 @@ namespace gazebo {
     private: physics::WorldPtr world;
     private: physics::ModelPtr model;
     private: vector<math::Vector3> headLinearVelocity;
-    private: vector<math::Vector3> headAngularVelocity;
     private: double maximumHic;
     private: common::Time maximumHicTime;
 
@@ -220,34 +219,24 @@ namespace gazebo {
             outputCSV.close();
         }
 
-    private: void updateMaximumHic() {
+    private: void updateMaximumHic(bool drain) {
        // Get the current velocity for the head link.
        physics::LinkPtr head = model->GetLink("head_neck");
        assert(head);
 
-       headLinearVelocity.push_back(head->GetWorldLinearVel());
-       if(headLinearVelocity.size() > VELOCITY_HISTORY_MAX) {
+       if (!drain) {
+          headLinearVelocity.push_back(head->GetWorldCoGLinearVel());
+       }
+       if(headLinearVelocity.size() > VELOCITY_HISTORY_MAX || drain) {
           headLinearVelocity.erase(headLinearVelocity.begin(), headLinearVelocity.begin() + 1);
        }
-       headAngularVelocity.push_back(head->GetWorldAngularVel());
-       if(headAngularVelocity.size() > VELOCITY_HISTORY_MAX) {
-          headAngularVelocity.erase(headAngularVelocity.begin(), headAngularVelocity.begin() + 1);
-       }
+
        assert(headLinearVelocity.size() <= VELOCITY_HISTORY_MAX);
-       assert(headAngularVelocity.size() <= VELOCITY_HISTORY_MAX);
-       assert(headLinearVelocity.size() == headAngularVelocity.size());
 
        // Now search for maximum value across all size dimensions
        for (unsigned int i = 0; i < headLinearVelocity.size(); ++i) {
           for (unsigned int j = i + 1; j < headLinearVelocity.size(); ++j) {
-            vector<double> results;
-             results.push_back(hic(i, j, headLinearVelocity[i].x, headLinearVelocity[j].x));
-             results.push_back(hic(i, j, headLinearVelocity[i].y, headLinearVelocity[j].y));
-             results.push_back(hic(i, j, headLinearVelocity[i].z, headLinearVelocity[j].z));
-             results.push_back(hic(i, j, headAngularVelocity[i].x, headAngularVelocity[j].x));
-             results.push_back(hic(i, j, headAngularVelocity[i].y, headAngularVelocity[j].y));
-             results.push_back(hic(i, j, headAngularVelocity[i].z, headAngularVelocity[j].z));
-             double hicCurrMax = *std::max_element(results.begin(), results.end());
+             double hicCurrMax = hic(i, j, headLinearVelocity[i], headLinearVelocity[j]);
              if (hicCurrMax > maximumHic) {
                 maximumHic = hicCurrMax;
                 maximumHicTime = world->GetSimTime();
@@ -256,8 +245,8 @@ namespace gazebo {
        }
     }
 
-    private: static double hic(const unsigned int timeI, const unsigned int timeJ, const double velocityI, const double velocityJ){
-       return pow(((abs(velocityJ - velocityI)) / (timeJ - timeI) ), 2.5) * (timeJ - timeI);
+    private: static double hic(const unsigned int timeI, const unsigned int timeJ, const math::Vector3 velocityI, const math::Vector3 velocityJ){
+       return pow((velocityJ.Distance(velocityI) / (timeJ - timeI)), 2.5) * (timeJ - timeI);
     }
 
     private: void worldUpdate(){
@@ -266,7 +255,7 @@ namespace gazebo {
           #if(PRINT_DEBUG)
           cout << "Updating HIC" << endl;
           #endif
-          updateMaximumHic();
+          updateMaximumHic(false);
        }
 
         if(world->GetSimTime().Float() >= 2.0){
@@ -274,6 +263,11 @@ namespace gazebo {
           cout << "Scenario completed. Updating results" << endl;
           #endif
           event::Events::DisconnectWorldUpdateBegin(this->connection);
+
+           // Drain the HIC calculation
+           for (unsigned int i = 0; i < VELOCITY_HISTORY_MAX; ++i) {
+              updateMaximumHic(true);
+           }
 
           // Disconnect the sensors
           for(unsigned int i = 0; i < boost::size(contacts); ++i){

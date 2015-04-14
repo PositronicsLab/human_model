@@ -19,6 +19,14 @@ using namespace gazebo::physics;
 #define PRINT_DEBUG 0
 
 namespace gazebo {
+   // Calculated via ZN with Ku = 0.05 and Tu = 0.4
+   // Classic PID rule
+   static const double KP = 0.03;
+   static const double KD = 0.02525;
+   static const double KI = 0.02475247524752;
+   static const double IMAX = 10.0;
+   static const double IMIN = 0.0;
+
    class StableControllerPlugin : public ModelPlugin
    {
      private: physics::ModelPtr model;
@@ -66,9 +74,12 @@ namespace gazebo {
            for(unsigned int j = 0; j < joint->GetAngleCount(); ++j){
              targetAngles.push_back(joint->GetAngle(j));
               if (joint->GetEffortLimit(j) != -1) {
-                jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(1.0, 0.5, 0.5, 10, 0, joint->GetEffortLimit(0), -joint->GetEffortLimit(0))));
+                jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(KP, KI, KD, IMAX, IMIN, joint->GetEffortLimit(0), -joint->GetEffortLimit(0))));
               } else {
-                jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(1.0, 0.5, 0.5, 10, 0)));
+#if(PRINT_DEBUG)
+                 cout << "Discovered unlimited force joint" << endl;
+#endif
+                jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(KP, KI, KD, IMAX, IMIN)));
               }
            }
          }    
@@ -98,8 +109,12 @@ namespace gazebo {
 
           // calculate the error between the current position and the target one
           double posErr = posCurr - posTarget;
+#if 0
           if (boost::algorithm::ends_with(joint->GetName(), "roll_joint")) {
-            if (fabs(posErr > boost::math::constants::pi<double>())) {
+#if(PRINT_DEBUG)
+             cout << "Initial error for continuous joint is: " << posErr << endl;
+#endif
+            if (fabs(posErr) > boost::math::constants::pi<double>()) {
                if (posErr < 0) {
                   posErr = 2 * boost::math::constants::pi<double>() + posErr;
                }
@@ -107,7 +122,11 @@ namespace gazebo {
                   posErr = posErr - 2 * boost::math::constants::pi<double>();
                }
             }
+#if(PRINT_DEBUG)
+             cout << "Correcting error for continuous joint to: " << posErr << endl;
+#endif
           }
+#endif
 #if(PRINT_DEBUG)
             cout << "Error for joint " << joints[i]->GetName() << " with current value: " << posCurr << " is: " << posErr << endl;
 #endif

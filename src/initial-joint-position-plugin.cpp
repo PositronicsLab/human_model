@@ -448,7 +448,7 @@ private:
 
         // Calculate forward position kinematics
         // Position is in a coordinate system defined by the center of the trunk with no rotation.
-        bool status = fksolver.JntToCart(jointPositions, cartPos);
+        int status = fksolver.JntToCart(jointPositions, cartPos);
         if(status >= 0) {
             // Translate to the global frame.
             math::Pose endEffectorPoseInGlobalFrame = transformFrameToGlobal(frameToPose(cartPos), root);
@@ -741,6 +741,11 @@ private: void connectVirtualJoint(const string& parentName, const string& childN
    }
 }
 
+private:
+   double linkToJointDistance(const string linkName, const string jointName) {
+      return model->GetLink(linkName)->GetWorldPose().pos.Distance(model->GetJoint(jointName)->GetWorldPose().pos);
+   }
+
 public:
     void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
         model = _model;
@@ -924,10 +929,14 @@ public:
 #endif
             }
             else {
-               rightArmMoved = moveRobotArm(rRobotArmChain, "r_shoulder_pan_joint" , "r_wrist_roll_link", "right_hip");
+               // Determine the minimum distance configuration for each robot hand.
+               bool adjacent = (linkToJointDistance("r_wrist_roll_link", "right_hip") + linkToJointDistance("l_wrist_roll_link", "left_hip")
+                                < linkToJointDistance("r_wrist_roll_link", "left_hip") + linkToJointDistance("l_wrist_roll_link", "right_hip"));
+
+                                rightArmMoved = moveRobotArm(rRobotArmChain, "r_shoulder_pan_joint" , "r_wrist_roll_link", adjacent ? "right_hip" : "left_hip");
 
 #if(ENABLE_SECOND_ARM)
-               leftArmMoved = moveRobotArm(lRobotArmChain, "l_shoulder_pan_joint" , "l_wrist_roll_link", "left_hip");
+                                leftArmMoved = moveRobotArm(lRobotArmChain, "l_shoulder_pan_joint" , "l_wrist_roll_link", adjacent ? "left_hip" : "right_hip");
 #endif
                if(leftArmMoved || rightArmMoved) {
                   foundLegalConfig = true;
