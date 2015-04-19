@@ -73,6 +73,9 @@ namespace gazebo {
            joints.push_back(joint);
            for(unsigned int j = 0; j < joint->GetAngleCount(); ++j){
              targetAngles.push_back(joint->GetAngle(j));
+#if(PRINT_DEBUG)
+              cout << "Target angle set to " << joint->GetAngle(j) << " for joint: " << jointName << endl;
+#endif
               if (joint->GetEffortLimit(j) != -1) {
                 jointPIDs.push_back(boost::shared_ptr<common::PID>(new common::PID(KP, KI, KD, IMAX, IMIN, joint->GetEffortLimit(0), -joint->GetEffortLimit(0))));
               } else {
