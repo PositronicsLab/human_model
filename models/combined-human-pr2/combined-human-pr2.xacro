@@ -13,5 +13,21 @@
 
    <!-- Human -->
    <xacro:include filename="../human/human.include"/>
+   <plugin name="pr2_arm_controller" filename="libStableControllerPlugin.dylib">
+      <controlled-joint>r_shoulder_lift_joint</controlled-joint>
+      <controlled-joint>r_shoulder_pan_joint</controlled-joint>
+      <controlled-joint>r_upper_arm_roll_joint</controlled-joint>
+      <controlled-joint>r_elbow_flex_joint</controlled-joint>
+      <controlled-joint>r_forearm_roll_joint</controlled-joint>
+      <controlled-joint>r_wrist_flex_joint</controlled-joint>
+      <controlled-joint>r_wrist_roll_joint</controlled-joint>
+      <controlled-joint>l_shoulder_lift_joint</controlled-joint>
+      <controlled-joint>l_shoulder_pan_joint</controlled-joint>
+      <controlled-joint>l_upper_arm_roll_joint</controlled-joint>
+      <controlled-joint>l_elbow_flex_joint</controlled-joint>
+      <controlled-joint>l_forearm_roll_joint</controlled-joint>
+      <controlled-joint>l_wrist_flex_joint</controlled-joint>
+      <controlled-joint>l_wrist_roll_joint</controlled-joint>
+   </plugin>
   </model>
 </sdf>
