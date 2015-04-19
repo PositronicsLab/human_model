@@ -1301,7 +1301,7 @@
           <lower>-0.714602</lower>
           <upper>2.2854</upper>
           <effort>${armEffort}</effort>
-          <velocity>2.088</velocity>
+          <velocity></velocity>
         </limit>
         <dynamics>
           <damping>10</damping>
@@ -1375,7 +1375,7 @@
           <lower>-0.5236</lower>
           <upper>1.3963</upper>
           <effort>${armEffort}</effort>
-          <velocity>2.082</velocity>
+          <velocity></velocity>
         </limit>
         <dynamics>
           <damping>10</damping>
@@ -1493,7 +1493,7 @@
           <lower>-0.8</lower>
           <upper>3.9</upper>
           <effort>${armEffort}</effort>
-          <velocity>3.27</velocity>
+          <velocity></velocity>
         </limit>
         <dynamics>
           <damping>0.1</damping>
@@ -1568,7 +1568,7 @@
           <lower>-2.3213</lower>
           <upper>0</upper>
           <effort>${armEffort}</effort>
-          <velocity>3.3</velocity>
+          <velocity></velocity>
         </limit>
         <dynamics>
           <damping>1</damping>
@@ -1764,7 +1764,7 @@
           <lower>-2.18</lower>
           <upper>0</upper>
           <effort>${wristEffort}</effort>
-          <velocity>3.078</velocity>
+          <velocity></velocity>
         </limit>
         <dynamics>
           <damping>0.1</damping>
@@ -2465,7 +2465,7 @@
           <lower>-2.2854</lower>
           <upper>0.714602</upper>
           <effort>${armEffort}</effort>
-          <velocity>2.088</velocity>
+          <velocity></velocity>
         </limit>
         <dynamics>
           <damping>10</damping>
@@ -2539,7 +2539,7 @@
           <lower>-0.5236</lower>
           <upper>1.3963</upper>
           <effort>${armEffort}</effort>
-          <velocity>2.082</velocity>
+          <velocity></velocity>
         </limit>
         <dynamics>
           <damping>10</damping>
@@ -2657,7 +2657,7 @@
           <lower>-3.9</lower>
           <upper>0.8</upper>
           <effort>${armEffort}</effort>
-          <velocity>3.27</velocity>
+          <velocity></velocity>
         </limit>
         <dynamics>
           <damping>0.1</damping>
@@ -2732,7 +2732,7 @@
           <lower>-2.3213</lower>
           <upper>0</upper>
           <effort>${armEffort}</effort>
-          <velocity>3.3</velocity>
+          <velocity></velocity>
         </limit>
         <dynamics>
           <damping>1</damping>
@@ -2928,7 +2928,7 @@
           <lower>-2.18</lower>
           <upper>0</upper>
           <effort>${wristEffort}</effort>
-          <velocity>3.078</velocity>
+          <velocity></velocity>
         </limit>
         <dynamics>
           <damping>0.1</damping>
@@ -3862,20 +3862,4 @@
       <palm_link>l_wrist_roll_link</palm_link>
     </gripper>
     <plugin name="joint_forces_plugin" filename="libJointForcesPlugin.dylib"/>
-    <plugin name="pr2_arm_controller" filename="libStableControllerPlugin.dylib">
-      <controlled-joint>r_shoulder_lift_joint</controlled-joint>
-      <controlled-joint>r_shoulder_pan_joint</controlled-joint>
-      <controlled-joint>r_upper_arm_roll_joint</controlled-joint>
-      <controlled-joint>r_elbow_flex_joint</controlled-joint>
-      <controlled-joint>r_forearm_roll_joint</controlled-joint>
-      <controlled-joint>r_wrist_flex_joint</controlled-joint>
-      <controlled-joint>r_wrist_roll_joint</controlled-joint>
-      <controlled-joint>l_shoulder_lift_joint</controlled-joint>
-      <controlled-joint>l_shoulder_pan_joint</controlled-joint>
-      <controlled-joint>l_upper_arm_roll_joint</controlled-joint>
-      <controlled-joint>l_elbow_flex_joint</controlled-joint>
-      <controlled-joint>l_forearm_roll_joint</controlled-joint>
-      <controlled-joint>l_wrist_flex_joint</controlled-joint>
-      <controlled-joint>l_wrist_roll_joint</controlled-joint>
-    </plugin>
 </sdf>
