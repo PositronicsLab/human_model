@@ -227,7 +227,7 @@ public:
 
 private:
     void writeHeader(ofstream& file) {
-       file << "Left Arm, Right Arm,";
+       file << "Seed,Left Arm, Right Arm,";
        for (unsigned int i = 0; i < boost::size(joints); ++i) {
           physics::JointPtr currJoint = model->GetJoint(joints[i]);
           for (unsigned int j = 0; j < currJoint->GetAngleCount(); ++j) {
@@ -726,15 +726,19 @@ private: void connectVirtualJoint(const string& parentName, const string& childN
 #if(PRINT_DEBUG)
       cout << "Connecting virtual joint" << endl;
 #endif
-      physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint("universal", model);
+      physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint("ball", model);
       physics::LinkPtr child = model->GetLink(childName);
       joint->Attach(parent, child);
 
       joint->Load(parent, child, math::Pose(math::Vector3(0, 0, 0.145), math::Quaternion()));
-      joint->SetAxis(0, math::Vector3(0, 1, 0));
-      joint->SetAxis(1, math::Vector3(0, 0, 1));
       joint->SetName("virtual_robot_human_connection_" + childName);
-
+      bool set = joint->SetParam("erp", 0, 0.8);
+      assert(set);
+      set = joint->SetParam("cfm", 0, 0.0);
+      assert(set);
+      // for (unsigned int i = 0; i < joint->GetAngleCount(); ++i) {
+      //   joint->SetDamping(i, 0.1);
+      //}
       // TODO: Set additional parameters here
       // joint->SetAttribute("stop_cfm",0, this->stop_cfm);
       joint->Init();
@@ -775,18 +779,20 @@ public:
         // Create a random number generator. Note that this has a minute bias that it will
         // not generate 1.0
         boost::mt19937 rng;
+        unsigned int seed = 0;
 #if(!USE_FIXED_SEED)
-        rng.seed(static_cast<unsigned int>(std::time(nullptr)));
+        seed = static_cast<unsigned int>(std::time(nullptr));
 #else
         const char* scenarioNumber = std::getenv("i");
         if(scenarioNumber != nullptr) {
-            rng.seed(boost::lexical_cast<unsigned int>(scenarioNumber) + 1000);
+            seed = boost::lexical_cast<unsigned int>(scenarioNumber) + 1000;
         }
         else {
             cout << "No scenario number set. Using 0" << endl;
-            rng.seed(FIXED_SEED);
+            seed = FIXED_SEED;
         }
 #endif
+        rng.seed(seed);
         physics::LinkPtr trunk = model->GetLink("trunk");
 
         // Create the IK chains.
@@ -823,6 +829,8 @@ public:
         bool leftArmMoved = false;
         bool rightArmMoved = false;
         bool foundLegalConfig = false;
+        bool adjacent = true;
+
         while (!foundLegalConfig) {
 
            // Reset all angles
@@ -923,14 +931,18 @@ public:
            endEffectors.push_back(model->GetLink("l_gripper_r_parallel_link"));
 
             // Check for intersection
-            if(hasCollision(model, trunk, contactLink,endEffectors)) {
+            if(hasCollision(model, trunk, contactLink, endEffectors)) {
 #if(PRINT_DEBUG)
                 cout << "Human has self or ground collision" << endl;
 #endif
             }
+            else if (model->GetLink("l_wrist_roll_link") == nullptr) {
+               // Human only scenario
+               foundLegalConfig = true;
+            }
             else {
                // Determine the minimum distance configuration for each robot hand.
-               bool adjacent = (linkToJointDistance("r_wrist_roll_link", "right_hip") + linkToJointDistance("l_wrist_roll_link", "left_hip")
+               adjacent = (linkToJointDistance("r_wrist_roll_link", "right_hip") + linkToJointDistance("l_wrist_roll_link", "left_hip")
                                 < linkToJointDistance("r_wrist_roll_link", "left_hip") + linkToJointDistance("l_wrist_roll_link", "right_hip"));
 
                                 rightArmMoved = moveRobotArm(rRobotArmChain, "r_shoulder_pan_joint" , "r_wrist_roll_link", adjacent ? "right_hip" : "left_hip");
@@ -949,13 +961,13 @@ public:
 
         // Setup the virtual joints if needed
        if(leftArmMoved){
-          connectVirtualJoint("l_gripper_r_finger_link", "left_thigh");
+          connectVirtualJoint("l_gripper_r_finger_link", adjacent ? "left_thigh" : "right_thigh");
        }
        if(rightArmMoved){
-          connectVirtualJoint("r_gripper_r_finger_link", "right_thigh");
+          connectVirtualJoint("r_gripper_r_finger_link", adjacent ? "right_thigh" : "left_thigh");
        }
 
-       csvFile << leftArmMoved << "," << rightArmMoved << ",";
+       csvFile << seed << "," << leftArmMoved << "," << rightArmMoved << ",";
        // Write all joint angles
        for (unsigned int i = 0; i < boost::size(joints); ++i) {
           physics::JointPtr currJoint = model->GetJoint(joints[i]);
