@@ -4,7 +4,6 @@
    <xacro:property name="wristEffort" value="10" /> <!-- Standard value is 10 -->
    <xacro:include filename="../pr2/pr2.include" />
 
-    <!-- TODO: Get these working -->
     <xacro:property name="xoffset" value="0.739280" />
     <xacro:property name="yoffset" value="0" />
     <xacro:property name="zoffset" value="0" />
