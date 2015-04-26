@@ -962,9 +962,21 @@ public:
         // Setup the virtual joints if needed
        if(leftArmMoved){
           connectVirtualJoint("l_gripper_r_finger_link", adjacent ? "left_thigh" : "right_thigh");
+       } else {
+          // Move left arm out of the way
+          bool set = model->GetJoint("l_shoulder_lift_joint")->SetPosition(0, boost::math::constants::pi<double>() / 2.0);
+          assert(set);
+          set = model->GetJoint("l_elbow_flex_joint")->SetPosition(0, -3 * boost::math::constants::pi<double>() / 4.0);
+          assert(set);
        }
        if(rightArmMoved){
           connectVirtualJoint("r_gripper_r_finger_link", adjacent ? "right_thigh" : "left_thigh");
+       } else {
+          // Move right arm out of the way
+          bool set = model->GetJoint("r_shoulder_lift_joint")->SetPosition(0, boost::math::constants::pi<double>() / 2.0);
+          assert(set);
+          set = model->GetJoint("r_elbow_flex_joint")->SetPosition(0, -3 * boost::math::constants::pi<double>() / 4.0);
+          assert(set);
        }
 
        csvFile << seed << "," << leftArmMoved << "," << rightArmMoved << ",";
