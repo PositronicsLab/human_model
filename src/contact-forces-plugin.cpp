@@ -18,6 +18,8 @@ using namespace std;
 namespace gazebo {
     //! Standard number of ms for HIC calculation
     static const unsigned int VELOCITY_HISTORY_MAX = 15;
+    static const unsigned int MSEC_TO_NSEC = 1e6;
+    static const unsigned int SEC_TO_MSEC = 1e3;
 
     static const std::string contacts[] = {
         "trunk::trunk_contact",
@@ -49,6 +51,7 @@ namespace gazebo {
     private: physics::WorldPtr world;
     private: physics::ModelPtr model;
     private: vector<math::Vector3> headLinearVelocity;
+    private: math::Vector3 currMaxLinearVelocity;
     private: double maximumHic;
     private: common::Time maximumHicTime;
 
@@ -225,7 +228,7 @@ namespace gazebo {
        assert(head);
 
        if (!drain) {
-          headLinearVelocity.push_back(head->GetWorldCoGLinearVel());
+          headLinearVelocity.push_back(currMaxLinearVelocity);
        }
        if(headLinearVelocity.size() > VELOCITY_HISTORY_MAX || drain) {
           headLinearVelocity.erase(headLinearVelocity.begin(), headLinearVelocity.begin() + 1);
@@ -236,7 +239,7 @@ namespace gazebo {
        // Now search for maximum value across all size dimensions
        for (unsigned int i = 0; i < headLinearVelocity.size(); ++i) {
           for (unsigned int j = i + 1; j < headLinearVelocity.size(); ++j) {
-             double hicCurrMax = hic(i, j, headLinearVelocity[i], headLinearVelocity[j]);
+             double hicCurrMax = hic(i / SEC_TO_MSEC, j / SEC_TO_MSEC, headLinearVelocity[i], headLinearVelocity[j]);
              if (hicCurrMax > maximumHic) {
                 maximumHic = hicCurrMax;
                 maximumHicTime = world->GetSimTime();
@@ -250,12 +253,19 @@ namespace gazebo {
     }
 
     private: void worldUpdate(){
+       physics::LinkPtr head = model->GetLink("head_neck");
+       // Check if this is the maximum velocity over this millisecond.
+       if (head->GetWorldCoGLinearVel().GetLength() > currMaxLinearVelocity.GetLength()) {
+          currMaxLinearVelocity = head->GetWorldCoGLinearVel();
+       }
+
        // Update HIC once per millisecond
-       if(world->GetSimTime().nsec % 1000 == 0) {
+       if(world->GetSimTime().nsec % MSEC_TO_NSEC == 0) {
           #if(PRINT_DEBUG)
           cout << "Updating HIC" << endl;
           #endif
           updateMaximumHic(false);
+          currMaxLinearVelocity = math::Vector3();
        }
 
         if(world->GetSimTime().Float() >= 2.0){

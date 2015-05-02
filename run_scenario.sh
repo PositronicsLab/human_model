@@ -33,7 +33,7 @@ do
   echo "Executing scenario: $i"
   export i=$i
   # Launch gazebo
- gzserver models/combined-human-pr2/world.generated.sdf
+  gzserver models/combined-human-pr2/world.generated.sdf
 done 
 
 # Execute combined human pr2 zero force

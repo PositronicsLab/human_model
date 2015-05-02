@@ -227,7 +227,7 @@ public:
 
 private:
     void writeHeader(ofstream& file) {
-       file << "Seed,Left Arm, Right Arm,";
+       file << "Seed,Left Arm, Right Arm, Attempts, IK Attempts";
        for (unsigned int i = 0; i < boost::size(joints); ++i) {
           physics::JointPtr currJoint = model->GetJoint(joints[i]);
           for (unsigned int j = 0; j < currJoint->GetAngleCount(); ++j) {
@@ -726,7 +726,7 @@ private: void connectVirtualJoint(const string& parentName, const string& childN
 #if(PRINT_DEBUG)
       cout << "Connecting virtual joint" << endl;
 #endif
-      physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint("ball", model);
+      physics::JointPtr joint = model->GetWorld()->GetPhysicsEngine()->CreateJoint(/*"universal" */ "ball", model);
       physics::LinkPtr child = model->GetLink(childName);
       joint->Attach(parent, child);
 
@@ -736,11 +736,12 @@ private: void connectVirtualJoint(const string& parentName, const string& childN
       assert(set);
       set = joint->SetParam("cfm", 0, 0.0);
       assert(set);
-      // for (unsigned int i = 0; i < joint->GetAngleCount(); ++i) {
-      //   joint->SetDamping(i, 0.1);
-      //}
-      // TODO: Set additional parameters here
-      // joint->SetAttribute("stop_cfm",0, this->stop_cfm);
+
+      // Cannot get the angle count prior to init.
+      // for (unsigned int i = 0; i < 2; ++i) {
+         // bool set = joint->SetParam("friction", i, 250.0);
+         // assert(set);
+         // }
       joint->Init();
    }
 }
@@ -830,9 +831,12 @@ public:
         bool rightArmMoved = false;
         bool foundLegalConfig = false;
         bool adjacent = true;
+        unsigned int attempts = 0;
+        unsigned int ikAttempts = 0;
+        bool humanOnly = model->GetLink("l_wrist_roll_link") == nullptr;
 
         while (!foundLegalConfig) {
-
+           attempts++;
            // Reset all angles
            setInitialLeftAngles(leftHip, leftFoot);
            setInitialRightAngles(rightHip, rightFoot);
@@ -936,11 +940,11 @@ public:
                 cout << "Human has self or ground collision" << endl;
 #endif
             }
-            else if (model->GetLink("l_wrist_roll_link") == nullptr) {
-               // Human only scenario
+            else if (humanOnly) {
                foundLegalConfig = true;
             }
             else {
+               ikAttempts++;
                // Determine the minimum distance configuration for each robot hand.
                adjacent = (linkToJointDistance("r_wrist_roll_link", "right_hip") + linkToJointDistance("l_wrist_roll_link", "left_hip")
                                 < linkToJointDistance("r_wrist_roll_link", "left_hip") + linkToJointDistance("l_wrist_roll_link", "right_hip"));
@@ -951,10 +955,18 @@ public:
                                 leftArmMoved = moveRobotArm(lRobotArmChain, "l_shoulder_pan_joint" , "l_wrist_roll_link", adjacent ? "left_hip" : "right_hip");
 #endif
                if(leftArmMoved || rightArmMoved) {
-                  foundLegalConfig = true;
+                  // Recheck collision
+                  if(hasCollision(model, trunk, contactLink, endEffectors)) {
 #if(PRINT_DEBUG)
-                  cout << "Found a legal configuration" << endl;
+                     cout << "Human has self or ground collision after IK" << endl;
 #endif
+                  }
+                  else {
+                     foundLegalConfig = true;
+#if(PRINT_DEBUG)
+                     cout << "Found a legal configuration" << endl;
+#endif
+                  }
                }
            }
         }
@@ -962,7 +974,7 @@ public:
         // Setup the virtual joints if needed
        if(leftArmMoved){
           connectVirtualJoint("l_gripper_r_finger_link", adjacent ? "left_thigh" : "right_thigh");
-       } else {
+       } else if (!humanOnly) {
           // Move left arm out of the way
           bool set = model->GetJoint("l_shoulder_lift_joint")->SetPosition(0, boost::math::constants::pi<double>() / 2.0);
           assert(set);
@@ -971,7 +983,7 @@ public:
        }
        if(rightArmMoved){
           connectVirtualJoint("r_gripper_r_finger_link", adjacent ? "right_thigh" : "left_thigh");
-       } else {
+       } else if (!humanOnly){
           // Move right arm out of the way
           bool set = model->GetJoint("r_shoulder_lift_joint")->SetPosition(0, boost::math::constants::pi<double>() / 2.0);
           assert(set);
@@ -979,7 +991,7 @@ public:
           assert(set);
        }
 
-       csvFile << seed << "," << leftArmMoved << "," << rightArmMoved << ",";
+       csvFile << seed << "," << leftArmMoved << "," << rightArmMoved << "," << attempts << "," << ikAttempts << ",";
        // Write all joint angles
        for (unsigned int i = 0; i < boost::size(joints); ++i) {
           physics::JointPtr currJoint = model->GetJoint(joints[i]);
