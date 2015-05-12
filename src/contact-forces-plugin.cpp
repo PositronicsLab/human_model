@@ -17,11 +17,15 @@ using namespace std;
 
 namespace gazebo {
     //! Standard number of ms for HIC calculation
-    static const unsigned int ACC_HISTORY_MAX = 15;
-    static const unsigned int SEC_TO_MSEC = 1e3;
-    static const unsigned int MIN_HIC_ACC_TIME = 3; // Minimum number of ms for a collision
+   static const unsigned int ACC_HISTORY_MAX = 15; // From http://www.mchenrysoftware.com/HIC%20and%20the%20ATB.pdf
+
+   static const unsigned int SEC_TO_MSEC = 1e3;
+
+   static const unsigned int MIN_HIC_ACC_TIME = 3; // Minimum number of ms for a collision
+
    static const double G = 9.80665;
-    static const std::string contacts[] = {
+
+   static const std::string contacts[] = {
         "trunk::trunk_contact",
         "right_foot::right_foot_contact",
         "left_foot::left_foot_contact",

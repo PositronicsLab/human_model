@@ -107,6 +107,14 @@ add_library(ArmCalibrationPlugin SHARED src/arm-calibration-plugin.cpp)
 target_link_libraries(ArmCalibrationPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS ArmCalibrationPlugin DESTINATION lib)
 
+add_library(ContactForcesOverTimePlugin SHARED src/contact-forces-over-time-plugin.cpp)
+target_link_libraries(ContactForcesOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS ContactForcesOverTimePlugin DESTINATION lib)
+
+add_library(VelocityOverTimePlugin SHARED src/com-velocity-over-time-plugin.cpp)
+target_link_libraries(VelocityOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS VelocityOverTimePlugin DESTINATION lib)
+
 set(model_files "")
 
 # Xacro files

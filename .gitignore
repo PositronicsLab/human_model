@@ -3,6 +3,8 @@ results
 joint_velocities.csv
 joint_positions.csv
 joint_forces.csv
+contact_forces.csv
+velocities.csv
 output.csv
 CMakeCache.txt
 CMakeFiles/

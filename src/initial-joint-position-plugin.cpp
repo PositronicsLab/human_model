@@ -738,10 +738,10 @@ private: void connectVirtualJoint(const string& parentName, const string& childN
       assert(set);
 
       // Cannot get the angle count prior to init.
-      // for (unsigned int i = 0; i < 2; ++i) {
-         // bool set = joint->SetParam("friction", i, 250.0);
-         // assert(set);
-         // }
+      for (unsigned int i = 0; i < 2; ++i) {
+         bool set = joint->SetParam("friction", i, 100.0);
+         assert(set);
+      }
       joint->Init();
    }
 }
@@ -819,7 +819,7 @@ public:
         Chain rRobotArmChain = constructRobotArmChain("l_shoulder_pan_joint", "l_wrist_roll_link");
 
         // Limit pitch and roll to pi/4 but allow any yaw.
-        boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > pitchRollGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>() / 4.0, boost::math::constants::pi<double>() / 8.0));
+        boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > pitchRollGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>() / 4.0, boost::math::constants::pi<double>() / 4.0));
 
         boost::variate_generator<boost::mt19937&, boost::uniform_real<double> > yawGenerator(rng, boost::uniform_real<double>(-boost::math::constants::pi<double>(), boost::math::constants::pi<double>()));
 
