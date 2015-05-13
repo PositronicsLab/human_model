@@ -59,7 +59,7 @@ namespace gazebo {
 
        for(sdf::ElementPtr child = _sdf->GetElement("controlled-joint"); child != NULL; child = child->GetNextElement()){
          if(child->GetName() == "controlled-joint"){
-           const std::string jointName = child->GetValueString();
+           const std::string jointName = child->GetValue()->GetAsString();
            #if(PRINT_DEBUG)
            cout << "Adding controlled joint: " << jointName << endl;
            #endif
