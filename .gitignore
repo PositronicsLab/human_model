@@ -6,6 +6,8 @@ joint_forces.csv
 contact_forces.csv
 velocities.csv
 output.csv
+contact_forces_data.csv
+link_positions.csv
 CMakeCache.txt
 CMakeFiles/
 Makefile

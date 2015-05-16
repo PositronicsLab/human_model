@@ -227,7 +227,7 @@ public:
 
 private:
     void writeHeader(ofstream& file) {
-       file << "Seed,Left Arm, Right Arm, Attempts, IK Attempts";
+       file << "Seed,Left Arm, Right Arm, Contact Leg, Attempts, IK Attempts, Trunk Roll, Trunk Pitch, Trunk Yaw, ";
        for (unsigned int i = 0; i < boost::size(joints); ++i) {
           physics::JointPtr currJoint = model->GetJoint(joints[i]);
           for (unsigned int j = 0; j < currJoint->GetAngleCount(); ++j) {
@@ -834,6 +834,10 @@ public:
         unsigned int attempts = 0;
         unsigned int ikAttempts = 0;
         bool humanOnly = model->GetLink("l_wrist_roll_link") == nullptr;
+        int whichLeg = 0;
+        double roll = 0;
+        double pitch = 0;
+        double yaw = 0;
 
         while (!foundLegalConfig) {
            attempts++;
@@ -841,9 +845,9 @@ public:
            setInitialLeftAngles(leftHip, leftFoot);
            setInitialRightAngles(rightHip, rightFoot);
 
-           double roll = pitchRollGenerator();
-           double pitch = pitchRollGenerator();
-           double yaw = yawGenerator();
+            roll = pitchRollGenerator();
+            pitch = pitchRollGenerator();
+            yaw = yawGenerator();
 
             math::Vector3 trunkPosition = trunk->GetWorldPose().pos;
             setWorldPoseIncludingChildren(trunk, math::Pose(trunkPosition, math::Quaternion(roll, pitch, yaw)));
@@ -871,6 +875,8 @@ public:
             boost::bernoulli_distribution<> randomLeg(0.5);
             physics::LinkPtr contactLink;
             if(randomLeg(rng)) {
+                whichLeg = 0;
+
                 // Set right leg randomly
                 randomAngleSetter(rightHip, rightFoot);
 
@@ -897,6 +903,8 @@ public:
                 assert(pos_rough_eq(leftFootPose.pos, (getCenterToTip(leftFoot) + leftFoot->GetWorldPose()).pos));
             }
             else {
+                whichLeg = 1;
+
                 // Set left leg randomly
                 randomAngleSetter(leftHip, leftFoot);
 
@@ -991,7 +999,7 @@ public:
           assert(set);
        }
 
-       csvFile << seed << "," << leftArmMoved << "," << rightArmMoved << "," << attempts << "," << ikAttempts << ",";
+       csvFile << seed << "," << leftArmMoved << "," << rightArmMoved << "," << whichLeg << ", " << attempts << "," << ikAttempts << "," << roll << ", " << pitch << ", " << yaw << ", ";
        // Write all joint angles
        for (unsigned int i = 0; i < boost::size(joints); ++i) {
           physics::JointPtr currJoint = model->GetJoint(joints[i]);

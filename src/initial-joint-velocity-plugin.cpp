@@ -41,10 +41,13 @@ namespace gazebo {
       #endif
     }
 
-    private: void writeHeader(ofstream& file){
-      for(unsigned int i = 0; i < boost::size(joints); ++i){
-        file << joints[i] << ", ";
-      }
+    private: void writeHeader(physics::ModelPtr model, ofstream& file){
+       for (unsigned int i = 0; i < boost::size(joints); ++i) {
+          physics::JointPtr currJoint = model->GetJoint(joints[i]);
+          for (unsigned int j = 0; j < currJoint->GetAngleCount(); ++j) {
+             file << joints[i] << "(" << j << "),";
+          }
+       }
       file << "Trunk Linear X, Trunk Linear Y, Trunk Linear Z, Trunk Angular X, Trunk Angular Y, Trunk Angular Z";
       file << endl;
     }
@@ -69,7 +72,7 @@ namespace gazebo {
       assert(csvFile.is_open());
       
       if(!exists){
-        writeHeader(csvFile);
+        writeHeader(_model, csvFile);
       }
 
       // Create a random number generator. Note that this has a minute bias that it will
