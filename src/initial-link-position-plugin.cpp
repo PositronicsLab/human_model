@@ -13,7 +13,7 @@
 
 using namespace std;
 
-#define PRINT_DEBUG 1
+#define PRINT_DEBUG 0
 
 namespace gazebo {
 
@@ -78,7 +78,7 @@ namespace gazebo {
 
       for (unsigned int i = 0; i < boost::size(links); ++i) {
          physics::LinkPtr link = _model->GetLink(links[i]);
-         csvFile << link->GetWorldCoGPose().pos.x << ", " << link->GetWorldCoGPose().pos.y << ", " << link->GetWorldCoGPose().pos.z << ",";
+         csvFile << link->GetWorldPose().pos.x << ", " << link->GetWorldPose().pos.y << ", " << link->GetWorldPose().pos.z << ",";
       }
       csvFile << endl;
       csvFile.close();
