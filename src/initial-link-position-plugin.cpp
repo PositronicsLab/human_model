@@ -37,6 +37,9 @@ namespace gazebo {
       };
   static const std::string dims[] = { "x", "y", "z"};
 
+  static const std::string velocityDims[] = { "x", "y", "z", "r", "p", "y"};
+
+
   class InitialLinkPositionPlugin : public ModelPlugin {
     public: InitialLinkPositionPlugin() : ModelPlugin() {
       #if(PRINT_DEBUG)
@@ -48,6 +51,11 @@ namespace gazebo {
        for (unsigned int i = 0; i < boost::size(links); ++i) {
           for (unsigned int j = 0; j < boost::size(dims); ++j) {
              file << links[i] << "(" << dims[j] << "),";
+          }
+       }
+       for (unsigned int i = 0; i < boost::size(links); ++i) {
+          for (unsigned int j = 0; j < boost::size(velocityDims); ++j) {
+             file << links[i] << "(" << velocityDims[j] << ") (m/s),";
           }
        }
       file << endl;
@@ -80,6 +88,12 @@ namespace gazebo {
          physics::LinkPtr link = _model->GetLink(links[i]);
          csvFile << link->GetWorldPose().pos.x << ", " << link->GetWorldPose().pos.y << ", " << link->GetWorldPose().pos.z << ",";
       }
+
+      // Write out velocities
+       for (unsigned int i = 0; i < boost::size(links); ++i) {
+          physics::LinkPtr link = _model->GetLink(links[i]);
+          csvFile << link->GetWorldLinearVel().x << ", " << link->GetWorldLinearVel().y << ", " << link->GetWorldLinearVel().z << "," << link->GetWorldAngularVel().x << ", " << link->GetWorldAngularVel().y << ", " << link->GetWorldAngularVel().z << ",";
+       }
       csvFile << endl;
       csvFile.close();
     }

@@ -60,7 +60,7 @@ namespace gazebo {
       writeHeader(outputCSV);
 
        // Write out t0
-       outputCSV << world->GetSimTime().Double() << ", " << trunk->GetWorldCoGLinearVel().x << ", " << trunk->GetWorldCoGLinearVel().y << ", " << trunk->GetWorldCoGLinearVel().z << ", " << trunk->GetWorldAngularAccel().x << ", " << trunk->GetWorldAngularAccel().y << ", " << trunk->GetWorldAngularAccel().z << ", " << endl;
+       outputCSV << world->GetSimTime().Double() << ", " << trunk->GetWorldCoGLinearVel().x << ", " << trunk->GetWorldCoGLinearVel().y << ", " << trunk->GetWorldCoGLinearVel().z << ", " << trunk->GetWorldAngularVel().x << ", " << trunk->GetWorldAngularVel().y << ", " << trunk->GetWorldAngularVel().z << ", " << endl;
     }
     
     private: void writeHeader(ofstream& outputCSV){
