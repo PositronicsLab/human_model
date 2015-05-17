@@ -970,7 +970,7 @@
     <plugin name="contact_forces_over_time_plugin" filename="libContactForcesOverTimePlugin.dylib" />
     <plugin name="velocity_over_time_plugin" filename="libVelocityOverTimePlugin.dylib" />
     <plugin name="initial_link_position_plugin" filename="libInitialLinkPositionPlugin.dylib" />
-
+    <plugin name="angular_momentum_over_time_plugin" filename="libAngularMomentumOverTimePlugin.dylib" />
     <plugin name="contact_sensor_plugin" filename="libContactForcesPlugin.dylib"/>
     <!--  <plugin name="min_max_joint_position_plugin" filename="libMinMaxJointPositionPlugin.dylib" /> -->
     <!--   <plugin name="joint_angles_plugin" filename="libJointAnglesPlugin.dylib"/> -->

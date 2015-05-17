@@ -8,6 +8,7 @@ velocities.csv
 output.csv
 contact_forces_data.csv
 link_positions.csv
+angular_momentum.csv
 CMakeCache.txt
 CMakeFiles/
 Makefile

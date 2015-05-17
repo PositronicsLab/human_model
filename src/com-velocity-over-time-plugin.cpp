@@ -54,13 +54,10 @@ namespace gazebo {
       }
 
       const string resultsFileName = string(resultsFolder) + "/" + "velocities.csv";
-      bool exists = boost::filesystem::exists(resultsFileName);
-      outputCSV.open(resultsFileName, ios::out | ios::app);
+      outputCSV.open(resultsFileName, ios::out);
       assert(outputCSV.is_open());
 
-      if(!exists){
-         writeHeader(outputCSV);
-      }
+      writeHeader(outputCSV);
 
        // Write out t0
        outputCSV << world->GetSimTime().Double() << ", " << trunk->GetWorldCoGLinearVel().x << ", " << trunk->GetWorldCoGLinearVel().y << ", " << trunk->GetWorldCoGLinearVel().z << ", " << trunk->GetWorldAngularAccel().x << ", " << trunk->GetWorldAngularAccel().y << ", " << trunk->GetWorldAngularAccel().z << ", " << endl;
@@ -76,7 +73,7 @@ namespace gazebo {
 #endif
 
        averageLinearVelocity += trunk->GetWorldCoGLinearVel();
-       averageRotationalVelocity += trunk->GetWorldAngularAccel();
+       averageRotationalVelocity += trunk->GetWorldAngularVel();
        if (world->GetSimTime().nsec % (10 * 1000000) == 0) {
           outputCSV << world->GetSimTime().Double() << ", " << averageLinearVelocity.x / 10.0 << ", " << averageLinearVelocity.y / 10.0 << ", " << averageLinearVelocity.z / 10.0 << ", " << averageRotationalVelocity.x / 10.0 << ", " << averageRotationalVelocity.y / 10.0 << ", " << averageRotationalVelocity.z / 10.0 << ", " << endl;
           averageLinearVelocity = 0;

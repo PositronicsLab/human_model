@@ -119,6 +119,10 @@ add_library(InitialLinkPositionPlugin SHARED src/initial-link-position-plugin.cp
 target_link_libraries(InitialLinkPositionPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS InitialLinkPositionPlugin DESTINATION lib)
 
+add_library(AngularMomentumOverTimePlugin SHARED src/angular-momentum-over-time-plugin.cpp)
+target_link_libraries(AngularMomentumOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS AngularMomentumOverTimePlugin DESTINATION lib)
+
 set(model_files "")
 
 # Xacro files
