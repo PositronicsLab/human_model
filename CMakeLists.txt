@@ -123,6 +123,14 @@ add_library(AngularMomentumOverTimePlugin SHARED src/angular-momentum-over-time-
 target_link_libraries(AngularMomentumOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS AngularMomentumOverTimePlugin DESTINATION lib)
 
+add_library(InitialLinkEnergyPlugin SHARED src/initial-link-energy-plugin.cpp)
+target_link_libraries(InitialLinkEnergyPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS InitialLinkEnergyPlugin DESTINATION lib)
+
+add_library(LinkEnergyOverTimePlugin SHARED src/link-energy-over-time-plugin.cpp)
+target_link_libraries(LinkEnergyOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS LinkEnergyOverTimePlugin DESTINATION lib)
+
 set(model_files "")
 
 # Xacro files
