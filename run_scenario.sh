@@ -50,4 +50,18 @@ do
   # Launch gazebo
  gzserver models/combined-human-pr2-zero-effort/world.generated.sdf
 done
- 
+
+# Execute combined human locked arms
+echo "Executing locked-arms scenario"
+RESULTS_FOLDER=results/$SCENARIO_FOLDER/locked-arms
+echo "Creating folder for locked-arms results: $RESULTS_FOLDER"
+mkdir $RESULTS_FOLDER
+export RESULTS_FOLDER=$RESULTS_FOLDER
+
+for i in `seq 1 100`;
+do
+  echo "Executing scenario: $i"
+  export export i=$i
+  # Launch gazebo
+ gzserver models/locked-arms/world.generated.sdf
+done 

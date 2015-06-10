@@ -38,6 +38,7 @@ namespace gazebo {
      private: std::vector<physics::JointPtr> joints;
      private: std::vector<double> totalForce;
      private: common::Time prevUpdateTime;
+     private: common::Time controlDelay;
 
      public: StableControllerPlugin() : ModelPlugin() {
 #if(PRINT_DEBUG)
@@ -50,7 +51,17 @@ namespace gazebo {
        #if(PRINT_DEBUG)
        cout << "Initializing plugin stable controller plugin" << endl;
        #endif
-       
+
+       if(_sdf->HasElement("control-delay")) {
+          double temp = 0;
+          bool fetched = _sdf->GetElement("control-delay")->GetValue()->Get(temp);
+          assert(fetched);
+          controlDelay = common::Time(temp);
+#if(PRINT_DEBUG)
+          cout << "Control delay set to: " << controlDelay << endl;
+#endif
+       }
+
        // Iterate over the element children to find the joints to control
        if(!_sdf->HasElement("controlled-joint")){
          cerr << "Controlled joint not specified" << endl;
@@ -97,6 +108,12 @@ namespace gazebo {
      private: void updateController(){
        // compute the steptime for the PID
        common::Time currTime = this->model->GetWorld()->GetSimTime();
+       if (currTime < controlDelay){
+#if(PRINT_DEBUG)
+          cout << "Skipping controller update at time: " << currTime << endl;
+#endif
+          return;
+       }
        common::Time stepTime = currTime - this->prevUpdateTime;
        this->prevUpdateTime = currTime;
 #if(PRINT_DEBUG)

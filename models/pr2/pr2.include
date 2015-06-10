@@ -1307,6 +1307,7 @@
           <damping>10</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -1381,6 +1382,7 @@
           <damping>10</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -1499,6 +1501,7 @@
           <damping>0.1</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -1574,6 +1577,7 @@
           <damping>1</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -1695,6 +1699,7 @@
           <damping>0.1</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -1770,6 +1775,7 @@
           <damping>0.1</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -1911,6 +1917,7 @@
           <damping>0.1</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2471,6 +2478,7 @@
           <damping>10</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2545,6 +2553,7 @@
           <damping>10</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2663,6 +2672,7 @@
           <damping>0.1</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2738,6 +2748,7 @@
           <damping>1</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2859,6 +2870,7 @@
           <damping>0.1</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -2934,6 +2946,7 @@
           <damping>0.1</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -3075,6 +3088,7 @@
           <damping>0.1</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <friction>${jointFriction}</friction>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
