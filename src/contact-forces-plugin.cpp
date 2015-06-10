@@ -47,7 +47,11 @@ namespace gazebo {
     class ContactForcesPlugin : public ModelPlugin {
         
     private: std::map<std::string, double> maxForces;
+    private: std::map<std::string, common::Time> maxForceTimes;
+    private: std::map<std::string, double> maxForceAccs;
+    private: std::map<std::string, double> maxForceVelocities;
     private: std::map<std::string, double> maxTorques;
+    private: std::map<std::string, std::string> collidingLink;
 
     private: gazebo::transport::NodePtr node;
     private: event::ConnectionPtr connection;
@@ -109,7 +113,7 @@ namespace gazebo {
              << "] n[" << contacts.contact(i).time().nsec()
              << "] size[" << contacts.contact(i).position_size()
              << "]\n";
-        #endif
+         #endif
 
         math::Vector3 fTotal;
         math::Vector3 tTotal;
@@ -141,18 +145,23 @@ namespace gazebo {
         #endif
         if(fTotal.GetLength() > maxForces[sensorName]){
             maxForces[sensorName] = fTotal.GetLength();
+            maxForceTimes[sensorName] = this->world->GetSimTime();
+            collidingLink[sensorName] = contacts.contact(i).collision2();
+           // TODO: Compare 1 vs 2
+           //  maxForceVelocities[sensorName] = contacts.contact(i).collision1().GetRelativeLinearVel().GetLength();
+           //  maxForceAccs[sensorName] = contacts.contact(i).collision1().GetRelativeLinearAccel().GetLength();
         }
         if(tTotal.GetLength() > maxTorques[sensorName]){
             maxTorques[sensorName] = tTotal.GetLength();
         }
-    }
+      }
     }
     
     private: void writeHeader(ofstream& outputCSV){
       for(unsigned int i = 0; i < boost::size(contacts); ++i){
         outputCSV << contacts[i] << "(N), ";
       }
-      outputCSV << "Maximum Link, Maximum Force(N), HIC, HIC Time, ";
+      outputCSV << "Maximum Link, Maximum Force(N), Maximum Force Time(s), Colliding Link, Maximum Force Velocity (m/s), Maximum Force Acceleration (m/s^2), HIC(s), HIC Time(s), ";
       
       for(unsigned int i = 0; i < boost::size(contacts); ++i){
         outputCSV << contacts[i] << "(Nm), ";
@@ -198,7 +207,7 @@ namespace gazebo {
               std::cout << overallMaxLink << ": " << overallMax << "(N)" << std::endl;
             #endif
         
-            outputCSV << overallMaxLink << ", " << overallMax << ", ";
+            outputCSV << overallMaxLink << ", " << overallMax << ", " << maxForceTimes[overallMaxLink].Float() << ", " << collidingLink[overallMaxLink] << "," << maxForceVelocities[overallMaxLink] << ", " << maxForceAccs[overallMaxLink] << ", ";
 
             // Print HIC
             outputCSV << maximumHic << ", " << maximumHicTime << ", ";
