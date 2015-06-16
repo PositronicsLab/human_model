@@ -115,6 +115,10 @@ add_library(VelocityOverTimePlugin SHARED src/com-velocity-over-time-plugin.cpp)
 target_link_libraries(VelocityOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS VelocityOverTimePlugin DESTINATION lib)
 
+add_library(COMAccOverTimePlugin SHARED src/com-acc-over-time-plugin.cpp)
+target_link_libraries(COMAccOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS COMAccOverTimePlugin DESTINATION lib)
+
 add_library(InitialLinkPositionPlugin SHARED src/initial-link-position-plugin.cpp)
 target_link_libraries(InitialLinkPositionPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS InitialLinkPositionPlugin DESTINATION lib)

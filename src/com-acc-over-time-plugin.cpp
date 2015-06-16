@@ -18,33 +18,33 @@ namespace gazebo {
 
    static const double MAX_TIME = 2.0;
     
-    class VelocityOverTimePlugin : public ModelPlugin {
+    class AccelerationOverTimePlugin : public ModelPlugin {
 
     private: gazebo::transport::NodePtr node;
     private: event::ConnectionPtr connection;
     private: physics::WorldPtr world;
     private: physics::ModelPtr model;
     private: physics::LinkPtr trunk;
-    private: math::Vector3 averageLinearVelocity;
+    private: math::Vector3 averageLinearAcceleration;
     private: ofstream outputCSVX;
     private: ofstream outputCSVY;
     private: ofstream outputCSVZ;
 
-    public: VelocityOverTimePlugin() : ModelPlugin() {
-        #if(PRINT_DEBUG)
-        cout << "Constructing the velocity over time plugin" << std::endl;
-        #endif
+    public: AccelerationOverTimePlugin() : ModelPlugin() {
+#if(PRINT_DEBUG)
+       cout << "Constructing the acceleration over time plugin" << std::endl;
+#endif
     }
-        
+
     public: void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf){
       world = _model->GetWorld();
       model = _model;
       trunk = model->GetLink("trunk");
 
       #if(PRINT_DEBUG)
-      cout << "Loading the velocity over time plugin" << endl;
+      cout << "Loading the acceleration over time plugin" << endl;
       #endif
-      connection = event::Events::ConnectWorldUpdateBegin(boost::bind(&VelocityOverTimePlugin::worldUpdate, this));
+      connection = event::Events::ConnectWorldUpdateBegin(boost::bind(&AccelerationOverTimePlugin::worldUpdate, this));
 
       // Get the name of the folder to store the result in
       const char* resultsFolder = std::getenv("RESULTS_FOLDER");
@@ -54,7 +54,7 @@ namespace gazebo {
       }
 
       {
-        const string resultsXFileName = string(resultsFolder) + "/" + "velocities_x.csv";
+        const string resultsXFileName = string(resultsFolder) + "/" + "accelerations_x.csv";
         bool exists = boost::filesystem::exists(resultsXFileName);
 
         outputCSVX.open(resultsXFileName, ios::out | ios::app);
@@ -65,7 +65,7 @@ namespace gazebo {
       }
 
       {
-        const string resultsYFileName = string(resultsFolder) + "/" + "velocities_y.csv";
+        const string resultsYFileName = string(resultsFolder) + "/" + "accelerations_y.csv";
         bool exists = boost::filesystem::exists(resultsYFileName);
 
         outputCSVY.open(resultsYFileName, ios::out | ios::app);
@@ -78,7 +78,7 @@ namespace gazebo {
 
 
       {
-        const string resultsZFileName = string(resultsFolder) + "/" + "velocities_z.csv";
+        const string resultsZFileName = string(resultsFolder) + "/" + "accelerations_z.csv";
         bool exists = boost::filesystem::exists(resultsZFileName);
 
         outputCSVZ.open(resultsZFileName, ios::out | ios::app);
@@ -90,9 +90,9 @@ namespace gazebo {
       }
 
        // Write out t0
-       outputCSVX << "Velocity X (m/s), " << trunk->GetWorldCoGLinearVel().x << ", ";
-       outputCSVY << "Velocity Y (m/s), " << trunk->GetWorldCoGLinearVel().y << ", ";
-       outputCSVZ << "Velocity Z (m/s), " << trunk->GetWorldCoGLinearVel().z << ", ";
+       outputCSVX << "Acceleration X (m/s^2), " << trunk->GetWorldLinearAccel().x << ", ";
+       outputCSVY << "Acceleration Y (m/s^2), " << trunk->GetWorldLinearAccel().y << ", ";
+       outputCSVZ << "Acceleration Z (m/s^2), " << trunk->GetWorldLinearAccel().z << ", ";
     }
     
     private: static void writeHeader(ofstream& outputCSV){
@@ -108,12 +108,12 @@ namespace gazebo {
        cout << "Updating the world for time: " << world->GetSimTime().Float() << endl;
 #endif
 
-       averageLinearVelocity += trunk->GetWorldCoGLinearVel();
+       averageLinearAcceleration += trunk->GetWorldLinearAccel();
        if (world->GetSimTime().nsec % (10 * 1000000) == 0) {
-          outputCSVX << averageLinearVelocity.x << ", ";
-          outputCSVY << averageLinearVelocity.y << ", ";
-          outputCSVZ << averageLinearVelocity.z << ", ";
-          averageLinearVelocity = 0;
+          outputCSVX << averageLinearAcceleration.x << ", ";
+          outputCSVY << averageLinearAcceleration.y << ", ";
+          outputCSVZ << averageLinearAcceleration.z << ", ";
+          averageLinearAcceleration = 0;
        }
 
         if(world->GetSimTime().Float() >= MAX_TIME){
@@ -133,6 +133,6 @@ namespace gazebo {
         }
     }
     };
-    GZ_REGISTER_MODEL_PLUGIN(VelocityOverTimePlugin);
+    GZ_REGISTER_MODEL_PLUGIN(AccelerationOverTimePlugin);
 }
 

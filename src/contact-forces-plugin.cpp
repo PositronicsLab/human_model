@@ -43,13 +43,13 @@ namespace gazebo {
         "right_hand::right_hand_contact",
         "left_hand::left_hand_contact"
     };
-    
+
     class ContactForcesPlugin : public ModelPlugin {
         
     private: std::map<std::string, double> maxForces;
     private: std::map<std::string, common::Time> maxForceTimes;
-    private: std::map<std::string, double> maxForceAccs;
-    private: std::map<std::string, double> maxForceVelocities;
+    private: std::map<std::string, math::Vector3> maxForceAccs;
+    private: std::map<std::string, math::Vector3> maxForceVelocities;
     private: std::map<std::string, double> maxTorques;
     private: std::map<std::string, std::string> collidingLink;
 
@@ -102,7 +102,8 @@ namespace gazebo {
     private: void updateContacts(sensors::SensorPtr sensor, const string& sensorName){
       // Get all the contacts.
       msgs::Contacts contacts = boost::dynamic_pointer_cast<sensors::ContactSensor>(sensor)->GetContacts();
-      
+      physics::LinkPtr trunk = model->GetLink("trunk");
+
       for (unsigned int i = 0; i < contacts.contact_size(); ++i){
         #if(PRINT_SENSORS)
         cout << "Collision between[" << contacts.contact(i).collision1()
@@ -117,6 +118,7 @@ namespace gazebo {
 
         math::Vector3 fTotal;
         math::Vector3 tTotal;
+
         for(unsigned int j = 0; j < contacts.contact(i).position_size(); ++j){
           #if(PRINT_SENSORS)
           cout << j << "  Position:"
@@ -146,10 +148,15 @@ namespace gazebo {
         if(fTotal.GetLength() > maxForces[sensorName]){
             maxForces[sensorName] = fTotal.GetLength();
             maxForceTimes[sensorName] = this->world->GetSimTime();
-            collidingLink[sensorName] = contacts.contact(i).collision2();
-           // TODO: Compare 1 vs 2
-           //  maxForceVelocities[sensorName] = contacts.contact(i).collision1().GetRelativeLinearVel().GetLength();
-           //  maxForceAccs[sensorName] = contacts.contact(i).collision1().GetRelativeLinearAccel().GetLength();
+            // We want the link it collides with
+           vector<string> strs;
+           boost::split(strs, sensorName, boost::is_any_of("::"));
+           collidingLink[sensorName] = !boost::contains(contacts.contact(i).collision1(), strs[0]) ? contacts.contact(i).collision1() : contacts.contact(i).collision2();
+#ifdef PRINT_DEBUG
+           cout << "Colliding link is: " << collidingLink[sensorName] << ". Options were: " << contacts.contact(i).collision1() << " and " << contacts.contact(i).collision2() << endl;
+#endif
+            maxForceVelocities[sensorName] = trunk->GetWorldLinearVel();
+            maxForceAccs[sensorName] = trunk->GetWorldLinearAccel();
         }
         if(tTotal.GetLength() > maxTorques[sensorName]){
             maxTorques[sensorName] = tTotal.GetLength();
@@ -161,7 +168,7 @@ namespace gazebo {
       for(unsigned int i = 0; i < boost::size(contacts); ++i){
         outputCSV << contacts[i] << "(N), ";
       }
-      outputCSV << "Maximum Link, Maximum Force(N), Maximum Force Time(s), Colliding Link, Maximum Force Velocity (m/s), Maximum Force Acceleration (m/s^2), HIC(s), HIC Time(s), ";
+      outputCSV << "Maximum Link, Maximum Force(N), Maximum Force Time(s), Colliding Link, Maximum Force Velocity X (m/s), Maximum Force Velocity Y (m/s), Maximum Force Velocity Z (m/s), Maximum Force Acceleration X (m/s^2), Maximum Force Acceleration Y (m/s^2), Maximum Force Acceleration Z (m/s^2), HIC(s), HIC Time(s), ";
       
       for(unsigned int i = 0; i < boost::size(contacts); ++i){
         outputCSV << contacts[i] << "(Nm), ";
@@ -207,7 +214,7 @@ namespace gazebo {
               std::cout << overallMaxLink << ": " << overallMax << "(N)" << std::endl;
             #endif
         
-            outputCSV << overallMaxLink << ", " << overallMax << ", " << maxForceTimes[overallMaxLink].Float() << ", " << collidingLink[overallMaxLink] << "," << maxForceVelocities[overallMaxLink] << ", " << maxForceAccs[overallMaxLink] << ", ";
+            outputCSV << overallMaxLink << ", " << overallMax << ", " << maxForceTimes[overallMaxLink].Float() << ", " << collidingLink[overallMaxLink] << "," << maxForceVelocities[overallMaxLink].x << ", " << maxForceVelocities[overallMaxLink].y << ", " << maxForceVelocities[overallMaxLink].z << ", " << maxForceAccs[overallMaxLink].x << ", " << maxForceAccs[overallMaxLink].y << ", " << maxForceAccs[overallMaxLink].z << ", ";
 
             // Print HIC
             outputCSV << maximumHic << ", " << maximumHicTime << ", ";
