@@ -29,11 +29,12 @@ namespace gazebo {
     private: ofstream outputCSVX;
     private: ofstream outputCSVY;
     private: ofstream outputCSVZ;
-
+    private: unsigned int count;
     public: AccelerationOverTimePlugin() : ModelPlugin() {
 #if(PRINT_DEBUG)
        cout << "Constructing the acceleration over time plugin" << std::endl;
 #endif
+       count = 0;
     }
 
     public: void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf){
@@ -108,12 +109,15 @@ namespace gazebo {
        cout << "Updating the world for time: " << world->GetSimTime().Float() << endl;
 #endif
 
-       averageLinearAcceleration += trunk->GetWorldLinearAccel();
+       averageLinearAcceleration += trunk->GetWorldLinearAccel() / 10.0;
+       count++;
        if (world->GetSimTime().nsec % (10 * 1000000) == 0) {
+          assert(count == 10);
           outputCSVX << averageLinearAcceleration.x << ", ";
           outputCSVY << averageLinearAcceleration.y << ", ";
           outputCSVZ << averageLinearAcceleration.z << ", ";
           averageLinearAcceleration = 0;
+          count = 0;
        }
 
         if(world->GetSimTime().Float() >= MAX_TIME){

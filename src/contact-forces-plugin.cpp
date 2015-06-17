@@ -152,7 +152,7 @@ namespace gazebo {
            vector<string> strs;
            boost::split(strs, sensorName, boost::is_any_of("::"));
            collidingLink[sensorName] = !boost::contains(contacts.contact(i).collision1(), strs[0]) ? contacts.contact(i).collision1() : contacts.contact(i).collision2();
-#ifdef PRINT_DEBUG
+#if PRINT_DEBUG
            cout << "Colliding link is: " << collidingLink[sensorName] << ". Options were: " << contacts.contact(i).collision1() << " and " << contacts.contact(i).collision2() << endl;
 #endif
             maxForceVelocities[sensorName] = trunk->GetWorldLinearVel();
