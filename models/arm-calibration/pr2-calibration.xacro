@@ -11,7 +11,7 @@
        <pose>0.84791 -0.188 0.790675 0.0 0.0 0.0</pose>
 
        <inertial>
-          <mass>4.0</mass> <!-- Max design support weight of arm -->
+          <mass>1.8</mass> <!-- Max design support weight of arm -->
           <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose><!-- Link mass is centered -->
        </inertial>
        <collision name='collision'>
@@ -40,5 +40,23 @@
 
    <plugin name="calibration_plugin" filename="libArmCalibrationPlugin.dylib"/>  
    <plugin name="joint_forces_plugin" filename="libJointForcesPlugin.dylib"/>
+
+   <plugin name="pr2_arm_controller" filename="libStableControllerPlugin.dylib">
+      <control-delay>0</control-delay>
+      <controlled-joint>r_shoulder_lift_joint</controlled-joint>
+      <controlled-joint>r_shoulder_pan_joint</controlled-joint>
+      <controlled-joint>r_upper_arm_roll_joint</controlled-joint>
+      <controlled-joint>r_elbow_flex_joint</controlled-joint>
+      <controlled-joint>r_forearm_roll_joint</controlled-joint>
+      <controlled-joint>r_wrist_flex_joint</controlled-joint>
+      <controlled-joint>r_wrist_roll_joint</controlled-joint>
+      <controlled-joint>l_shoulder_lift_joint</controlled-joint>
+      <controlled-joint>l_shoulder_pan_joint</controlled-joint>
+      <controlled-joint>l_upper_arm_roll_joint</controlled-joint>
+      <controlled-joint>l_elbow_flex_joint</controlled-joint>
+      <controlled-joint>l_forearm_roll_joint</controlled-joint>
+      <controlled-joint>l_wrist_flex_joint</controlled-joint>
+      <controlled-joint>l_wrist_roll_joint</controlled-joint>
+   </plugin>
   </model>
 </sdf>

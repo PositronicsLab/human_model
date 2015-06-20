@@ -1,6 +1,8 @@
 link_energy.csv
 link_energy_over_time.csv
 results.csv
+accelerations_*.csv
+velocities_*.csv
 results
 joint_velocities.csv
 joint_positions.csv

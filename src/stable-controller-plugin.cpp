@@ -19,11 +19,11 @@ using namespace gazebo::physics;
 #define PRINT_DEBUG 0
 
 namespace gazebo {
-   // Calculated via ZN with Ku = 0.05 and Tu = 0.4
-   // Classic PID rule
-   static const double KP = 0.03;
-   static const double KD = 0.02525;
-   static const double KI = 0.02475247524752;
+   // Calculated via ZN with Ku = 0.4 and Tu = 4.545
+   // Overshoot PID rule
+   static const double KP = 0.132;
+   static const double KD = 0.19998;
+   static const double KI = 0.058085809;
    static const double IMAX = 10.0;
    static const double IMIN = 0.0;
 
