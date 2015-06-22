@@ -10,6 +10,7 @@
     <xacro:property name="zoffset" value="0" />
 
     <xacro:property name="prefix" value="" />
+<plugin name="joint_forces_plugin" filename="libJointForcesPlugin.dylib"/>
 
    <!-- Human -->
    <xacro:include filename="../human/human.include"/>

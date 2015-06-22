@@ -135,6 +135,10 @@ add_library(LinkEnergyOverTimePlugin SHARED src/link-energy-over-time-plugin.cpp
 target_link_libraries(LinkEnergyOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS LinkEnergyOverTimePlugin DESTINATION lib)
 
+add_library(SetHumanPositionPlugin SHARED src/set-human-position-plugin.cpp)
+target_link_libraries(SetHumanPositionPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS SetHumanPositionPlugin DESTINATION lib)
+
 set(model_files "")
 
 # Xacro files

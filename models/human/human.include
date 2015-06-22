@@ -965,6 +965,7 @@
         </dynamics>
       </axis2>
     </joint>
+    <!-- <plugin name="set_initial_position_plugin" filename="libSetHumanPositionPlugin.dylib" /> -->
     <plugin name="initial_joint_velocity_plugin" filename="libInitialJointVelocityPlugin.dylib"/>
     <plugin name="initial_joint_position_plugin" filename="libInitialJointPositionPlugin.dylib"/>
     <plugin name="contact_forces_over_time_plugin" filename="libContactForcesOverTimePlugin.dylib" />

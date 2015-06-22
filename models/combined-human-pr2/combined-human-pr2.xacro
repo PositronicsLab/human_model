@@ -13,6 +13,8 @@
 
    <!-- Human -->
    <xacro:include filename="../human/human.include"/>
+   <plugin name="joint_forces_plugin" filename="libJointForcesPlugin.dylib"/>
+
    <plugin name="pr2_arm_controller" filename="libStableControllerPlugin.dylib">
       <control-delay>0.0</control-delay>
       <controlled-joint>r_shoulder_lift_joint</controlled-joint>
