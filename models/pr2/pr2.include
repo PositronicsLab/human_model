@@ -1180,13 +1180,6 @@
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
-      <projector name='projector_wg6802418_projector_wg6802418'>
-        <texture>stereo_projection_pattern_high_res_red.png</texture>
-        <fov>0.959931</fov>
-        <near_clip>0.1</near_clip>
-        <far_clip>10</far_clip>
-        <pose>0.069657 0.11 0.1191 3.14159 -1.57079 3.14159</pose>
-      </projector>
       <velocity_decay>
         <linear>0</linear>
         <angular>0</angular>
