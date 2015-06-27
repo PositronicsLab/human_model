@@ -78,6 +78,10 @@ add_library(ContactForcesPlugin SHARED src/contact-forces-plugin.cpp)
 target_link_libraries(ContactForcesPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${PROTOBUF_LIBRARIES} pthread)
 install(TARGETS ContactForcesPlugin DESTINATION lib)
 
+add_library(ContactForcesPerLinkOverTimePlugin SHARED src/contact-forces-per-link-over-time-plugin.cpp)
+target_link_libraries(ContactForcesPerLinkOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${PROTOBUF_LIBRARIES} pthread)
+install(TARGETS ContactForcesPerLinkOverTimePlugin DESTINATION lib)
+
 # Gazebo controller plugin
 add_library(StableControllerPlugin SHARED src/stable-controller-plugin.cpp)
 target_link_libraries(StableControllerPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf SDFormat)
@@ -118,6 +122,10 @@ install(TARGETS VelocityOverTimePlugin DESTINATION lib)
 add_library(COMAccOverTimePlugin SHARED src/com-acc-over-time-plugin.cpp)
 target_link_libraries(COMAccOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
 install(TARGETS COMAccOverTimePlugin DESTINATION lib)
+
+add_library(LinkAccOverTimePlugin SHARED src/link-acc-over-time-plugin.cpp)
+target_link_libraries(LinkAccOverTimePlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)
+install(TARGETS LinkAccOverTimePlugin DESTINATION lib)
 
 add_library(InitialLinkPositionPlugin SHARED src/initial-link-position-plugin.cpp)
 target_link_libraries(InitialLinkPositionPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} protobuf)

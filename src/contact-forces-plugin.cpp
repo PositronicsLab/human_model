@@ -129,6 +129,14 @@ namespace gazebo {
                << contacts.contact(i).normal(j).x() << " "
                << contacts.contact(i).normal(j).y() << " "
                << contacts.contact(i).normal(j).z() << "\n";
+           cout << "   Wrench 1:"
+           << contacts.contact(i).wrench(j).body_1_wrench().force().x() << " "
+           << contacts.contact(i).wrench(j).body_1_wrench().force().y() << " "
+           << contacts.contact(i).wrench(j).body_1_wrench().force().z() << "\n";
+           cout << "   Wrench 2:"
+           << contacts.contact(i).wrench(j).body_2_wrench().force().x() << " "
+           << contacts.contact(i).wrench(j).body_2_wrench().force().y() << " "
+           << contacts.contact(i).wrench(j).body_2_wrench().force().z() << "\n";
           cout << "   Depth:" << contacts.contact(i).depth(j) << "\n";
           #endif
           
@@ -145,6 +153,7 @@ namespace gazebo {
           cout << "Total Force: " << fTotal.GetLength() << endl;
           cout << "Total Torque: " << tTotal.GetLength() << endl;
         #endif
+
         if(fTotal.GetLength() > maxForces[sensorName]){
             maxForces[sensorName] = fTotal.GetLength();
             maxForceTimes[sensorName] = this->world->GetSimTime();

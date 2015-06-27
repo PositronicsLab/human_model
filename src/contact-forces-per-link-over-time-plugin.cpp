@@ -38,19 +38,21 @@ namespace gazebo {
         "left_hand::left_hand_contact"
     };
     
-    class ContactForcesOverTimePlugin : public ModelPlugin {
+    class ContactForcesPerLinkOverTimePlugin
+ : public ModelPlugin {
 
     private: gazebo::transport::NodePtr node;
     private: event::ConnectionPtr connection;
     private: vector<event::ConnectionPtr> sensorConnections;
     private: physics::WorldPtr world;
     private: physics::ModelPtr model;
-    private: double totalForce;
     private: ofstream outputCSV;
+    private: map<string, math::Vector3> contactForces;
 
-    public: ContactForcesOverTimePlugin() : ModelPlugin() {
+    public: ContactForcesPerLinkOverTimePlugin
+() : ModelPlugin() {
         #if(PRINT_DEBUG)
-        cout << "Constructing the contact forces over time plugin" << std::endl;
+        cout << "Constructing the contact forces per link over time plugin" << std::endl;
         #endif
     }
         
@@ -58,7 +60,7 @@ namespace gazebo {
       world = _model->GetWorld();
       model = _model;
       #if(PRINT_DEBUG)
-      cout << "Loading the contact forces over time plugin" << endl;
+      cout << "Loading the contact forces per link over time plugin" << endl;
       #endif
       
       #if(PRINT_SENSORS)
@@ -79,9 +81,11 @@ namespace gazebo {
         }
         sensor->SetActive(true);
         sensorConnections.push_back(sensor->ConnectUpdated(
-        boost::bind(&ContactForcesOverTimePlugin::contactForceForSensor, this, sensor, contacts[i])));
+        boost::bind(&ContactForcesPerLinkOverTimePlugin
+::contactForceForSensor, this, sensor, contacts[i])));
       }
-      connection = event::Events::ConnectWorldUpdateBegin(boost::bind(&ContactForcesOverTimePlugin::worldUpdate, this));
+      connection = event::Events::ConnectWorldUpdateBegin(boost::bind(&ContactForcesPerLinkOverTimePlugin
+::worldUpdate, this));
 
       // Get the name of the folder to store the result in
       const char* resultsFolder = std::getenv("RESULTS_FOLDER");
@@ -90,19 +94,14 @@ namespace gazebo {
          resultsFolder = "./";
       }
 
-      const string resultsFileName = string(resultsFolder) + "/" + "contact_forces.csv";
-      bool exists = boost::filesystem::exists(resultsFileName);
-      outputCSV.open(resultsFileName, ios::out | ios::app);
+      const string resultsFileName = string(resultsFolder) + "/" + "contact_forces_per_link.csv";
+      outputCSV.open(resultsFileName, ios::out);
       assert(outputCSV.is_open());
-
-      if(!exists){
-         writeHeader(outputCSV);
-      }
-      outputCSV << "Total Contact Force(N)" << ",";
+      writeHeader(outputCSV);
     }
 
     private: void contactForceForSensor(sensors::SensorPtr sensor, const string& sensorName){
-      #if(PRINT_DEBUG)
+      #if(PRINT_DEBUG || PRINT_SENSORS)
        cout << "Updating sensor " << sensorName << endl;
       #endif
       // Get all the contacts.
@@ -139,18 +138,15 @@ namespace gazebo {
                             contacts.contact(i).wrench(j).body_1_wrench().force().y(),
                             contacts.contact(i).wrench(j).body_1_wrench().force().z());
         }
-        #if(PRINT_SENSORS)
-          cout << "Total Force: " << fTotal.GetLength() << endl;
-        #endif
-        totalForce += fTotal.GetLength();
+        contactForces[sensorName] = fTotal;
       }
     }
     
     private: void writeHeader(ofstream& outputCSV){
 
        outputCSV << "Time" << ", ";
-       for(double t = 0.0; t <= MAX_TIME; t += 0.001) {
-          outputCSV << t << ", ";
+       for(unsigned int i = 0; i < boost::size(contacts); ++i){
+          outputCSV << contacts[i] << "(N), ";
        }
        outputCSV << endl;
     }
@@ -159,8 +155,11 @@ namespace gazebo {
 #if(PRINT_DEBUG)
        cout << "Updating the world for time: " << world->GetSimTime().Float() << endl;
 #endif
-        outputCSV << totalForce / 10.0 << ", ";
-        totalForce = 0;
+        outputCSV << world->GetSimTime().Float() << ", ";
+        for(unsigned int i = 0; i < boost::size(contacts); ++i){
+           outputCSV << contactForces[contacts[i]].GetLength() << ", ";
+        }
+        outputCSV << endl;
 
         if(world->GetSimTime().Float() >= MAX_TIME){
           #if(PRINT_DEBUG)
@@ -186,6 +185,7 @@ namespace gazebo {
         }
     }
     };
-    GZ_REGISTER_MODEL_PLUGIN(ContactForcesOverTimePlugin);
+    GZ_REGISTER_MODEL_PLUGIN(ContactForcesPerLinkOverTimePlugin
+);
 }
 

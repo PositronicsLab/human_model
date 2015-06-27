@@ -969,8 +969,10 @@
     <plugin name="initial_joint_velocity_plugin" filename="libInitialJointVelocityPlugin.dylib"/>
     <plugin name="initial_joint_position_plugin" filename="libInitialJointPositionPlugin.dylib"/>
     <plugin name="contact_forces_over_time_plugin" filename="libContactForcesOverTimePlugin.dylib" />
+    <plugin name="contact_forces_per_link_over_time_plugin" filename="libContactForcesPerLinkOverTimePlugin.dylib" />
     <plugin name="velocity_over_time_plugin" filename="libVelocityOverTimePlugin.dylib" />
     <plugin name="acceleration_over_time_plugin" filename="libCOMAccOverTimePlugin.dylib" />
+    <plugin name="link_acceleration_over_time_plugin" filename="libLinkAccOverTimePlugin.dylib" />
     <plugin name="initial_link_position_plugin" filename="libInitialLinkPositionPlugin.dylib" />
     <plugin name="initial_link_energy_plugin" filename="libInitialLinkEnergyPlugin.dylib" />
     <plugin name="angular_momentum_over_time_plugin" filename="libAngularMomentumOverTimePlugin.dylib" />

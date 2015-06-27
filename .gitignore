@@ -2,12 +2,14 @@ link_energy.csv
 link_energy_over_time.csv
 results.csv
 accelerations_*.csv
+link_accelerations.csv
 velocities_*.csv
 results
 joint_velocities.csv
 joint_positions.csv
 joint_forces.csv
 contact_forces.csv
+contact_forces_per_link.csv
 velocities.csv
 output.csv
 contact_forces_data.csv
