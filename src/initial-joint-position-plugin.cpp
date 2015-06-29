@@ -784,15 +784,29 @@ public:
 #if(!USE_FIXED_SEED)
         seed = static_cast<unsigned int>(std::time(nullptr));
 #else
-        const char* scenarioNumber = std::getenv("i");
-        if(scenarioNumber != nullptr) {
-            seed = boost::lexical_cast<unsigned int>(scenarioNumber) + 1000;
+        const char* scenarioNumberStr = std::getenv("i");
+        unsigned int scenarioNumber = 0;
+        if(scenarioNumberStr != nullptr) {
+            scenarioNumber = boost::lexical_cast<unsigned int>(scenarioNumberStr);
+            seed = scenarioNumber + 1000;
         }
         else {
             cout << "No scenario number set. Using 0" << endl;
             seed = FIXED_SEED;
         }
 #endif
+
+        // Load the attempts array which syncs the human configs to the ones for the PR2.
+       vector<string> reqAttempts;
+       const char* attemptsEnv = std::getenv("attempts");
+       if(attemptsEnv != nullptr) {
+          cout << attemptsEnv << endl;
+          boost::split(reqAttempts, attemptsEnv, boost::is_any_of(","));
+       } else {
+          // Default only require 1 attempt
+          reqAttempts.push_back("1");
+       }
+
         rng.seed(seed);
         physics::LinkPtr trunk = model->GetLink("trunk");
 
@@ -948,8 +962,15 @@ public:
                 cout << "Human has self or ground collision" << endl;
 #endif
             }
-            else if (humanOnly) {
-               foundLegalConfig = true;
+            else if (humanOnly){
+               unsigned int currReqAttempts = boost::lexical_cast<unsigned int>(reqAttempts.size() == 1 ? reqAttempts[0] : reqAttempts[scenarioNumber - 1]);
+               if (currReqAttempts == attempts) {
+                  foundLegalConfig = true;
+#if(PRINT_DEBUG)
+
+                  cout << "Found legal config. Attempts " << attempts << " required attempts: " << currReqAttempts << endl;
+#endif
+               }
             }
             else {
                ikAttempts++;
