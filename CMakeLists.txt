@@ -7,7 +7,7 @@ include (CheckLibraryExists)
 
 set (CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMakeModules)
 set (PROJECT_SRC_DIR .)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 Include(FindBoost)
 find_package(Boost ${MIN_BOOST_VERSION} REQUIRED system filesystem regex)
@@ -53,6 +53,7 @@ include_directories(
                     ${Boost_INCLUDE_DIR}
                     /opt/local/include
                     /opt/X11/include
+                    /usr/local/include/sdformat-2.3
                     )
 
 link_directories(
@@ -63,7 +64,6 @@ link_directories(
 set(VISUALIZE_LIBS glut osg osgDB GLU ${GLUT_LIBRARIES} ${GLU_LIBRARIES} ${OPENGL_LIBRARIES})
 FIND_PACKAGE( GLUT REQUIRED )
 FIND_PACKAGE( OpenGL REQUIRED )
-
 find_package(xacro REQUIRED)
 
 add_executable(human-pacer src/human-pacer.cpp)
@@ -156,10 +156,10 @@ foreach(it ${model_xacro_files})
   get_filename_component(basepath ${it} PATH)
   get_filename_component(basename ${it} NAME_WE)
   
-  message(" processing world file :",${basepath}," : ",${basename})
+  message(" processing world file :",${basepath}," : ", ${basename})
   
   set(expanded_file "${basepath}/${basename}.generated.sdf")
-  message("    produce expanded file :",${expanded_file})
+  message("    produce expanded file :", ${expanded_file})
   
   xacro_add_xacro_file(${it} ${expanded_file})
   

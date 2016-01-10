@@ -20,7 +20,7 @@ do
   echo "Executing scenario: $i"
   export i=$i
   # Launch gazebo
-   gzserver models/human/world.generated.sdf
+  gzserver models/human/world.generated.sdf
 done 
 
 export attempts=""

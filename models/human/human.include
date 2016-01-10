@@ -968,6 +968,7 @@
     <!-- <plugin name="set_initial_position_plugin" filename="libSetHumanPositionPlugin.dylib" /> -->
     <plugin name="initial_joint_velocity_plugin" filename="libInitialJointVelocityPlugin.dylib"/>
     <plugin name="initial_joint_position_plugin" filename="libInitialJointPositionPlugin.dylib"/>
+
     <plugin name="contact_forces_over_time_plugin" filename="libContactForcesOverTimePlugin.dylib" />
     <plugin name="contact_forces_per_link_over_time_plugin" filename="libContactForcesPerLinkOverTimePlugin.dylib" />
     <plugin name="velocity_over_time_plugin" filename="libVelocityOverTimePlugin.dylib" />
