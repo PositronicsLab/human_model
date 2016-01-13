@@ -3,7 +3,7 @@
 #include <gazebo/physics/World.hh>
 #include <gazebo/sensors/ContactSensor.hh>
 #include <gazebo/physics/Model.hh>
-#include <gazebo/sensors/Sensors.hh>
+#include <gazebo/sensors/SensorsIface.hh>
 #include <gazebo/physics/Link.hh>
 
 #include <iostream>
