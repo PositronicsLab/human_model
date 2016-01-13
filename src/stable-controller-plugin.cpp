@@ -155,7 +155,7 @@ namespace gazebo {
 #if(PRINT_DEBUG)
             cout << "Adding incremental effort " << incrementalEffort << " to joint " << joints[i]->GetName() << endl;
 #endif
-            assert(!isnan(incrementalEffort));
+            assert(!std::isnan(incrementalEffort));
             totalForce[index] += incrementalEffort;
 #if(PRINT_DEBUG)
   cout << "Applying " << totalForce[index] << " to joint " << joints[i]->GetName() << endl;

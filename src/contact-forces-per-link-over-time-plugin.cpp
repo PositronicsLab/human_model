@@ -1,10 +1,10 @@
 #include <gazebo/gazebo.hh>
 #include <gazebo/math/Vector3.hh>
-#include <gazebo/physics/world.hh>
+#include <gazebo/physics/World.hh>
 #include <gazebo/sensors/ContactSensor.hh>
-#include <gazebo/physics/model.hh>
-#include <gazebo/sensors/sensors.hh>
-
+#include <gazebo/physics/Model.hh>
+#include <gazebo/sensors/SensorsIface.hh>
+#include <gazebo/sensors/SensorManager.hh>
 
 #include <iostream>
 #include <fstream>

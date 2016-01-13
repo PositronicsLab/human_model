@@ -1,9 +1,9 @@
 #include <gazebo/gazebo.hh>
 #include <gazebo/common/common.hh>
-#include <gazebo/physics/model.hh>
-#include <gazebo/physics/joint.hh>
-#include <gazebo/physics/world.hh>
-#include <gazebo/physics/link.hh>
+#include <gazebo/physics/Model.hh>
+#include <gazebo/physics/Joint.hh>
+#include <gazebo/physics/World.hh>
+#include <gazebo/physics/Link.hh>
 #include <stdio.h>
 #include <iostream>
 #include <boost/math/constants/constants.hpp>
